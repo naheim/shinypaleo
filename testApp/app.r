@@ -1,7 +1,6 @@
 library(shiny)
 ui <- bootstrapPage(
 	
-	fileInput(inputId="liveFormas", label="Upload a file"),
 	tableOutput("livefile"),
 
 	selectInput(inputId = "n_breaks",
@@ -32,7 +31,9 @@ ui <- bootstrapPage(
 
 server <- function(input, output) {
 	
-	output$livefile <- renderTable(input$liveFormas)  
+	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")
+	
+	output$livefile <- renderTable(liveFormas)  
 	
 	output$main_plot <- reactivePlot(width = 400, height = 300, function() {
 
