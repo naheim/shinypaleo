@@ -33,7 +33,7 @@ server <- function(input, output) {
 	
 	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")
 	
-	output$livefile <- renderTable(liveFormas)  
+	output$livefile <- renderTable(liveforams)  
 	
 	output$main_plot <- reactivePlot(width = 400, height = 300, function() {
 
