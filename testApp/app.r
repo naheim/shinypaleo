@@ -32,7 +32,7 @@ ui <- bootstrapPage(
 server <- function(input, output) {
 	
 	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")
-	liveCounts <- colsums(liveforams[,-(1:3)])
+	liveCounts <- colSums(liveforams[,-(1:3)])
 	
 	output$livefile <- renderTable(liveCounts)  
 	
