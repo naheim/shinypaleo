@@ -1,7 +1,7 @@
 library(shiny)
 ui <- bootstrapPage(
 	fileInput(inputId="liveFormas", label="Upload a file"),
-	tableOutput("livefile")
+	tableOutput("livefile"),
 
 	selectInput(inputId = "n_breaks",
 			  label = "Number of bins in histogram (approximate):",
