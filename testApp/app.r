@@ -1,8 +1,6 @@
 library(shiny)
 ui <- bootstrapPage(
 	
-	tableOutput("livefile"),
-
 	selectInput(inputId = "n_breaks",
 			  label = "Number of bins in histogram (approximate):",
 			  choices = c(10, 20, 35, 50),
@@ -18,6 +16,8 @@ ui <- bootstrapPage(
 
 	plotOutput(outputId = "main_plot", height = "300px"),
 
+
+	tableOutput(outputId = "livefile"),
 
 	# Display this only if the density is shown
 	conditionalPanel(condition = "input.density == true",
