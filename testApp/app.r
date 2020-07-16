@@ -1,5 +1,6 @@
 library(shiny)
 ui <- bootstrapPage(
+	
 	fileInput(inputId="liveFormas", label="Upload a file"),
 	tableOutput("livefile"),
 
@@ -18,7 +19,6 @@ ui <- bootstrapPage(
 
 	plotOutput(outputId = "main_plot", height = "300px"),
 
-	tableOutput(outputId = "live_counts")
 
 	# Display this only if the density is shown
 	conditionalPanel(condition = "input.density == true",
