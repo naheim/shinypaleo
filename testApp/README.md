@@ -10,4 +10,4 @@ runGitHub("shinypaleo", "naheim", subdir="testApp")
 
 Running this code will open a new window/tab in your default browser and load the shiny app. 
 
-When you're done using the app, return to the R consile and hit 'esc'.
+When you're done using the app, return to the R console and hit 'esc'.
