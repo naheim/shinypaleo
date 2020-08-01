@@ -1,4 +1,4 @@
-Station	Split	Vol(cm3)	M_fusca	M_petila	Ammonia_sp	Haynesina_sp	Ammobaculites_spp	P_haynesi	T_ochraea	R_moniliformis	J_macrescens	H_manilaensis	H_wilberti	Haplophragmoides_spp	T_inflata	B_pseudomacrescens	T_irregularis	Juvenile_Trochamminids	unidentified
+Station	Split	Vol (cm3)	M_fusca	M_petila	Ammonia_sp	Haynesina_sp	Ammobaculites_spp	P_haynesi	T_ochraea	R_moniliformis	J_macrescens	H_manilaensis	H_wilberti	Haplophragmoides_spp	T_inflata	B_pseudomacrescens	T_irregularis	Juvenile Trochamminids	unidentified
 1A	8/8	11.5	205	0	41	7	4	0	0	0	0	0	0	0	0	0	0	1	0
 1B	4/8	15.0	38	0	10	3	0	0	0	0	0	0	0	1	0	0	0	0	2
 1C	4/8	14.0	59	0	10	3	0	0	0	0	1	0	0	0	0	0	0	0	0
