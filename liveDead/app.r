@@ -1,6 +1,6 @@
 library(shiny)
 ui <- fluidPage(
-	tag$h1("Live-Dead Analysis, Mugu Lagoon, California"),
+	h1("Live-Dead Analysis, Mugu Lagoon, California"),
 	
 	selectInput(inputId = "n_breaks",
 			  label = "Number of bins in histogram (approximate):",
