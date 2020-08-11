@@ -31,8 +31,8 @@ ui <- bootstrapPage(
 
 server <- function(input, output) {
 	
-	liveCounts <- read.delim(file="warmeLive.tsv")
-	
+	liveCounts <- read.delim(file="warmeLive.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
+	deadCounts <- read.delim(file="warmeDead.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
 	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  
 	
 	output$main_plot <- reactivePlot(width = 400, height = 300, function() {
