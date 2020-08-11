@@ -3,24 +3,29 @@ ui <- fluidPage(
 
 	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),
 	
-	selectInput(inputId = "n_breaks",
-			  label = "Number of bins in histogram (approximate):",
-			  choices = c(10, 20, 35, 50),
-			  selected = 20),
+	fluidRow(
+		selectInput(inputId = "n_breaks",
+				  label = "Number of bins in histogram (approximate):",
+				  choices = c(10, 20, 35, 50),
+				  selected = 20),
 
-	checkboxInput(inputId = "individual_obs",
-				label = strong("Show individual observations"),
-				value = FALSE),
+		checkboxInput(inputId = "individual_obs",
+					label = strong("Show individual observations"),
+					value = FALSE),
 
-	checkboxInput(inputId = "density",
-				label = strong("Show density estimate"),
-				value = FALSE),
-
-	plotOutput(outputId = "main_plot", height = "300px"),
-
-
+		checkboxInput(inputId = "density",
+					label = strong("Show density estimate"),
+					value = FALSE),
+	), 
+	
+	fluidRow(
+		plotOutput(outputId = "main_plot", height = "300px"),
+	),
+	
+	fluidRow(
 	tableOutput(outputId = "livefile"),
-
+	), 
+	
 	# Display this only if the density is shown
 	conditionalPanel(condition = "input.density == true",
 	sliderInput(inputId = "bw_adjust",
