@@ -31,10 +31,7 @@ ui <- bootstrapPage(
 
 server <- function(input, output) {
 	
-	liveData <- read.delim(file="warmeLive.tsv")
-	colnames(liveData) <- liveData[1,]
-	liveData <- [-1,]
-	liveCounts <- colSums(liveData[,-(1:3)])
+	liveCounts <- read.delim(file="warmeLive.tsv")
 	
 	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  
 	
