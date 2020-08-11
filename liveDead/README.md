@@ -14,4 +14,4 @@ Running this code will open a new window/tab in your default browser and load th
 **When you're done using the app, return to the R console and hit 'esc'.**
 
 ## Citation
-Warme, J. (1971). Paleoecological aspects of a modern coastal lagoon. *University of California Publications in Geological Sciences* 87.
+Warme, J. (1971). Paleoecological aspects of a modern coastal lagoon. *University of California Publications in Geological Sciences* 87:1-131.
