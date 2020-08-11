@@ -31,10 +31,10 @@ ui <- bootstrapPage(
 
 server <- function(input, output) {
 	
-	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")
-	colnames(liveforams) <- liveforams[1,]
-	liveforams <- [-1,]
-	liveCounts <- colSums(liveforams[,-(1:3)])
+	liveData <- read.delim(file="warmeLive.tsv")
+	colnames(liveData) <- liveData[1,]
+	liveData <- [-1,]
+	liveCounts <- colSums(liveData[,-(1:3)])
 	
 	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  
 	
