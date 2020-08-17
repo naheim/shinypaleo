@@ -36,7 +36,7 @@ server <- function(input, output) {
 	liveforams <- liveforams[-1,]
 	liveCounts <- colSums(liveforams[,-(1:3)])
 	
-	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  
+	output$livefile <- renderTable(t(liveCounts), rownames=TRUE)  
 	
 	output$main_plot <- reactivePlot(width = 400, height = 300, function() {
 
