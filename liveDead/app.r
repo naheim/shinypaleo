@@ -1,7 +1,7 @@
 library(shiny)
 ui <- fluidPage(
 
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California!🏴󠁵󠁳󠁣󠁡󠁿"),
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),
 	
 	sidebarLayout(
 
