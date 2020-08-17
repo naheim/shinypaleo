@@ -4,18 +4,18 @@ ui <- fluidPage(
 	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),
 	
 	fluidRow(
-		column(3, selectInput(inputId = "n_breaks",
+		column(3, offset = 3, selectInput(inputId = "n_breaks",
 				  label = "Number of bins in histogram (approximate):",
 				  choices = c(10, 20, 35, 50),
 				  selected = 20),
 				),
 
-		column(3, checkboxInput(inputId = "individual_obs",
+		column(3, offset = 3, checkboxInput(inputId = "individual_obs",
 					label = strong("Show individual observations"),
 					value = FALSE),
 				),
 
-		column(3, checkboxInput(inputId = "density",
+		column(3, offset = 3, checkboxInput(inputId = "density",
 					label = strong("Show density estimate"),
 					value = FALSE),
 				)
