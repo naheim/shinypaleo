@@ -56,7 +56,7 @@ server <- function(input, output) {
 	
 	output$livefile <- renderTable(liveCounts, rownames=TRUE)  
 	
-	output$main_plot <- reactivePlot(width = 400, height = 300, function() {
+	output$main_plot <- renderPlot(width = 400, height = 300, function() {
 
 		hist(faithful$eruptions,
 		  probability = TRUE,
