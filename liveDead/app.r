@@ -3,41 +3,47 @@ ui <- fluidPage(
 
 	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),
 	
-	fluidRow(
-		column(1, " "),
-		column(3, selectInput(inputId = "n_breaks",
-				  label = "Number of bins in histogram (approximate):",
-				  choices = c(10, 20, 35, 50),
-				  selected = 20),
-				),
+	sidebarLayout(
 
-		column(3, checkboxInput(inputId = "individual_obs",
-					label = strong("Show individual observations"),
-					value = FALSE),
-				),
+		sidebarPanel(
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)
+		),
 
-		column(3, checkboxInput(inputId = "density",
-					label = strong("Show density estimate"),
-					value = FALSE),
-				)
-	), 
+		mainPanel(
+			fluidRow(
+			column(3, selectInput(inputId = "n_breaks",
+					  label = "Number of bins in histogram (approximate):",
+					  choices = c(10, 20, 35, 50),
+					  selected = 20),
+					),
+
+			column(3, checkboxInput(inputId = "individual_obs",
+						label = strong("Show individual observations"),
+						value = FALSE),
+					),
+
+			column(3, checkboxInput(inputId = "density",
+						label = strong("Show density estimate"),
+						value = FALSE),
+					)
+			), 
 	
-	fluidRow(
-		plotOutput(outputId = "main_plot", height = "300px"),
-	),
+			fluidRow(
+				plotOutput(outputId = "main_plot", height = "300px"),
+			),
 	
-	fluidRow(
-		tableOutput(outputId = "livefile"),
-	), 
+			fluidRow(
+				tableOutput(outputId = "livefile"),
+			), 
 	
-	# Display this only if the density is shown
-	conditionalPanel(condition = "input.density == true",
-	sliderInput(inputId = "bw_adjust",
-				label = "Bandwidth adjustment:",
-				min = 0.2, max = 2, value = 1, step = 0.2)
+			# Display this only if the density is shown
+			conditionalPanel(condition = "input.density == true",
+			sliderInput(inputId = "bw_adjust",
+						label = "Bandwidth adjustment:",
+						min = 0.2, max = 2, value = 1, step = 0.2)
+			)
+		)
 	)
-
-
 )
 
 server <- function(input, output) {
