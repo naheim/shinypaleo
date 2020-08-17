@@ -23,7 +23,7 @@ ui <- fluidPage(
 	),
 	
 	fluidRow(
-	tableOutput(outputId = "livefile"),
+		tableOutput(outputId = "livefile")
 	), 
 	
 	# Display this only if the density is shown
