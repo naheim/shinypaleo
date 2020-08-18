@@ -1,5 +1,5 @@
 library(shiny)
-library(DT)
+#library(DT)
 ui <- fluidPage(
 
 	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),
@@ -13,10 +13,16 @@ ui <- fluidPage(
 			# select environment
 			selectInput(inputId = "enviro",
 				label = "Environment:",
-				choices = c("all","intertidal sand flat","subtidal ell grass"),
+				choices = c("all","intertidal sand flat","subtidal eel grass"),
 				selected = "all"),
 			br(),
-					
+			
+			# select taxon
+			selectInput(inputId = "taxa",
+				label = "Taxon:",
+				choices = c("all","Bivalvia","Gastropoda"),
+				selected = "all"),
+			br(),	
 			# add more selections here
 			
 			width=3,
@@ -24,9 +30,9 @@ ui <- fluidPage(
 
 		mainPanel(
 			## Number of Sites, species and occurrences (live and dead)
-			h3("Counts of Live and Dead Individuals"),
+			h3("Counts of Live and Dead Individuals"),		
 			fluidRow(
-				textOutput(outputId = "env_stats")
+				tableOutput(outputId = "env_stats")
 			), 
 			
 			## Locality Map
@@ -57,28 +63,41 @@ server <- function(input, output) {
 	# drop non-molluscan taxa and those not identified to species
 	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
 	
-	# Get env stats	
-	output$env_stats <- renderText({
-		if(input$enviro == "intertidal sand flat") {
-			tempLive <- liveCounts[environments[2,] == "inter_barren",]
-			tempDead <- deadCounts[environments[2,] == "inter_barren",]
-		} else if (input$enviro == "subtidal ell grass") {
-			tempLive <- liveCounts[environments[2,] == "sub_eelgrass",]
-			tempDead <- deadCounts[environments[2,] == "sub_eelgrass",]
+	# Get env stats		
+	output$env_stats <- renderTable({
+		# select taxa
+		if(input$taxa == "Bivalvia") {
+			tempLive <- liveCounts[,is.element(colnames(liveCounts), species$colName[species$Class == 'Bivalvia'])]
+			tempDead <- deadCounts[,is.element(colnames(deadCounts), species$colName[species$Class == 'Bivalvia'])]
+		} else if (input$taxa == "Gastropoda") {
+			tempLive <- liveCounts[,is.element(colnames(liveCounts), species$colName[species$Class == 'Gastropoda'])]
+			tempDead <- deadCounts[,is.element(colnames(deadCounts), species$colName[species$Class == 'Gastropoda'])]
 		} else {
 			tempLive <- liveCounts
 			tempDead <- deadCounts
 		}
 		
-		nSitesLive <- nrow(tempLive)
-		nSitesDead <- nrow(tempDead)
-		nSpciesLive <- ncol(tempLive)
-		nSpciesDead <- ncol(tempDead)
-		nOccurLive <- sum(tempLive)
-		nOccurDead <- sum(tempDead)
+		# select environment
+		if(input$enviro == "intertidal sand flat") {
+			tempLive <- tempLive[environments[2,] == "inter_barren",]
+			tempDead <- tempDead[environments[2,] == "inter_barren",]
+		} else if (input$enviro == "subtidal eel grass") {
+			tempLive <- tempLive[environments[2,] == "sub_eelgrass",]
+			tempDead <- tempDead[environments[2,] == "sub_eelgrass",]
+		}
 		
-		paste0("You have chosen ", input$enviro, " environments!", nSitesLive, " $#")
-	})
+		nLiveSite <- rowSums(tempLive)
+		nDeadSite <- rowSums(tempDead)
+		
+		nLiveSp <- colSums(tempLive)
+		nDeadSp <- colSums(tempDead)
+		
+		nSites <- c('live'=length(nLiveSite[nLiveSite > 0]), 'dead'=length(nDeadSite[nDeadSite > 0]))
+		nSpecies <- c('live'=length(nLiveSp[nLiveSp > 0]), 'dead'=length(nDeadSp[nDeadSp > 0]))
+		nOccur <- c('live'=sum(tempLive), 'dead'=sum(tempDead))
+		statTable <- rbind("Number of Sites"=nSites, "Number of Speices"=nSpecies, "Number of Occurrences"=nOccur)
+
+	}, rownames=TRUE)
 	
 	output$livefile <- renderTable(liveCounts, rownames=TRUE)  
 	

@@ -1,45 +1,977 @@
-2800/30
-(2800*12)/365
-(2800*12)/366
-732/4
+library(MuMIn)
+library(MuMIn)
+?dredge
+#############################
+#
+setwd("~/Documents/DataSets/Warme_71")#
+#
+library(jsonlite)#
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:4)]
+head(rawData)
+head(bareData)
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))
+head(species)
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:4)]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- rawData[1,-(1:4)]
+siteNames
+paste("site_",siteNames,collapse="")
+paste("site_",siteNames,sep="")
+paste("site_",rawData[1,-(1:4)],sep="")
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[-(1:4), -(1:3)]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)
+headerData
+headerData <- rawData[1:4, -(1:3)]
+headerData
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]
+headerData
+#############################
+##
+# This R script formats raw live-dead data from Warme 1971#
+# Last Updated 02 August 2020 by NAH#
+##
+#############################
+#
+setwd("~/Documents/DataSets/Warme_71")#
+#
+library(jsonlite)#
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- paste("site_",rawData[1,-(1:4)],sep="")#
+nSites <- length(siteNames)#
+liveCounts <- data.frame(matrix(0, nrow=nSites, ncol=nSpecies, dimnames=list(siteNames, formNames)))#
+deadCounts <- liveCounts#
+#
+# fill in counts#
+for(i in 1:nSites) {#
+	for(j in 1:nSpecies) {#
+		thisCell <- bareData[j,i]#
+		if(thisCell == "p") {			#
+			liveCounts[i,j] <- 999#
+			deadCounts[i,j] <- 999			#
+		} else if(thisCell == "a") {#
+			liveCounts[i,j] <- 9999#
+			deadCounts[i,j] <- 9999#
+		} else if(thisCell != "") {#
+			thisSplit <- unlist(strsplit(thisCell, ";"))#
+			liveCounts[i,j] <- as.numeric(thisSplit[1])#
+			deadCounts[i,j] <- as.numeric(thisSplit[2])#
+		}#
+	}#
+}#
+write.table(liveCounts, file="warmeLive.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(deadCounts, file="warmeDead.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(headerData, file="warmeHeader.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")
 library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img (src="Warme1971_Map2.png")#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img (src="www/Warme1971_Map2.png")#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img(src='Warme1971_Map2.png')#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+?img
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img(src='Warme1971_Map2.png'),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img(src='Warme1971_Map2.png', height = 68, width = 68),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img(src='Warme1971_Map2.png', height = 3587, width = 4455),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+3587/4455
+3587/4455*1000
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				img(src='Warme1971_Map2.png', height = 805, width = 1000),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+				img(src='Warme1971_Map2.png', height = 805, width = 1000),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				shiny::img(src='Warme1971_Map2.png', height = 805, width = 1000),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				shiny::img(src='Warme1971_Map2.png', height = 805, width = 1000),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
 runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="testApp")
-runGitHub("shinypaleo", "naheim", subdir="testApp")
-runGitHub("shinypaleo", "naheim", subdir="testApp")
 library(shiny)#
-ui <- bootstrapPage(#
-	selectInput(inputId = "n_breaks",#
-			  label = "Number of bins in histogram (approximate):",#
-			  choices = c(10, 20, 35, 50),#
-			  selected = 20),#
+ui <- fluidPage(#
 #
-	checkboxInput(inputId = "individual_obs",#
-				label = strong("Show individual observations"),#
-				value = FALSE),#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
 #
-	checkboxInput(inputId = "density",#
-				label = strong("Show density estimate"),#
-				value = FALSE),#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
 #
-	plotOutput(outputId = "main_plot", height = "300px"),#
-	tableOutput(outputId = "livefile"),#
+		mainPanel(#
+			fluidRow(#
 #
-	# Display this only if the density is shown#
-	conditionalPanel(condition = "input.density == true",#
-	sliderInput(inputId = "bw_adjust",#
-				label = "Bandwidth adjustment:",#
-				min = 0.2, max = 2, value = 1, step = 0.2)#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to open larger version in a new tab."),#
+				tag$a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true", target='blank'),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
 	)#
 )#
 #
 server <- function(input, output) {#
-	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")#
-	colnames(liveforams) <- liveforams[1,]#
-	liveforams <- [-1,]#
-	liveCounts <- colSums(liveforams[,-(1:3)])#
-	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  #
-	output$main_plot <- reactivePlot(width = 400, height = 300, function() {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
 #
 		hist(faithful$eruptions,#
 		  probability = TRUE,#
@@ -63,38 +995,64 @@ server <- function(input, output) {#
 #
 shinyApp(ui = ui, server = server)
 library(shiny)#
-ui <- bootstrapPage(#
-	selectInput(inputId = "n_breaks",#
-			  label = "Number of bins in histogram (approximate):",#
-			  choices = c(10, 20, 35, 50),#
-			  selected = 20),#
+ui <- fluidPage(#
 #
-	checkboxInput(inputId = "individual_obs",#
-				label = strong("Show individual observations"),#
-				value = FALSE),#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
 #
-	checkboxInput(inputId = "density",#
-				label = strong("Show density estimate"),#
-				value = FALSE),#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
 #
-	plotOutput(outputId = "main_plot", height = "300px"),#
-	tableOutput(outputId = "livefile"),#
+		mainPanel(#
+			fluidRow(#
 #
-	# Display this only if the density is shown#
-	conditionalPanel(condition = "input.density == true",#
-	sliderInput(inputId = "bw_adjust",#
-				label = "Bandwidth adjustment:",#
-				min = 0.2, max = 2, value = 1, step = 0.2)#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to open larger version in a new tab."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true", target='blank'),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
 	)#
 )#
 #
 server <- function(input, output) {#
-	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")#
-	colnames(liveforams) <- liveforams[1,]#
-	liveforams <- [-1,]#
-	liveCounts <- colSums(liveforams[,-(1:3)])#
-	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  #
-	output$main_plot <- reactivePlot(width = 400, height = 300, function() {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
 #
 		hist(faithful$eruptions,#
 		  probability = TRUE,#
@@ -117,42 +1075,65 @@ server <- function(input, output) {#
 }#
 #
 shinyApp(ui = ui, server = server)
-liveforams <- read.delim(file="MilkenEtAl2015_live.txt")
-colnames(liveforams) <- liveforams[1,]
-liveforams <- [-1,]
 library(shiny)#
-ui <- bootstrapPage(#
-	selectInput(inputId = "n_breaks",#
-			  label = "Number of bins in histogram (approximate):",#
-			  choices = c(10, 20, 35, 50),#
-			  selected = 20),#
+ui <- fluidPage(#
 #
-	checkboxInput(inputId = "individual_obs",#
-				label = strong("Show individual observations"),#
-				value = FALSE),#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
 #
-	checkboxInput(inputId = "density",#
-				label = strong("Show density estimate"),#
-				value = FALSE),#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "n_breaks",#
+				label = "Number of bins in histogram (approximate):",#
+				choices = c(10, 20, 35, 50),#
+				selected = 20),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
 #
-	plotOutput(outputId = "main_plot", height = "300px"),#
-	tableOutput(outputId = "livefile"),#
+		mainPanel(#
+			fluidRow(#
 #
-	# Display this only if the density is shown#
-	conditionalPanel(condition = "input.density == true",#
-	sliderInput(inputId = "bw_adjust",#
-				label = "Bandwidth adjustment:",#
-				min = 0.2, max = 2, value = 1, step = 0.2)#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to open larger version in a new tab."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
 	)#
 )#
 #
 server <- function(input, output) {#
-	liveforams <- read.delim(file="MilkenEtAl2015_live.txt")#
-	colnames(liveforams) <- liveforams[1,]#
-	liveforams <- liveforams[-1,]#
-	liveCounts <- colSums(liveforams[,-(1:3)])#
-	output$livefile <- renderTable(t(liveCounts) rownames=TRUE)  #
-	output$main_plot <- reactivePlot(width = 400, height = 300, function() {#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
 #
 		hist(faithful$eruptions,#
 		  probability = TRUE,#
@@ -175,1007 +1156,321 @@ server <- function(input, output) {#
 }#
 #
 shinyApp(ui = ui, server = server)
-liveforams <- read.delim(file="MilkenEtAl2015_live.txt")#
-	colnames(liveforams) <- liveforams[1,]#
-	liveforams <- liveforams[-1,]#
-	liveCounts <- colSums(liveforams[,-(1:3)])
-runGitHub("shinypaleo", "naheim", subdir="testApp")
-runGitHub("shinypaleo", "naheim", subdir="testApp")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-liveCounts <- read.delim(file="warmeLive.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
-liveCounts <- read.delim(file="warmeLive.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
-getwd()
-liveCounts <- read.delim(file="warmeLive.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
+liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(deadCounts))]
+head(liveCounts)
+grepl("_sp", colnames(liveCounts))
+!grepl("_sp", colnames(liveCounts))
+liveCounts <- read.delim(file="warmeLive.tsv")#
+	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	liveCounts <- liveCounts[,!grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(deadCounts))]#
+	deadCounts <- deadCounts[,!grepl("_sp", colnames(deadCounts))]
+colnames(liveCounts)
+range(liveCounts)
+range(deadCounts)
+head(rawData)
+head(species)
+head(species)
+# This R script formats raw live-dead data from Warme 1971#
+# Last Updated 02 August 2020 by NAH#
+##
+#############################
+#
+setwd("~/Documents/DataSets/Warme_71")#
+#
+library(jsonlite)#
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- paste("site_",rawData[1,-(1:4)],sep="")#
+nSites <- length(siteNames)#
+liveCounts <- data.frame(matrix(0, nrow=nSites, ncol=nSpecies, dimnames=list(siteNames, formNames)))#
+deadCounts <- liveCounts#
+species$colNames <- formNames#
+#
+# fill in counts#
+for(i in 1:nSites) {#
+	for(j in 1:nSpecies) {#
+		thisCell <- bareData[j,i]#
+		if(thisCell == "p") {			#
+			liveCounts[i,j] <- 999#
+			deadCounts[i,j] <- 999			#
+		} else if(thisCell == "a") {#
+			liveCounts[i,j] <- 9999#
+			deadCounts[i,j] <- 9999#
+		} else if(thisCell != "") {#
+			thisSplit <- unlist(strsplit(thisCell, ";"))#
+			liveCounts[i,j] <- as.numeric(thisSplit[1])#
+			deadCounts[i,j] <- as.numeric(thisSplit[2])#
+		}#
+	}#
+}#
+write.table(liveCounts, file="warmeLive.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(deadCounts, file="warmeDead.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(headerData, file="warmeHeader.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(species, file="warmeSpecies.tsv", sep="\t", quote=FALSE, row.names=FALSE, na="")
+head(species)
+setwd("~/Documents/DataSets/Warme_71")#
+#
+library(jsonlite)#
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- paste("site_",rawData[1,-(1:4)],sep="")#
+nSites <- length(siteNames)#
+liveCounts <- data.frame(matrix(0, nrow=nSites, ncol=nSpecies, dimnames=list(siteNames, formNames)))#
+deadCounts <- liveCounts#
+species$colName <- formNames#
+#
+# fill in counts#
+for(i in 1:nSites) {#
+	for(j in 1:nSpecies) {#
+		thisCell <- bareData[j,i]#
+		if(thisCell == "p") {			#
+			liveCounts[i,j] <- 999#
+			deadCounts[i,j] <- 999			#
+		} else if(thisCell == "a") {#
+			liveCounts[i,j] <- 9999#
+			deadCounts[i,j] <- 9999#
+		} else if(thisCell != "") {#
+			thisSplit <- unlist(strsplit(thisCell, ";"))#
+			liveCounts[i,j] <- as.numeric(thisSplit[1])#
+			deadCounts[i,j] <- as.numeric(thisSplit[2])#
+		}#
+	}#
+}#
+write.table(liveCounts, file="warmeLive.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(deadCounts, file="warmeDead.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(headerData, file="warmeHeader.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(species, file="warmeSpecies.tsv", sep="\t", quote=FALSE, row.names=FALSE, na="")
+head(species)
+table(species$phylum)
+table(species$Phylum)
+species <- read.delim(file="warmeSpecies.tsv")#
+	environments <- read.delim(file="warmeHeader.tsv")
+levels(species$Phylum)
+class(species$Phylum)
+species <- subset(species, Phylum == 'Mollusca')
+head(species)
+table(species$Phylum)
 liveCounts <- read.delim(file="warmeLive.tsv")
 head(liveCounts)
-1:match("Hemigrapsus_oregonensis", colnames(liveCounts))
-liveCounts <- read.delim(file="warmeLive.tsv")[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
-remove(liveCounts)
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-faithful$eruptions
-?faithful
-hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")
-hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(20),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="testApp")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-runGitHub("shinypaleo", "naheim", subdir="liveDead")
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California!🏴󠁵󠁳󠁣󠁡󠁿"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-			column(3, selectInput(inputId = "n_breaks",#
-					  label = "Number of bins in histogram (approximate):",#
-					  choices = c(10, 20, 35, 50),#
-					  selected = 20),#
-					),#
-#
-			column(3, checkboxInput(inputId = "individual_obs",#
-						label = strong("Show individual observations"),#
-						value = FALSE),#
-					),#
-#
-			column(3, checkboxInput(inputId = "density",#
-						label = strong("Show density estimate"),#
-						value = FALSE),#
-					)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			)#
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
+head(species)
+liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non molluscal taxa and those not id to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]
+head(liveCounts)
+ncol(liveCounts)
+species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
 	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	# drop non molluscal taxa and those not id to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
 	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, function() {#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
+dim(liveCounts)
+dim(deadCounts)
+range(liveCounts)
+range(deadCoutns)
+range(deadCoutnts)
+range(deadCounts)
+liveSums <- colSums(liveCounts)#
+	deadSums <- colSums(deadCounts)
+range(liveSums)
+range(deadSums)
+range(deadSums == liveSums)
+liveSums <- rowSums(liveCounts)#
+	deadSums <- rowSums(deadCounts)
+range(liveSums == deadSUms)
+range(liveSums == deadSums)
+deadCounts[liveSums == 0 & deadSums == 0,]
+liveCounts[liveSums == 0 & deadSums == 0,]
+deadSums
+range(deadSums)
+range(liveSums)
+head(environments)
+table(environments[2,])
+environments[2,]
+table(environments[2,])
+unique(environments[2,])
+headerData
+nrow(headerData)
+ncol(headerData)
+nrow(liveDta)
+nrow(liveData)
+nrow(liveCounts)
+head(liveCounts)
+nrow(liveCounts)
+environments[2,]
+class(environments[2,])
+as.character(environments[2,])
+table(as.character(environments[2,]))
+#############################
+##
+# This R script formats raw live-dead data from Warme 1971#
+# Last Updated 02 August 2020 by NAH#
+##
+#############################
 #
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
+setwd("~/Documents/DataSets/Warme_71")#
 #
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
+library(jsonlite)#
+rawData <- read.delim(file="Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- paste("site_",rawData[1,-(1:4)],sep="")#
+nSites <- length(siteNames)#
+liveCounts <- data.frame(matrix(0, nrow=nSites, ncol=nSpecies, dimnames=list(siteNames, formNames)))#
+deadCounts <- liveCounts#
+species$colName <- formNames#
+#
+# fill in counts#
+for(i in 1:nSites) {#
+	for(j in 1:nSpecies) {#
+		thisCell <- bareData[j,i]#
+		if(thisCell == "p") {			#
+			liveCounts[i,j] <- 999#
+			deadCounts[i,j] <- 999			#
+		} else if(thisCell == "a") {#
+			liveCounts[i,j] <- 9999#
+			deadCounts[i,j] <- 9999#
+		} else if(thisCell != "") {#
+			thisSplit <- unlist(strsplit(thisCell, ";"))#
+			liveCounts[i,j] <- as.numeric(thisSplit[1])#
+			deadCounts[i,j] <- as.numeric(thisSplit[2])#
 		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
 	}#
-	)#
-#
 }#
+write.table(liveCounts, file="warmeLive.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(deadCounts, file="warmeDead.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(headerData, file="warmeHeader.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(species, file="warmeSpecies.tsv", sep="\t", quote=FALSE, row.names=FALSE, na="")#
+# GET WoRMS & PBDB INFO#
+species$acceptedName <- ""#
+species$authority <- ""#
+species$acceptedGenus <- ""#
+species$acceptedSpecies <- ""#
+species$aphiaID <- NA#
+species$pbdbID <- NA#
+species$pbdbAcceptedID <- NA#
+species$pbdbAcceptedName <- ""#
+species$pbdbAcceptedAuthority <- ""#
+species$nOccur <- NA#
+species$fad_int <- ""#
+species$pbdb_fad <- NA#
+species$lad_int <- NA#
+species$pbdb_lad <- ""#
+runWorms <- TRUE#
+for(i in 1:nrow(species)) {#
+	if(!is.element(species$Species[i], c("","sp.","spp."))) {#
+		if(runWorms) {#
+			wormsUri <- URLencode(paste("https://www.marinespecies.org/rest/AphiaRecordsByName/",species$taxonName[i],"?like=false&marine_only=true&offset=1", sep=""))#
+			tryCatch({#
+				worms <- jsonlite::fromJSON(wormsUri)#
+			}, error=function(e){cat("WoRMS ERROR :",species$taxonName[i], "\n")})#
+			if(exists("worms")) {#
+				species$acceptedName[i] <- worms$valid_name[1]#
+				species$authority[i] <- worms$valid_authority[1]#
+				species$aphiaID[i] <- worms$valid_AphiaID[1]#
+				thisSplit <- unlist(strsplit(worms$valid_name[1], " "))#
+				species$acceptedGenus[i] <- thisSplit[1]#
+				species$acceptedSpecies[i] <- thisSplit[2]#
+				remove(worms)#
+			}#
+		}#
+		if(species$acceptedName[i] == "") {#
+			pbdbUri <- URLencode(paste("https://paleobiodb.org/data1.2/taxa/list.csv?taxon_name=",species$Class[i],":",species$taxonName[i],"&show=app,class,attr", sep=""))#
+		} else {#
+			pbdbUri <- URLencode(paste("https://paleobiodb.org/data1.2/taxa/list.csv?taxon_name=",species$Class[i],":",species$acceptedName[i],"&show=app,class,attr", sep=""))		#
+		}#
+		pbdb <- read.csv(pbdbUri)#
+		if(nrow(pbdb) == 1) {#
+			species$pbdbID[i] <- pbdb$taxon_no[1]		#
+			species$nOccur[i] <- pbdb$n_occs[1]#
+			species$fad_int[i] <- pbdb$early_interval[1]#
+			species$pbdb_fad[i] <- pbdb$firstapp_max_ma[1]#
+			species$lad_int[i] <- pbdb$late_interval[1]#
+			species$pbdb_lad[i] <- pbdb$lastapp_min_ma[1]#
 #
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California!🏴󠁵󠁳󠁣󠁡󠁿"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-			column(3, selectInput(inputId = "n_breaks",#
-					  label = "Number of bins in histogram (approximate):",#
-					  choices = c(10, 20, 35, 50),#
-					  selected = 20),#
-					),#
-#
-			column(3, checkboxInput(inputId = "individual_obs",#
-						label = strong("Show individual observations"),#
-						value = FALSE),#
-					),#
-#
-			column(3, checkboxInput(inputId = "density",#
-						label = strong("Show density estimate"),#
-						value = FALSE),#
-					)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			)#
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
+			species$pbdbAcceptedID[i] <- pbdb$accepted_no[1]#
+			species$pbdbAcceptedName[i] <- pbdb$accepted_name[1]#
+			species$pbdbAcceptedAuthority[i] <- pbdb$taxon_attr[1]#
+		}#
+	}#
+}
+species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
 	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
 	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, function() {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-			column(3, selectInput(inputId = "n_breaks",#
-					  label = "Number of bins in histogram (approximate):",#
-					  choices = c(10, 20, 35, 50),#
-					  selected = 20),#
-					),#
-#
-			column(3, checkboxInput(inputId = "individual_obs",#
-						label = strong("Show individual observations"),#
-						value = FALSE),#
-					),#
-#
-			column(3, checkboxInput(inputId = "density",#
-						label = strong("Show density estimate"),#
-						value = FALSE),#
-					)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			)#
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, function() {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-?renderPlot
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-			column(3, selectInput(inputId = "n_breaks",#
-					  label = "Number of bins in histogram (approximate):",#
-					  choices = c(10, 20, 35, 50),#
-					  selected = 20),#
-					),#
-#
-			column(3, checkboxInput(inputId = "individual_obs",#
-						label = strong("Show individual observations"),#
-						value = FALSE),#
-					),#
-#
-			column(3, checkboxInput(inputId = "density",#
-						label = strong("Show density estimate"),#
-						value = FALSE),#
-					)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			selectInput(inputId = "n_breaks",#
-			  label = "Number of bins in histogram (approximate):",#
-			  choices = c(10, 20, 35, 50),#
-			  selected = 20),#
-			),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)#
-		)#
-	),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			h2("Make Selections")#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			h2("Make Selections"),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			h3("Make Selections"),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			strong("Make Selections"),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			h5("Make Selections"),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
+table(as.character(environments[2,]))
+runGitHub("shinypaleo", "naheim", subdir="liveDead")
 library(shiny)#
 ui <- fluidPage(#
 #
@@ -1185,85 +1480,10 @@ ui <- fluidPage(#
 		sidebarPanel(#
 			h3("Make Selections"),#
 			br(),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
-			width=3,#
-		),#
-#
-		mainPanel(#
-			fluidRow(#
-#
-				column(3, checkboxInput(inputId = "individual_obs",#
-					label = strong("Show individual observations"),#
-					value = FALSE),#
-				),#
-#
-				column(3, checkboxInput(inputId = "density",#
-					label = strong("Show density estimate"),#
-					value = FALSE),#
-				)#
-			), #
-			fluidRow(#
-				plotOutput(outputId = "main_plot", height = "300px"),#
-			),#
-			# Display this only if the density is shown#
-			conditionalPanel(condition = "input.density == true",#
-			sliderInput(inputId = "bw_adjust",#
-						label = "Bandwidth adjustment:",#
-						min = 0.2, max = 2, value = 1, step = 0.2)#
-			),#
-			fluidRow(#
-				tableOutput(outputId = "livefile"),#
-			), #
-		)#
-	)#
-)#
-#
-server <- function(input, output) {#
-	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
-	output$main_plot <- renderPlot(width = 400, height = 300, {#
-#
-		hist(faithful$eruptions,#
-		  probability = TRUE,#
-		  breaks = as.numeric(input$n_breaks),#
-		  xlab = "Duration (minutes)",#
-		  main = "Geyser eruption duration BOOM!")#
-#
-		if (input$individual_obs) {#
-		  rug(faithful$eruptions)#
-		}#
-#
-		if (input$density) {#
-		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
-		  lines(dens, col = "blue")#
-		}#
-#
-	}#
-	)#
-#
-}#
-#
-shinyApp(ui = ui, server = server)
-library(shiny)#
-ui <- fluidPage(#
-#
-	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
-	sidebarLayout(#
-#
-		sidebarPanel(#
-			h3("Make Selections"),#
-			br(),#
-			selectInput(inputId = "n_breaks",#
-				label = "Number of bins in histogram (approximate):",#
-				choices = c(10, 20, 35, 50),#
-				selected = 20),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
 			br(),#
 			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
 			width=3,#
@@ -1292,6 +1512,11 @@ ui <- fluidPage(#
 						min = 0.2, max = 2, value = 1, step = 0.2)#
 			),#
 			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
 				tableOutput(outputId = "livefile"),#
 			), #
 		)#
@@ -1299,10 +1524,15 @@ ui <- fluidPage(#
 )#
 #
 server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
 	liveCounts <- read.delim(file="warmeLive.tsv")#
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
 	deadCounts <- read.delim(file="warmeDead.tsv")#
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
 	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
 	output$main_plot <- renderPlot(width = 400, height = 300, {#
 #
@@ -1327,5 +1557,990 @@ server <- function(input, output) {#
 }#
 #
 shinyApp(ui = ui, server = server)
-Q()
-q()
+?renderTable
+?DT
+library(shiny)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE, options = list(scrollX = TRUE))  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(DT)
+?renderDataTable
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$livefile <- DT::renderDataTable(liveCounts, rownames=TRUE, options = list(scrollX = TRUE))  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$livefile <- DT::renderDataTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			fluidRow(#
+#
+				column(3, checkboxInput(inputId = "individual_obs",#
+					label = strong("Show individual observations"),#
+					value = FALSE),#
+				),#
+#
+				column(3, checkboxInput(inputId = "density",#
+					label = strong("Show density estimate"),#
+					value = FALSE),#
+				)#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+?plotOutput
+?renderText
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$env_stats <- renderText({#
+		paste0("Hello ", input$name, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			fluidRow(#
+				plotOutput(outputId = "main_plot", height = "300px"),#
+			),#
+			# Display this only if the density is shown#
+			conditionalPanel(condition = "input.density == true",#
+			sliderInput(inputId = "bw_adjust",#
+						label = "Bandwidth adjustment:",#
+						min = 0.2, max = 2, value = 1, step = 0.2)#
+			),#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$env_stats <- renderText({#
+		paste0("Hello ", input$enviro, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+	output$main_plot <- renderPlot(width = 400, height = 300, {#
+#
+		hist(faithful$eruptions,#
+		  probability = TRUE,#
+		  breaks = as.numeric(input$n_breaks),#
+		  xlab = "Duration (minutes)",#
+		  main = "Geyser eruption duration BOOM!")#
+#
+		if (input$individual_obs) {#
+		  rug(faithful$eruptions)#
+		}#
+#
+		if (input$density) {#
+		  dens <- density(faithful$eruptions, adjust = input$bw_adjust)#
+		  lines(dens, col = "blue")#
+		}#
+#
+	}#
+	)#
+#
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile", width = 800),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$env_stats <- renderText({#
+		paste0("Hello ", input$enviro, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
+?fluidRow
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	output$env_stats <- renderText({#
+		paste0("Hello ", input$enviro, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			h3("Counts of Live and Dead Individuals"),#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	myEnv <- input$enviro#
+	output$env_stats <- renderText({#
+		paste0("You have chosen ", myEnv, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass beds"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			h3("Counts of Live and Dead Individuals"),#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	# Get env stats	#
+	output$env_stats <- renderText({#
+		paste0("You have chosen ", input$enviro, "!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flats","subtidal ell grass"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			h3("Counts of Live and Dead Individuals"),#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	# Get env stats	#
+	output$env_stats <- renderText({#
+		paste0("You have chosen ", input$enviro, " environments!")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
+species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
+nrow(deadCounts)
+nrow(environments)
+ncol(environments)
+environments
+rownames(liveCounts)
+paste("site_",environments[1,],sep="")
+rawData <- read.delim(file="~/Documents/DataSets/Warme_71/Warme1971LiveDead.tsv", header=FALSE)
+head(rawData)
+bareData <- rawData[-(1:4), -(1:3)]
+head(bareData)
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]
+headerData
+ncol(headerData)
+head(species)
+head(rawData)
+rawData <- read.delim(file="~/Documents/DataSets/Warme_71/Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)
+head(species)
+nrow(species)
+ncol(bareDta)
+ncol(bareData)
+nrow(bareData)
+setwd("~/Documents/DataSets/Warme_71")#
+#
+library(jsonlite)#
+rawData <- read.delim(file="~/Documents/DataSets/Warme_71/Warme1971LiveDead.tsv", header=FALSE)#
+bareData <- rawData[-(1:4), -(1:3)]#
+headerData <- rawData[1:4, -(1:3)]; rownames(headerData) <- rawData[1:4,1]#
+#
+species <- data.frame('Phylum'=rawData[-(1:4),1], 'Class'=rawData[-(1:4),1], 'Order'="", 'Family'="", 'Genus'=rawData[-(1:4),2], 'Species'=rawData[-(1:4),3], 'taxonName'=paste(rawData[-(1:4),2], rawData[-(1:4),3], sep=" "))#
+nSpecies <- nrow(species)#
+species$Phylum[is.element(species$Class, c('Gastropoda','Bivalvia'))] <- "Mollusca"#
+species$Class[species$Phylum == 'Echinodermata'] <- "Echinoidea"#
+species$Class[species$Phylum == 'Annelida'] <- "Polychaeta"#
+species$Class[is.element(species$Phylum, c('Bryozoa','Chordata'))] <- ""#
+species$Class[is.element(species$Genus, c('Hemigrapsus','Callianassa','crab parts'))] <- "Malacostraca"#
+species$Class[is.element(species$Genus, c('barnacle fragments'))] <- "Maxillopoda"#
+#
+formNames <- trimws(species$taxonName)#
+formNames <- sub(" spp.", "_spp", formNames)#
+formNames <- sub(" sp.", "_sp", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub(" ", "_", formNames)#
+formNames <- sub("\\(", "", formNames)#
+formNames <- sub(")", "", formNames)#
+formNames <- sub("\\.", "", formNames)#
+#
+siteNames <- paste("site_",rawData[1,-(1:3)],sep="")#
+nSites <- length(siteNames)#
+liveCounts <- data.frame(matrix(0, nrow=nSites, ncol=nSpecies, dimnames=list(siteNames, formNames)))#
+deadCounts <- liveCounts#
+species$colName <- formNames#
+#
+# fill in counts#
+for(i in 1:nSites) {#
+	for(j in 1:nSpecies) {#
+		thisCell <- bareData[j,i]#
+		if(thisCell == "p") {			#
+			liveCounts[i,j] <- 999#
+			deadCounts[i,j] <- 999			#
+		} else if(thisCell == "a") {#
+			liveCounts[i,j] <- 9999#
+			deadCounts[i,j] <- 9999#
+		} else if(thisCell != "") {#
+			thisSplit <- unlist(strsplit(thisCell, ";"))#
+			liveCounts[i,j] <- as.numeric(thisSplit[1])#
+			deadCounts[i,j] <- as.numeric(thisSplit[2])#
+		}#
+	}#
+}#
+write.table(liveCounts, file="warmeLive.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(deadCounts, file="warmeDead.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(headerData, file="warmeHeader.tsv", sep="\t", quote=FALSE, row.names=TRUE, na="")#
+write.table(species, file="warmeSpecies.tsv", sep="\t", quote=FALSE, row.names=FALSE, na="")
+species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
+head(environments)
+ncol(environments)
+nrow(liveCounts)
+tabel(environments[2,])
+table(environments[2,])
+table(as.character(environments[2,]))
+environments
+environments[2,] == "inter_barren"
+tempLive <- liveCounts[environments[2,] == "inter_barren",]#
+			tempDead <- deadCounts[environments[2,] == "inter_barren",]
+ncol(tempLive)
+nrow(tempLive)
+nrow(tempDead)
+library(shiny)#
+library(DT)#
+ui <- fluidPage(#
+#
+	titlePanel("Live-Dead Analysis, Mugu Lagoon, California"),#
+	sidebarLayout(#
+#
+		sidebarPanel(#
+			h3("Make Selections"),#
+			br(),#
+			# select environment#
+			selectInput(inputId = "enviro",#
+				label = "Environment:",#
+				choices = c("all","intertidal sand flat","subtidal ell grass"),#
+				selected = "all"),#
+			br(),#
+			# add more selections here#
+			width=3,#
+		),#
+#
+		mainPanel(#
+			## Number of Sites, species and occurrences (live and dead)#
+			h3("Counts of Live and Dead Individuals"),#
+			fluidRow(#
+				textOutput(outputId = "env_stats")#
+			), #
+			## Locality Map#
+			fluidRow(#
+				h3("Map of Mugu Lagoon with Sample Locations"),#
+				strong("Click on Map to download a larger version."),#
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),#
+			),#
+			## Data table#
+			fluidRow(#
+				tableOutput(outputId = "livefile"),#
+			), #
+		)#
+	)#
+)#
+#
+server <- function(input, output) {#
+	species <- read.delim(file="warmeSpecies.tsv")#
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca#
+	environments <- read.delim(file="warmeHeader.tsv")#
+	liveCounts <- read.delim(file="warmeLive.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]#
+	deadCounts <- read.delim(file="warmeDead.tsv")#
+	# drop non-molluscan taxa and those not identified to species#
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]#
+	# Get env stats	#
+	output$env_stats <- renderText({#
+		if(input$enviro == "intertidal sand flat") {#
+			tempLive <- liveCounts[environments[2,] == "inter_barren",]#
+			tempDead <- deadCounts[environments[2,] == "inter_barren",]#
+		} else if (input$enviro == "subtidal ell grass") {#
+			tempLive <- liveCounts[environments[2,] == "sub_eelgrass",]#
+			tempDead <- deadCounts[environments[2,] == "sub_eelgrass",]#
+		} else {#
+			tempLive <- liveCounts#
+			tempDead <- deadCounts#
+		}#
+		nSitesLive <- nrow(tempLive)#
+		nSitesDead <- nrow(tempDead)#
+		nSpciesLive <- ncol(tempLive)#
+		nSpciesDead <- ncol(tempDead)#
+		nOccurLive <- sum(tempLive)#
+		nOccurDead <- sum(tempDead)#
+		paste0("You have chosen ", input$enviro, " environments!", nSitesLive, " $#")#
+	})#
+	output$livefile <- renderTable(liveCounts, rownames=TRUE)  #
+}#
+#
+shinyApp(ui = ui, server = server)
