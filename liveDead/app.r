@@ -59,7 +59,25 @@ server <- function(input, output) {
 	
 	# Get env stats	
 	output$env_stats <- renderText({
-		paste0("You have chosen ", input$enviro, " environments!")
+		if(input$enviro == "intertidal sand flat") {
+			tempLive <- liveCounts[environments[2,] == "inter_barren",]
+			tempDead <- deadCounts[environments[2,] == "inter_barren",]
+		} else if (input$enviro == "subtidal ell grass") {
+			tempLive <- liveCounts[environments[2,] == "sub_eelgrass",]
+			tempDead <- deadCounts[environments[2,] == "sub_eelgrass",]
+		} else {
+			tempLive <- liveCounts
+			tempDead <- deadCounts
+		}
+		
+		nSitesLive <- nrow(tempLive)
+		nSitesDead <- nrow(tempDead)
+		nSpciesLive <- ncol(tempLive)
+		nSpciesDead <- ncol(tempDead)
+		nOccurLive <- sum(tempLive)
+		nOccurDead <- sum(tempDead)
+		
+		paste0("You have chosen ", input$enviro, " environments!", nSitesLive, " $#")
 	})
 	
 	output$livefile <- renderTable(liveCounts, rownames=TRUE)  
