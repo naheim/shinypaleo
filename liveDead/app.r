@@ -45,6 +45,11 @@ ui <- fluidPage(
 						min = 0.2, max = 2, value = 1, step = 0.2)
 			),
 			
+			
+			fluidRow(
+				img(src='Warme1971_Map2.png', height = 805, width = 1000),
+			),
+			
 			fluidRow(
 				tableOutput(outputId = "livefile"),
 			), 
