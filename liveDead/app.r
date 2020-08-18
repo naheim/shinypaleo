@@ -6,26 +6,32 @@ ui <- fluidPage(
 	sidebarLayout(
 
 		sidebarPanel(
-			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500)
+			h3("Make Selections"),
+			br(),
+			
+			selectInput(inputId = "n_breaks",
+				label = "Number of bins in histogram (approximate):",
+				choices = c(10, 20, 35, 50),
+				selected = 20),
+			br(),
+					
+			sliderInput("obs", "Number of observations:",  min = 1, max = 1000, value = 500),
+			
+			width=3,
 		),
 
 		mainPanel(
 			fluidRow(
-			column(3, selectInput(inputId = "n_breaks",
-					  label = "Number of bins in histogram (approximate):",
-					  choices = c(10, 20, 35, 50),
-					  selected = 20),
-					),
 
-			column(3, checkboxInput(inputId = "individual_obs",
-						label = strong("Show individual observations"),
-						value = FALSE),
-					),
+				column(3, checkboxInput(inputId = "individual_obs",
+					label = strong("Show individual observations"),
+					value = FALSE),
+				),
 
-			column(3, checkboxInput(inputId = "density",
-						label = strong("Show density estimate"),
-						value = FALSE),
-					)
+				column(3, checkboxInput(inputId = "density",
+					label = strong("Show density estimate"),
+					value = FALSE),
+				)
 			), 
 	
 			fluidRow(
@@ -42,8 +48,6 @@ ui <- fluidPage(
 			fluidRow(
 				tableOutput(outputId = "livefile"),
 			), 
-	
-			
 		)
 	)
 )
