@@ -60,12 +60,18 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+	species <- read.delim(file="warmeSpecies.tsv")
+	species <- subset(species, Phylum == 'Mollusca') # include only mollusca
+	environments <- read.delim(file="warmeHeader.tsv")
 	
 	liveCounts <- read.delim(file="warmeLive.tsv")
-	liveCounts <- liveCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
+	# drop non-molluscan taxa and those not identified to species
+	liveCounts <- liveCounts[,is.element(colnames(liveCounts), species$colName) & !grepl("_sp", colnames(liveCounts))]
 	
 	deadCounts <- read.delim(file="warmeDead.tsv")
-	deadCounts <- deadCounts[,1:match("Hemigrapsus_oregonensis", colnames(liveCounts))]
+	# drop non-molluscan taxa and those not identified to species
+	deadCounts <- deadCounts[,is.element(colnames(deadCounts), species$colName) & !grepl("_sp", colnames(deadCounts))]
+	
 	
 	output$livefile <- renderTable(liveCounts, rownames=TRUE)  
 	
