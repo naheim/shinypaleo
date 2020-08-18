@@ -47,7 +47,9 @@ ui <- fluidPage(
 			
 			
 			fluidRow(
-				img(src='Warme1971_Map2.png', height = 805, width = 1000),
+				h3("Map of Mugu Lagoon with Sample Locations"),
+				strong("Click on Map to download a larger version."),
+				a(img(src='Warme1971_Map2.png', height = 805, width = 1000), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),
 			),
 			
 			fluidRow(
