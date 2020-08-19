@@ -59,7 +59,6 @@ simCalc <- function(live, dead) {
 		nCommon <- ncol(data.frame(comm[,comm[1,] > 0 & comm[2,] > 0])) # common
 		nTotal <- ncol(comm) # all present
 		sim$jaccard[i] <- nCommon / nTotal
-		print(sim)
 	}
 	return(sim)
 }
