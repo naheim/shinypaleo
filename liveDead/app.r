@@ -60,11 +60,6 @@ ui <- fluidPage(
 				strong("Click on Map to download a larger version."),
 				a(img(src='Warme1971_Map2.png', height = "805px", width = "1000px"), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),
 			),
-			
-			## Data table
-			fluidRow(
-				tableOutput(outputId = "livefile"),
-			), 
 		)
 	)
 )
@@ -155,21 +150,8 @@ server <- function(input, output, session) {
 		box()
 		
 	})
-	
-	output$livefile <- renderTable(liveCounts, rownames=TRUE)  
-	
+		
 }
 
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
-
-
-
 
