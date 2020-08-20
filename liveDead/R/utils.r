@@ -41,10 +41,10 @@ parseData <- function(x, taxon, env, species, environments) {
 simCalc <- function(live, dead) {
 	if(class(live) == "numeric") {
 		n <- 1
-		sim <- data.frame(matrix(NA, nrow=n, ncol=2, dimnames=list("1", c("pctSim","jaccard"))))
+		sim <- data.frame(matrix(NA, nrow=n, ncol=3, dimnames=list("1", c("pctSim","jaccard","chao.jaccard"))))
 	} else {
 		n <- nrow(live)
-		sim <- data.frame(matrix(NA, nrow=n, ncol=2, dimnames=list(rownames(live), c("pctSim","jaccard"))))
+		sim <- data.frame(matrix(NA, nrow=n, ncol=3, dimnames=list(rownames(live), c("pctSim","jaccard","chao.jaccard"))))
 	}
 	for(i in 1:n) {
 		if(class(live) == "numeric") {
@@ -59,6 +59,17 @@ simCalc <- function(live, dead) {
 		nCommon <- ncol(data.frame(comm[,comm[1,] > 0 & comm[2,] > 0])) # common
 		nTotal <- ncol(comm) # all present
 		sim$jaccard[i] <- nCommon / nTotal
+		
+		# Chao–Jaccard for two assemblages = UV/(U + V − UV)
+		common <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
+		if(class(common)[1] == "numeric") {
+			U <- common[1]
+			V <- common[2]
+		} else {
+			U <- sum(common[1,])
+			V <- sum(common[2,])
+		}
+		sim$chao.jaccard[i] <- U*V / (U+V-U*V)
 	}
 	return(sim)
 }

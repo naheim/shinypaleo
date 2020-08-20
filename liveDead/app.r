@@ -11,6 +11,9 @@ ui <- fluidPage(
 			h3("Make Selections"),
 			br(),
 			
+			h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
+			br(),
+			
 			# select environment
 			selectInput(inputId = "enviro",
 				label = "Environment:",
@@ -24,12 +27,29 @@ ui <- fluidPage(
 				choices = c("all","Bivalvia","Gastropoda"),
 				selected = "all"),
 			br(),	
-			# add more selections here
 			
+			# select two columns to compare
+			strong("Select two sites to compare (see map) (this only changes the two site comparison tables)"),
+			fluidRow(
+				column(6,
+					uiOutput("site1"),
+				),
+				column(6,
+					uiOutput("site2"),
+				),
+			),
+			br(),
+			
+			# add more selections here
 			width=3,
 		),
 
 		mainPanel(
+			## Title with selections
+			fluidRow(
+				h2(textOutput(outputId = "selections"), style="color:blue")
+			),
+			
 			## Number of Sites, species and occurrences (live and dead)
 			h3("Counts of Live and Dead Individuals & Species"),		
 			fluidRow(
@@ -38,13 +58,13 @@ ui <- fluidPage(
 			
 			## Live - Dead cross plots
 			fluidRow(
-				h3("Comparisons of Live and Death Assemblages"),
+				h3("Comparisons of Living and Death Assemblages"),
 				plotOutput(outputId = "liveDeadPlots", height = "500px", width = "1000px")
 			),
 			
 			## aggregate Live - Dead similarity
 			fluidRow(
-				h3("Similarity between live and death pooled assembalges"),
+				h3("Similarity between pooled living and death assembalges"),
 				tableOutput(outputId = "liveDeadSimPooled")
 			),
 			
@@ -52,6 +72,18 @@ ui <- fluidPage(
 			fluidRow(
 				h3("Similarity between live and death assembalges"),
 				plotOutput(outputId = "liveDeadSim", height = "500px", width = "1000px")
+			),
+			
+			## Live - Dead comparison of two sites
+			fluidRow(
+				h3(textOutput(outputId = "compSelections")),
+				strong("Species Counts"),
+				tableOutput(outputId = "siteList")
+			),
+			
+			fluidRow(
+				strong("Live-dead similarity"),
+				tableOutput(outputId = "siteListSim")
 			),
 			
 			## Locality Map
@@ -97,7 +129,53 @@ server <- function(input, output, session) {
 		parseData(deadCounts, input$taxa, input$enviro, species, environments)
 	})
 	
+	# make selection header
+	output$selections <- renderText({
+		paste0("Viewing ", input$taxa, " species in ", input$enviro, " environments.")
+	})
+	
+	# make header in main section showing comparison
+	output$compSelections <- renderText({
+		paste0(input$site1, " vs. ", input$site2)
+	})
+	
+	# make species lists for two sites
+	output$siteList <- renderTable({
+		req(input$site1, input$site2)
+		newLive <- tempLive()[match(c(input$site1, input$site2), rownames(tempLive())),]
+		newDead <- tempDead()[match(c(input$site1, input$site2), rownames(tempDead())),]
+		
+		nLiveSp2 <- colSums(newLive)
+		nDeadSp2 <- colSums(newDead)
+		
+		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
+		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
 
+		spNames <- sub("_", " ", colnames(newLive2))
+		siteTable <- data.frame('Class'=species$Class[match(spNames, species$taxonName)], 'Species'=spNames, 'live1'=as.integer(newLive2[1,]), 'dead1'=as.integer(newDead2[1,]), 'live2'=as.integer(newLive2[2,]), 'dead2'=as.integer(newDead2[2,]), check.names=FALSE)
+		colnames(siteTable)[3:6] <- c(paste0(input$site1,":live"), paste0(input$site1,":dead"),paste0(input$site2,":live"), paste0(input$site2,":dead"))
+		# add total
+		siteTable <- rbind(siteTable, c("","Total Counts", colSums(siteTable[,3:6])))
+	})
+	
+	# similarities for two sites
+	output$siteListSim <- renderTable({
+		req(input$site1, input$site2)
+		newLive <- tempLive()[match(c(input$site1, input$site2), rownames(tempLive())),]
+		newDead <- tempDead()[match(c(input$site1, input$site2), rownames(tempDead())),]
+		
+		nLiveSp2 <- colSums(newLive)
+		nDeadSp2 <- colSums(newDead)
+		
+		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
+		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
+		sim <- simCalc(newLive2, newDead2)[,-1]
+		colnames(sim) <- c("Jaccard similarity index", "Chao-Jaccard similarity index")
+		sim
+	}, rownames=TRUE)
+	
+
+	
 	# Get stats		
 	output$env_stats <- renderTable({
 		nLiveSite <- rowSums(tempLive())
@@ -136,20 +214,40 @@ server <- function(input, output, session) {
 	# pooled similarity
 	output$liveDeadSimPooled <- renderTable({
 		sim <- simCalc(colSums(tempLive()), colSums(tempDead()))
-		sim2 <- data.frame("Percent Similarity"=sim$pctSim, "Jaccard Similarity"=sim$jaccard)
-		
+		sim <- data.frame("Jaccard similarity index"=sim$jaccard, "Chao-Jaccard similarity index"=sim$chao.jaccard, check.names = FALSE)
+		sim
 	}, rownames=FALSE)
 	
 	# plot similarity
 	output$liveDeadSim <- renderPlot({
 		sim <- simCalc(tempLive(), tempDead())
 		par(pch=16, cex.axis=1.5, cex.lab=1.5, las=1, mfrow=c(1,2))
-		hist(sim$pctSim, breaks=seq(0,1,0.1), xlab="Percent similarity", ylab="Number of sites", main="Similarity-Abundance")
+		hist(sim$jaccard, breaks=seq(0,1,0.05), xlab="Jaccard similarity index", ylab="Number of sites", main="Similarity-Species")
 		box()
-		hist(sim$jaccard, breaks=seq(0,1,0.1), xlab="Jaccard similarity index", ylab="Number of sites", main="Similarity-Species")
+		hist(sim$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Similarity-Abundance")
 		box()
 		
 	})
+	
+	## generate dynamic menus for selecting two sites for comparison
+	output$site1 <- renderUI({
+		sites <- rownames(tempLive())
+		selectInput(inputId = "site1",
+			label = "Site 1:",
+			choices = sites)
+	})
+	
+	output$site2 <- renderUI({
+		req(input$site1)
+		sites <- rownames(tempLive())
+		sites <- sites[!is.element(sites, input$site1)]
+		selectInput(inputId = "site2",
+			label = "Site 2:",
+			choices = sites,
+			selected = "site_2")
+	})
+	
+	
 		
 }
 
