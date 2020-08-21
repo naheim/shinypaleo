@@ -6,5 +6,6 @@ parseData <- function(x, region) {
 	} else {
 		ages <- subset(x, Region == region)
 	}
+	print(ages)
 	return(ages)
 }

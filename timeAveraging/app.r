@@ -8,14 +8,18 @@ ui <- fluidPage(
 	sidebarLayout(
 
 		sidebarPanel(
+			## Title with selections
+			fluidRow(
+				h2(textOutput(outputId = "selections"), style="color:blue")
+			),
 			
 			# Nuculana_taphria
 			h1("<em>Nuculana taphria</em>"),
-			h5("Scale bar is 1 mm")
-			img(src='Nuculana_taphria.jpg', height = "370px", width = "640px")
+			h5("Scale bar is 1 mm"),
+			img(src='Nuculana_taphria.jpg', height = "130px", width = "225px"), # actual size: height = "370px", width = "640px"
 			br(),
 			
-			h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
+			h5("All plots and statistics presented on the left are for the region selected below"),
 			br(),
 			
 			# select region
@@ -46,7 +50,8 @@ ui <- fluidPage(
 			fluidRow(
 				h3("Map of Southern California with Sample Locations"),
 				strong("Click on Map to download a larger version."),
-				a(img(src='TomasovychEtAl2016_Fig1.png', height = "1707px", width = "1800px"), href="https://github.com/naheim/shinypaleo/blob/master/timeAveraging/www/TomasovychEtAl2016_Fig1.png?raw=true"),
+				# original image size: height = "1707px", width = "1800px"
+				a(img(src='TomasovychEtAl2016_Fig1.png', height = "759px", width = "800px"), href="https://github.com/naheim/shinypaleo/blob/master/timeAveraging/www/TomasovychEtAl2016_Fig1.png?raw=true"),
 			),
 		)
 	)
@@ -57,28 +62,31 @@ server <- function(input, output, session) {
 	rawData <- read.delim(file="tomasovychAges.tsv")
 	
 	# Parse Data		
-	ages <- reactive({
-		req(input$region, input$depth)
-		parseData(rawData, input$region)
-	})
+	if(intput$region == "all") {
+		ages <- rawData
+	} else {
+		ages <- subset(rawData, Region == input$region)
+	}
 	
 	# make selection header
 	output$selections <- renderText({
 		if(input$region == "all") {
 			label <- "Viewing Nuculana taphria specimens from all regions."
-		} else 
-			label <- paste0("Viewing Nuculana taphria specimens from ", input$region.")
+		} else {
+			label <- paste0("Viewing Nuculana taphria specimens from ", input$region)
 		}
 		label
-	})
+	}),
 	
 	# plot age distribution
 	output$ageDist <- renderPlot({
+		myAges <- ages[,match("Weighted.age", colnames(ages))]
 		counter <- 500
-		myBreaks <- seq(0, max(ages()$Weighted.age) + counter - max(ages()$Weighted.age) %% counter, counter)
+		maxX <- max(myAges) + counter - (max(myAges) %% counter)
+		myBreaks <- seq(0, maxX, counter)
 		par(cex=1.5, las=1)
-		hist(ages()$Weighted.age, breaks = myBreaks, xlab="Age in years before 2003", ylab="Number of specimens", main="Age Distribution")
-	})
+		hist(myAges, breaks = myBreaks, xlab="Age in years before 2003", ylab="Number of specimens", main="Age Distribution")
+	}),
 		
 }
 
