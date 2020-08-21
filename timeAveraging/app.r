@@ -75,7 +75,7 @@ server <- function(input, output, session) {
 		} else {
 			paste0("Viewing Nuculana taphria specimens from ", input$region)
 		}
-	}),
+	})
 	
 	# plot age distribution
 	output$ageDist <- renderPlot({
@@ -85,8 +85,7 @@ server <- function(input, output, session) {
 		myBreaks <- seq(0, maxX, counter)
 		par(cex=1.5, las=1)
 		hist(myAges, breaks = myBreaks, xlab="Age in years before 2003", ylab="Number of specimens", main="Age Distribution")
-	}),
-		
+	})	
 }
 
 shinyApp(ui = ui, server = server)
