@@ -14,9 +14,9 @@ ui <- fluidPage(
 			),
 			
 			# Nuculana_taphria
-			h1("<em>Nuculana taphria</em>"),
-			h5("Scale bar is 1 mm"),
-			img(src='Nuculana_taphria.jpg', height = "130px", width = "225px"), # actual size: height = "370px", width = "640px"
+			h2(em("Nuculana taphria")),
+			img(src='Nuculana_taphria.jpg', height = "145px", width = "250px"), # actual size: height = "370px", width = "640px"
+			h5("Scale bar is 1 mm", style="color:gray"),
 			br(),
 			
 			h5("All plots and statistics presented on the left are for the region selected below"),
@@ -71,11 +71,10 @@ server <- function(input, output, session) {
 	# make selection header
 	output$selections <- renderText({
 		if(input$region == "all") {
-			label <- "Viewing Nuculana taphria specimens from all regions."
+			"Viewing Nuculana taphria specimens from all regions."
 		} else {
-			label <- paste0("Viewing Nuculana taphria specimens from ", input$region)
+			paste0("Viewing Nuculana taphria specimens from ", input$region)
 		}
-		label
 	}),
 	
 	# plot age distribution
