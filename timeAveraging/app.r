@@ -22,7 +22,7 @@ ui <- fluidPage(
 			# select region
 			selectInput(inputId = "region",
 				label = "Region:",
-				choices = c("all","Palos Verdes","San Diego","San Pedro","Santa Barbara"),
+				choices = c("all","Palos Verdes","San Diego","San Pedro","Santa Barbara","all but San Diego"),
 				selected = "all"),
 			br(),	
 			
@@ -46,6 +46,12 @@ ui <- fluidPage(
 			h3("2. Age vs. Depth"),		
 			fluidRow(
 				plotOutput(outputId = "ageDepth", height = "600px", width = "600px")
+			), 
+			
+			## Age vs. Size
+			h3("3. Age vs. Size"),		
+			fluidRow(
+				plotOutput(outputId = "ageSize", height = "600px", width = "600px")
 			), 
 			
 			## Locality Map
@@ -96,6 +102,13 @@ server <- function(input, output, session) {
 		plot(myDepth[myAges>0], myAges[myAges>0], log="y", xlab="Water depth (m)", ylab="Age (years before 2003)")
 	})
 	
+	# plot age vs. size
+	output$ageSize <- renderPlot({
+		myAges <- ages()[,match("Weighted.age", colnames(ages()))]
+		mySize <- ages()[,match("Height.complete.specimens", colnames(ages()))]
+		par(cex=1.5, las=1, pch=16)
+		plot(mySize[myAges>0], myAges[myAges>0], log="y", xlab="Shell height (mm)", ylab="Age (years before 2003)")
+	})
 }
 
 shinyApp(ui = ui, server = server)
