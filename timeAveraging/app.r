@@ -13,7 +13,7 @@ ui <- fluidPage(
 			h2(em("Nuculana taphria")),
 			img(src='Nuculana_taphria.jpg', height = "145px", width = "250px"), # actual size: height = "370px", width = "640px"
 			h5("Scale bar is 1 mm", style="color:gray"),
-			h5("Image Credit: Tomašových et al. (2019).", style="color:gray"),
+			h5("Image source: Tomašových et al. (2019).", style="color:gray"),
 			br(),
 			
 			h5("All plots and statistics presented on the left are for the region selected below"),
@@ -42,6 +42,11 @@ ui <- fluidPage(
 				plotOutput(outputId = "ageDist")
 			), 
 			
+			## Age vs. Depth
+			h3("2. Age vs. Depth"),		
+			fluidRow(
+				plotOutput(outputId = "ageDepth", height = "600px", width = "600px")
+			), 
 			
 			## Locality Map
 			fluidRow(
@@ -79,9 +84,18 @@ server <- function(input, output, session) {
 		maxX <- max(myAges) + counter - (max(myAges) %% counter)
 		myBreaks <- seq(0, maxX, counter)
 		par(cex=1.5, las=1)
-		hist(myAges, breaks = myBreaks, xlab="Age in years before 2003", ylab="Number of specimens", main="Age Distribution")
+		hist(myAges, breaks = myBreaks, xlab="Age (years before 2003)", ylab="Number of specimens", main="Age Distribution")
 		box()
 	})	
+	
+	# plot age vs. depth
+	output$ageDepth <- renderPlot({
+		myAges <- ages()[,match("Weighted.age", colnames(ages()))]
+		myDepth <- ages()[,match("Depth", colnames(ages()))]
+		par(cex=1.5, las=1, pch=16)
+		plot(myDepth[myAges>0], myAges[myAges>0], log="y", xlab="Water depth (m)", ylab="Age (years before 2003)")
+	})
+	
 }
 
 shinyApp(ui = ui, server = server)
