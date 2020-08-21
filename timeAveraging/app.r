@@ -8,10 +8,6 @@ ui <- fluidPage(
 	sidebarLayout(
 
 		sidebarPanel(
-			## Title with selections
-			fluidRow(
-				h2(textOutput(outputId = "selections"), style="color:blue")
-			),
 			
 			# Nuculana_taphria
 			h2(em("Nuculana taphria")),
@@ -30,7 +26,7 @@ ui <- fluidPage(
 			br(),	
 			
 			# add more selections here
-			width=3,
+			width=3
 		),
 
 		mainPanel(
@@ -42,7 +38,7 @@ ui <- fluidPage(
 			## Age distribution of shells
 			h3("1. Age distribution of shells"),		
 			fluidRow(
-				tableOutput(outputId = "ageDist")
+				plotOutput(outputId = "ageDist")
 			), 
 			
 			
@@ -62,29 +58,28 @@ server <- function(input, output, session) {
 	rawData <- read.delim(file="tomasovychAges.tsv")
 	
 	# Parse Data		
-	if(intput$region == "all") {
-		ages <- rawData
-	} else {
-		ages <- subset(rawData, Region == input$region)
-	}
+	ages <- reactive({
+		parseData(rawData, input$region)
+	})
+	
+	topLab <- reactive ({
+		topLabel(input$region)
+	})
 	
 	# make selection header
 	output$selections <- renderText({
-		if(input$region == "all") {
-			"Viewing Nuculana taphria specimens from all regions."
-		} else {
-			paste0("Viewing Nuculana taphria specimens from ", input$region)
-		}
+		topLab()
 	})
 	
 	# plot age distribution
 	output$ageDist <- renderPlot({
-		myAges <- ages[,match("Weighted.age", colnames(ages))]
+		myAges <- ages()[,match("Weighted.age", colnames(ages()))]
 		counter <- 500
 		maxX <- max(myAges) + counter - (max(myAges) %% counter)
 		myBreaks <- seq(0, maxX, counter)
 		par(cex=1.5, las=1)
 		hist(myAges, breaks = myBreaks, xlab="Age in years before 2003", ylab="Number of specimens", main="Age Distribution")
+		box()
 	})	
 }
 
