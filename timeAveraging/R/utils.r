@@ -12,7 +12,7 @@ topLabel <- function(region) {
 	if(region == "all") {
 		topLabel <- "Viewing Nuculana taphria specimens from all regions."
 	} else {
-		topLabel <- paste0("Viewing Nuculana taphria specimens from the ", region, " region.")
+		topLabel <- paste0("Viewing specimens from the ", region, " region.")
 	}
 	return(topLabel)
 }
