@@ -51,26 +51,26 @@ ui <- fluidPage(
 			),
 			
 			## Number of Sites, species and occurrences (live and dead)
-			h3("Counts of Live and Dead Individuals & Species"),		
+			h3("1. Counts of Live and Dead Individuals & Species"),		
 			fluidRow(
 				tableOutput(outputId = "env_stats")
 			), 
 			
 			## Live - Dead cross plots
 			fluidRow(
-				h3("Comparisons of Living and Death Assemblages"),
+				h3("2. Comparisons of Living and Death Assemblages"),
 				plotOutput(outputId = "liveDeadPlots", height = "500px", width = "1000px")
 			),
 			
 			## aggregate Live - Dead similarity
 			fluidRow(
-				h3("Similarity between pooled living and death assembalges"),
+				h3("3. Similarity between pooled living and death assembalges"),
 				tableOutput(outputId = "liveDeadSimPooled")
 			),
 			
 			## Live - Dead similarity
 			fluidRow(
-				h3("Similarity between live and death assembalges"),
+				h3("4. Similarity between live and death assembalges"),
 				plotOutput(outputId = "liveDeadSim", height = "500px", width = "1000px")
 			),
 			
@@ -136,7 +136,7 @@ server <- function(input, output, session) {
 	
 	# make header in main section showing comparison
 	output$compSelections <- renderText({
-		paste0(input$site1, " vs. ", input$site2)
+		paste0("5. ", input$site1, " vs. ", input$site2)
 	})
 	
 	# make species lists for two sites
