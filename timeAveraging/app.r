@@ -13,6 +13,7 @@ ui <- fluidPage(
 			h2(em("Nuculana taphria")),
 			img(src='Nuculana_taphria.jpg', height = "145px", width = "250px"), # actual size: height = "370px", width = "640px"
 			h5("Scale bar is 1 mm", style="color:gray"),
+			h5("Image Credit: Tomašových et al. (2019).", style="color:gray"),
 			br(),
 			
 			h5("All plots and statistics presented on the left are for the region selected below"),
