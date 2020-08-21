@@ -17,7 +17,14 @@ ui <- fluidPage(
 			# select region
 			selectInput(inputId = "region",
 				label = "Region:",
-				choices = c("all","Palos Verdes","San Diego","""San Pedro Santa Barbara""),
+				choices = c("all","Palos Verdes","San Diego","San Pedro","Santa Barbara"),
+				selected = "all"),
+			br(),
+			
+			# select depth range
+			selectInput(inputId = "depth",
+				label = "Depth Range (meters):",
+				choices = c("all","23-31","40-48","51-58","89"),
 				selected = "all"),
 			br(),	
 			
