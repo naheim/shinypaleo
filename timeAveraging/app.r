@@ -14,31 +14,12 @@ ui <- fluidPage(
 			h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
 			br(),
 			
-			# select environment
-			selectInput(inputId = "enviro",
-				label = "Environment:",
-				choices = c("all","intertidal sand flat","subtidal eel grass"),
-				selected = "all"),
-			br(),
-			
-			# select taxon
-			selectInput(inputId = "taxa",
-				label = "Taxon:",
-				choices = c("all","Bivalvia","Gastropoda"),
+			# select region
+			selectInput(inputId = "region",
+				label = "Region:",
+				choices = c("all","Palos Verdes","San Diego","""San Pedro Santa Barbara""),
 				selected = "all"),
 			br(),	
-			
-			# select two columns to compare
-			strong("Select two sites to compare (see map) (this only changes the two site comparison tables)"),
-			fluidRow(
-				column(6,
-					uiOutput("site1"),
-				),
-				column(6,
-					uiOutput("site2"),
-				),
-			),
-			br(),
 			
 			# add more selections here
 			width=3,
