@@ -109,6 +109,7 @@ server <- function(input, output, session) {
 	liveIn <- liveIn[is.element(environments[2,], c("inter_barren","sub_eelgrass")),]
 	
 	deadIn <- read.delim(file="warmeDead.tsv")
+	deadIn[,deadIn$Class == 'Bivalvia'] <- floor(deadIn[,species$Class == 'Bivalvia']/2)
 	# drop non-molluscan taxa and those not identified to species
 	deadIn <- deadIn[,is.element(colnames(deadIn), species$colName) & !grepl("_sp", colnames(deadIn))]
 	# drop minor environments
