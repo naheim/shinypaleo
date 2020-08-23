@@ -48,7 +48,7 @@ ui <- fluidPage(
 				mainPanel(					
 					## Title with selections
 					fluidRow(
-						h2(textOutput(outputId = "selections"), style="color:blue")
+						h2(textOutput(outputId = "liveDeadSelections"), style="color:blue")
 					),
 			
 					## Number of Sites, species and occurrences (live and dead)
@@ -124,7 +124,7 @@ ui <- fluidPage(
 				mainPanel(
 					## Title with selections
 					fluidRow(
-						h2(textOutput(outputId = "selections"), style="color:blue"),
+						h2(textOutput(outputId = "timeAvgeSelections"), style="color:blue"),
 					),
 		
 					## Age distribution of shells
@@ -179,7 +179,7 @@ ui <- fluidPage(
 					## model results
 					h3("Time averaging and diversity"),		
 					fluidRow(
-						plotOutput(outputId = "modelResults", height = "600px", width = "1200px"),
+						plotOutput(outputId = "modelResults", height = "600px", width = "600px"),
 					)
 				)
 			)	
@@ -226,7 +226,7 @@ server <- function(input, output, session) {
 	})
 	
 	# make selection header
-	output$selections <- renderText({
+	output$liveDeadSelections <- renderText({
 		paste0("Viewing ", input$taxa, " species in ", input$enviro, " environments.")
 	})
 	
@@ -358,7 +358,7 @@ server <- function(input, output, session) {
 	})
 	
 	# make selection header
-	output$selections <- renderText({
+	output$timeAvgeSelections <- renderText({
 		topLab()
 	})
 	
