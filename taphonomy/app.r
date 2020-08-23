@@ -265,7 +265,7 @@ server <- function(input, output, session) {
 		
 		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
 		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
-		sim <- simCalc(newLive2, newDead2)[,match(c("jaccard","chao.curtis"), colnames(sim))]
+		sim <- simCalc(newLive2, newDead2)[,match(c("jaccard","chao.jaccard"), colnames(sim))]
 		colnames(sim) <- c("Jaccard similarity index", "Chao-Jaccard similarity index")
 		sim
 	}, rownames=TRUE)
