@@ -162,15 +162,15 @@ ui <- fluidPage(
 					# select immigration probability
 					sliderInput(inputId = "immig",
 						label="Probability of immigration:",
-						min = 0.01, max = 0.99,
-						value = 0.3),
+						min = 0.1, max = 0.9,
+						value = 0.5),
 					br(),	
 		
 					# select level of averaging--shell lifetime
-					sliderInput(inputId = "timeavg",
-						label="Years shells persist in death assemblage:",
-						min = 10, max = 500,
-						value = 100),
+					#sliderInput(inputId = "timeavg",
+					#	label="Years shells persist in death assemblage:",
+					#	min = 2, max = 200,
+					#	value = 50),
 								
 					# add more selections here
 					width=3
@@ -179,7 +179,7 @@ ui <- fluidPage(
 					## model results
 					h3("Time averaging and diversity"),		
 					fluidRow(
-						plotOutput(outputId = "modelResults", height = "600px", width = "600px"),
+						plotOutput(outputId = "modelResults", height = "600px", width = "900px"),
 					)
 				)
 			)	
@@ -215,7 +215,7 @@ server <- function(input, output, session) {
 	liveCounts <- tempCounts$live
 	deadCounts <- tempCounts$dead
 	
-	# Parse Data		
+	# Parse Live-Dead Data		
 	tempLive <- reactive({
 		req(input$taxa, input$enviro)
 		parseDataLiveDead(liveCounts, input$taxa, input$enviro, species, environments)
@@ -265,8 +265,8 @@ server <- function(input, output, session) {
 		
 		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
 		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
-		sim <- simCalc(newLive2, newDead2)[,-1]
-		colnames(sim) <- c("Jaccard similarity index", "Chao-Jaccard similarity index")
+		sim <- simCalc(newLive2, newDead2)[,match(c("jaccard","bray.curtis"), colnames(sim))]
+		colnames(sim) <- c("Jaccard similarity index", "Bray-Curtis similarity index")
 		sim
 	}, rownames=TRUE)
 	
@@ -391,10 +391,11 @@ server <- function(input, output, session) {
 	
 	# simple time averaging model
 	output$modelResults <- renderPlot({
-		modRes <- taModel(nT=100, pDest=1/input$timeavg, pImmig=input$immig, pDeath=0.25)
-		par(mfrow=c(1:2), pch=16, las=1)
-		plot(modRes$deadS_liveS, 1:nrow(modRes), xlab="Richness inflation", ylab="Years", type="l", lwd=1.25)
-		plot(modRes$chao.jaccard, 1:nrow(modRes), xlim=c(0,1), xlab="Similarity to initial assemblage", ylab="Years", type="l", lwd=1.25)
+		modRes <- taModel(nT=1000, pDest=1/10, pImmig=input$immig, pDeath=0.9)
+		par(mfrow=c(1,2), pch=16, las=1, cex=1.5)
+		boxplot(modRes$deadS_liveS, ylab="Richness inflation", range=0, lwd=1.25, ylim=c(0.5,5), lty=1)
+		plot(modRes$chao.jaccard, 1:nrow(modRes), xlim=c(0,1), xlab="Live-dead similarity", ylab="Years", type="l", lwd=1.25)
+		mtext(paste("Variance in composition: ", signif(var(modRes$chao.jaccard),3), sep="", adj=0), side=3, cex=1.5)
 	})
 }
 

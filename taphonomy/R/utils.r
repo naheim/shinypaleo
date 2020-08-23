@@ -39,36 +39,46 @@ parseDataLiveDead <- function(x, taxon, env, species, environments) {
 }
 
 simCalc <- function(live, dead) {
-	if(class(live) == "numeric") {
+	if(is.element(class(live), c("integer","numeric"))) {
 		n <- 1
-		sim <- data.frame(matrix(NA, nrow=n, ncol=3, dimnames=list("1", c("pctSim","jaccard","chao.jaccard"))))
 	} else {
 		n <- nrow(live)
-		sim <- data.frame(matrix(NA, nrow=n, ncol=3, dimnames=list(rownames(live), c("pctSim","jaccard","chao.jaccard"))))
 	}
+	sim <- data.frame("bray.curtis2" = rep(NA, n), "bray.curtis" = rep(NA, n), "pctSim" = rep(NA, n),"jaccard" = rep(NA, n),"chao.jaccard" = rep(NA, n))
+
 	for(i in 1:n) {
-		if(class(live) == "numeric") {
-			x <- live 
+		if(n == 1) {
+			x <- live
 			y <- dead
 		} else {
 			x <- live[i,] 
 			y <- dead[i,]
 		}
 		comm <- rbind(x[x > 0 | y > 0], y[x > 0 | y > 0])
+		common <- comm[,comm[1,] > 0 & comm[2,] > 0]
+		commonPct <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
+		
+		# bray-curtis
+		sim$bray.curtis[i] <- sum(abs(x-y))/sum(comm)
+		if(class(common)[1] == "integer") {
+			U <- commonPct[1]
+			V <- commonPct[2]
+			sim$bray.curtis2[i] <- 1 - 2*min(common)/sum(comm)
+		} else {
+			U <- sum(commonPct[1,])
+			V <- sum(commonPct[2,])
+			sim$bray.curtis2[i] <- 2*sum(apply(common, 2, min))/sum(comm)
+		}
+		
+		# pct Sim
 		sim$pctSim[i] <- 2*sum(apply(comm, 2, min)) / (sum(comm[1,]) + sum(comm[2,]))
 		nCommon <- ncol(data.frame(comm[,comm[1,] > 0 & comm[2,] > 0])) # common
 		nTotal <- ncol(comm) # all present
+		
+		#jaccard
 		sim$jaccard[i] <- nCommon / nTotal
 		
 		# Chao–Jaccard for two assemblages = UV/(U + V − UV)
-		common <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
-		if(class(common)[1] == "numeric") {
-			U <- common[1]
-			V <- common[2]
-		} else {
-			U <- sum(common[1,])
-			V <- sum(common[2,])
-		}
 		sim$chao.jaccard[i] <- U*V / (U+V-U*V)
 	}
 	return(sim)
@@ -103,27 +113,27 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	#pImmig <- 0.25
 	#pDeath <- 0.1
 	
-	species <- read.delim(file="../liveDead/warmeSpecies.tsv")
+	species <- read.delim(file="warmeSpecies.tsv")
 	species <- subset(species, Phylum == 'Mollusca') # include only mollusca
 	
-	liveIn <- read.delim(file="../liveDead/warmeLive.tsv")
-	# drop non-molluscan taxa and those not identified to species
-	liveIn <- liveIn[,is.element(colnames(liveIn), species$colName) & !grepl("_sp", colnames(liveIn))]
-	
-	deadIn <- read.delim(file="../liveDead/warmeDead.tsv")
+	deadIn <- read.delim(file="warmeDead.tsv")
 	# drop non-molluscan taxa and those not identified to species
 	deadIn[,deadIn$Class == 'Bivalvia'] <- floor(deadIn[,species$Class == 'Bivalvia']/2)
 	deadIn <- deadIn[,is.element(colnames(deadIn), species$colName) & !grepl("_sp", colnames(deadIn))]
 	
 	metaComm <- rep(names(colSums(deadIn)), colSums(deadIn))
 
-	liveCom <- colSums(liveIn[match(c("site_25","site_26","site_27","site_28"), rownames(liveIn)),])
-	deadCom <- colSums(deadIn[match(c("site_25","site_26","site_27","site_28"), rownames(deadIn)),])
-
-	# initial conditions
+	liveCom <- table(factor(sample(metaComm, 200, replace=TRUE), levels=unique(metaComm)))
+	deadCom <- table(factor(sample(metaComm, 2000, replace=TRUE), levels=unique(metaComm)))
 	initAssemb <- rbind(liveCom, deadCom)
+
+	initLive <- rep(names(liveCom), liveCom)
+	initDead <- rep(names(deadCom), deadCom)
+	
+	# initial conditions	
 	initSim <- simCalc(initAssemb[1,initAssemb[1,]>0 | initAssemb[2,]>0], initAssemb[2,initAssemb[1,]>0 | initAssemb[2,]>0])
-	initStats <- data.frame("deadS_liveS"=length(unique(deadCom))/length(unique(liveCom)),"jaccard"=initSim$jaccard,"chao.jaccard"=initSim$chao.jaccard)
+	
+	initStats <- data.frame("deadS_liveS"=length(unique(sample(initDead,100)))/length(unique(sample(initLive,100))),"jaccard"=initSim$jaccard,"chao.jaccard"=initSim$chao.jaccard,"bray.curtis"=initSim$bray.curtis)
 	
 	liveCom <- rep(names(liveCom), liveCom)
 	deadCom <- rep(names(deadCom), deadCom)
@@ -131,7 +141,7 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	livingAssemb <- sample(liveCom, length(liveCom))
 	deathAssemb <- sample(deadCom, length(deadCom))
 	
-	output <- data.frame(matrix(NA, nrow=nT, ncol=3, dimnames=(list(1:nT, c("deadS_liveS","jaccard","chao.jaccard")))))
+	output <- data.frame(matrix(NA, nrow=nT, ncol=4, dimnames=(list(1:nT, c("deadS_liveS","jaccard","chao.jaccard","bray.curtis")))))
 	
 	for(i in 1:nT) {
 		# decay death assemblage
@@ -168,12 +178,11 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 		finalDead <- as.numeric(table(factor(deathAssemb, levels=unique(metaComm))))
 			
 		simStats <- simCalc(finalLive, finalDead)
-		output$deadS_liveS[i] <- length(unique(deathAssemb))/length(unique(livingAssemb))
+		output$deadS_liveS[i] <- length(unique(sample(deathAssemb,100)))/length(unique(sample(livingAssemb,100)))
 		output$jaccard[i] <- simStats$jaccard
 		output$chao.jaccard[i] <- simStats$chao.jaccard
-
-
+		output$bray.curtis[i] <- simStats$bray.curtis
 	}
 	output <- rbind(initStats, output)
-	#return(output)
+	return(output)
 }
