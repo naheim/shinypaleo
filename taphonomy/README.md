@@ -6,12 +6,14 @@ To run the app in R, you need to have the *shiny* R library installed and run th
 
 ````r
 library(shiny)
-runGitHub("shinypaleo", "naheim", subdir="timeAveraging")
+runGitHub("shinypaleo", "naheim", subdir="taphonomy")
 ````
 
 Running this code will open a new window/tab in your default browser and load the shiny app. 
 
 **When you're done using the app, return to the R console and hit 'esc'.**
 
-## Citation
+## Citations
+Warme, J. (1971). Paleoecological aspects of a modern coastal lagoon. *University of California Publications in Geological Sciences* 87:1-131.
+
 Tomasovych, A., Kidwell, S., Barber, R. (2016). Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period. *Paleobiology* 42(01):54-76. [DOI: 10.1017/pab.2015.30](https://doi.org/10.1017/pab.2015.30)
