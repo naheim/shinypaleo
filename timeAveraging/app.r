@@ -109,6 +109,9 @@ server <- function(input, output, session) {
 		par(cex=1.5, las=1, pch=16)
 		plot(mySize[myAges>0], myAges[myAges>0], log="y", xlab="Shell height (mm)", ylab="Age (years before 2003)")
 	})
+	
+	# simple time averaging model
+	# input 
 }
 
 shinyApp(ui = ui, server = server)
