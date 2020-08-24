@@ -118,7 +118,7 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	
 	deadIn <- read.delim(file="warmeDead.tsv")
 	# drop non-molluscan taxa and those not identified to species
-	deadIn[,deadIn$Class == 'Bivalvia'] <- floor(deadIn[,species$Class == 'Bivalvia']/2)
+	deadIn[,species$Class == 'Bivalvia'] <- floor(deadIn[,species$Class == 'Bivalvia']/2)
 	deadIn <- deadIn[,is.element(colnames(deadIn), species$colName) & !grepl("_sp", colnames(deadIn))]
 	
 	metaComm <- rep(names(colSums(deadIn)), colSums(deadIn))
