@@ -60,7 +60,7 @@ simCalc <- function(live, dead) {
 		
 		# bray-curtis
 		sim$bray.curtis[i] <- sum(abs(x-y))/sum(comm)
-		if(class(common)[1] == "integer") {
+		if(is.null(dim(common))) {
 			U <- commonPct[1]
 			V <- commonPct[2]
 			sim$bray.curtis2[i] <- 1 - 2*min(common)/sum(comm)

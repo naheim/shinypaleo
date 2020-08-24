@@ -252,7 +252,7 @@ server <- function(input, output, session) {
 		colnames(siteTable)[3:6] <- c(paste0(input$site1,":live"), paste0(input$site1,":dead"),paste0(input$site2,":live"), paste0(input$site2,":dead"))
 		# add total
 		siteTable <- rbind(siteTable, c("","Total Counts", colSums(siteTable[,3:6])))
-	})
+	}, digits=0)
 	
 	# similarities for two sites
 	output$siteListSim <- renderTable({
@@ -285,7 +285,7 @@ server <- function(input, output, session) {
 		
 		statTable <- rbind("Number of Sites"=nSites, "Number of Speices"=nSpecies, "Number of Occurrences"=nOccur)
 
-	}, rownames=TRUE)
+	}, rownames=TRUE, digits=0)
 	
 	# plot live vs. dead
 	output$liveDeadPlots <- renderPlot({
@@ -307,6 +307,8 @@ server <- function(input, output, session) {
 	})
 	
 	# pooled similarity
+	reactive({print(colSums(tempLive()))})
+	
 	output$liveDeadSimPooled <- renderTable({
 		sim <- simCalc(colSums(tempLive()), colSums(tempDead()))
 		sim <- data.frame("Jaccard similarity index"=sim$jaccard, "Chao-Jaccard similarity index"=sim$chao.jaccard, check.names = FALSE)
