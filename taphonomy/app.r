@@ -394,7 +394,9 @@ server <- function(input, output, session) {
 	output$modelResults <- renderPlot({
 		modRes <- taModel(nT=1000, pDest=1/10, pImmig=input$immig, pDeath=0.9)
 		par(mfrow=c(1,2), pch=16, las=1, cex=1.5)
-		boxplot(modRes$deadS_liveS, ylab="Richness inflation", range=0, lwd=1.25, ylim=c(0.5,5), lty=1)
+		plot(1:10, type="n", xlim=c(0.5,1.5), ylim=c(0,4.25), xaxt="n", xlab="", ylab="Richness inflation")
+		abline(h=1, lty=2)
+		boxplot(modRes$deadS_liveS, range=0, lwd=1.25, lty=1, add=TRUE)
 		plot(modRes$chao.jaccard, 1:nrow(modRes), xlim=c(0,1), xlab="Live-dead similarity", ylab="Years", type="l", lwd=1.25)
 		mtext(paste("Variance in composition: ", signif(var(modRes$chao.jaccard),3), sep="", adj=0), side=3, cex=1.5)
 	})
