@@ -38,51 +38,50 @@ parseDataLiveDead <- function(x, taxon, env, species, environments) {
 	return(xReduced)
 }
 
-simCalc <- function(live, dead, easteregg=NULL) {
-	if(is.element(class(live), c("integer","numeric"))) {
-		n <- 1
+simMeasures <- function(x,y) {
+	comm <- rbind(x[x > 0 | y > 0], y[x > 0 | y > 0])
+	common <- comm[,comm[1,] > 0 & comm[2,] > 0]
+	commonPct <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
+	
+	# bray-curtis
+	bray.curtis <- sum(abs(x-y))/sum(comm)
+	if(is.null(dim(common))) {
+		U <- commonPct[1]
+		V <- commonPct[2]
+		bray.curtis2 <- 1 - 2*min(common)/sum(comm)
 	} else {
-		n <- nrow(live)
+		U <- sum(commonPct[1,])
+		V <- sum(commonPct[2,])
+		bray.curtis2 <- 2*sum(apply(common, 2, min))/sum(comm)
 	}
-	sim <- data.frame("bray.curtis2" = rep(NA, n), "bray.curtis" = rep(NA, n), "pctSim" = rep(NA, n),"jaccard" = rep(NA, n),"chao.jaccard" = rep(NA, n))
 
-	for(i in 1:n) {
-		if(n == 1) {
-			x <- live
-			y <- dead
-		} else {
-			x <- live[i,] 
-			y <- dead[i,]
-		}
-		
-		comm <- rbind(x[x > 0 | y > 0], y[x > 0 | y > 0])
-		common <- comm[,comm[1,] > 0 & comm[2,] > 0]
-		commonPct <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
-		
-		# bray-curtis
-		sim$bray.curtis[i] <- sum(abs(x-y))/sum(comm)
-		if(is.null(dim(common))) {
-			U <- commonPct[1]
-			V <- commonPct[2]
-			sim$bray.curtis2[i] <- 1 - 2*min(common)/sum(comm)
-		} else {
-			U <- sum(commonPct[1,])
-			V <- sum(commonPct[2,])
-			sim$bray.curtis2[i] <- 2*sum(apply(common, 2, min))/sum(comm)
-		}
-		
-		# pct Sim
-		sim$pctSim[i] <- 2*sum(apply(comm, 2, min)) / (sum(comm[1,]) + sum(comm[2,]))
-		nCommon <- ncol(data.frame(comm[,comm[1,] > 0 & comm[2,] > 0])) # common
-		nTotal <- ncol(comm) # all present
-		
-		#jaccard
-		sim$jaccard[i] <- nCommon / nTotal
-		
-		# Chao–Jaccard for two assemblages = UV/(U + V − UV)
-		sim$chao.jaccard[i] <- U*V / (U+V-U*V)
-	}
+	# pct Sim
+	pctSim <- 2*sum(apply(comm, 2, min)) / (sum(comm[1,]) + sum(comm[2,]))
+	nCommon <- ncol(data.frame(comm[,comm[1,] > 0 & comm[2,] > 0])) # common
+	nTotal <- ncol(comm) # all present
+
+	#jaccard
+	jaccard <- nCommon / nTotal
+
+	# Chao–Jaccard for two assemblages = UV/(U + V − UV)
+	chao.jaccard <- U*V / (U+V-U*V)
+	
+	sim <- c(bray.curtis2, bray.curtis, pctSim, jaccard, chao.jaccard)
+	names(sim) <- c('bray.curtis2','bray.curtis','pctSim','jaccard','chao.jaccard')
 	return(sim)
+}
+
+simCalc <- function(live, dead=NULL, easteregg=NULL) {
+	if(is.null(dead)) {
+		combos <- combn(1:nrow(live),2)
+		sim <- sapply(seq.int(ncol(combos)), function(i) simMeasures(live[combos[1,i],], live[combos[2,i],]), simplify=TRUE)
+		#sim <- combn(live, 2, simMeasures(live))	
+	} else if(is.element(class(live), c("integer","numeric"))) {
+		sim <- simMeasures(live, dead)
+	} else {
+		sim <- sapply(seq.int(nrow(live)), function(i) simMeasures(live[i,], dead[i,]), simplify=TRUE)
+	}
+	return(as.data.frame(t(sim)))
 }
 
 # Parse Data--time averaging

@@ -1,10 +1,10 @@
 # Activity 1—Constructing the Fossil Record: Living Communities, Dead Shells, and Time-Averaging
 
-The fossil record allows us to reconstruct the biology of Earth’s ancient past. However, the fossil record does not perfectly record every aspect of living communities: some information is missing, while other biological aspets may be over-represented. Paleontologists often want to know what species were present and in what abundance at a particular location and during a specific interval of geological time. In many cases we are fortunate enough to have fossil samples to help us answer that question. However, properly interpreting fossil assemblages reqires knowing how the fossil record was constructed. This exercise will allow you to explore some aspects of how living communities become fossil assemblages.
+The fossil record allows us to reconstruct the biology of Earth’s ancient past. However, the fossil record does not perfectly record every aspect of living communities: some information is missing, while other biological aspects may be over-represented. Paleontologists often want to know what species were present and in what abundance at a particular location and during a specific interval of geological time. In many cases we are fortunate enough to have fossil samples to help us answer that question. However, properly interpreting fossil assemblages requires knowing how the fossil record was constructed. This exercise will allow you to explore some aspects of how living communities become fossil assemblages.
 
 As you learned in the online lectures, time-averaging is the mixing of individuals in a fossil or death assemblage that did not actually live at the same time. Time averaging  typically increases species richness (the number of species present) in a death assemblage relative to the corresponding life assemblage from that location. Time-averaging also makes death assemblages from different locations look more similar to each other than the life assemblages actually are.
 
-This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language R. For this exercise you will use the *Taphonomy* shiny app, which you will need to launch using R or RStudo by running the following two lines\*:
+This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language R. For this exercise you will use the *Taphonomy* shiny app, which you will need to launch using R or RStudio by running the following two lines\*:
 
 ```` r
 library(shiny)
@@ -19,23 +19,32 @@ Executing the above code in the R console or RStudio will open a browser window.
 
 ## Part 1: Live-Dead Data
 
-This tab displays what is typically called 'live-dead' data. They are called this because the data are composed of samples containing both living and dead individuals. Of course, the only species that accumulate dead individuals with any abunace are those with hard skeletons. For this exercise, we are focusing on bivalve (clam) and gastropod (snail) mollusks from coastal waters off of Southern California.
+This tab displays what is typically called 'live-dead' data. They are called this because the data are composed of samples containing both living and dead individuals. Of course, the only species that accumulate dead individuals with any abundace are those with hard skeletons. For this exercise, we are focusing on bivalve (clam) and gastropod (snail) mollusks from coastal waters off of Southern California.
 
-The data presented in the 'Live-Dead Data' tab were compiled by John Warme in the 1960s for his PhD dissertation. The samples were collected in Mugu Lagoon, which is a small back-barrier lagoon in Ventura County California (between Santa Barbara and Los Angeles). Warme collected 45 samples within Mugu lagoon (see map at bottom of app page). For each sample all of the living bivalve and gastropod species were identified and individuals counted. He also identified and counted all dead individuals (empty shells) from the same samples. There are two major environments withing Mugu Lagoon: subtidal eel grass beds and intertidal sand flats. 
+The data presented in the 'Live-Dead Data' tab were compiled by John Warme in the 1960s for his PhD dissertation. The samples were collected in Mugu Lagoon, which is a small back-barrier lagoon in Ventura County California (between Santa Barbara and Los Angeles). Warme collected 45 samples within Mugu lagoon (see map at bottom of app page). For each sample all of the living bivalve and gastropod species were identified and individuals counted. He also identified and counted all dead individuals (empty shells) from the same samples. There are two major environments within Mugu Lagoon: subtidal eel grass beds and intertidal sand flats. 
 
 The table at the top of the page (labeled 1) shows the numbers of sites containing living and dead individuals, the numbers of living and dead species at each size, and the total numbers of living and dead individuals sampled.
 
-The first set of plots (labeled 2) compares the numbers of species and individuals in the living and death assemblages for each sample site. The dashed line on each plot is the 1-to-1 line: samples that fall exactly on this line have the same value in the living and death assemblage. Examine the two plots and make sure you understand what is being displayed. Note that both axes are shown on a log<sub>10</sub> scale. This means that each change of one unit on the axis represents a factor-of-ten change in the data. (e.g., the distane between 10 and 100 is the same as between 100 and 1000.) We ofetn plot data on a log-scale when the data span a large range in values and most are small.
+The first set of plots (labeled 2) compares the numbers of species and individuals in the living and death assemblages for each sample site. The dashed line on each plot is the 1-to-1 line: samples that fall exactly on this line have the same value in the living and death assemblage. Examine the two plots and make sure you understand what is being displayed. Note that both axes are shown on a log<sub>10</sub> scale. This means that each change of one unit on the axis represents a factor-of-ten change in the data. (e.g., the distance between 10 and 100 is the same as between 100 and 1000.) We often plot data on a log-scale when the data span a large range in values and most are small.
 
 _Answer the following questions_
 
 1. Which environment do you think is more diverse?
-2. Which taon do you think is more diverse?
+2. Which taxon do you think is more diverse?
 3. In general, which assemblage, the living or death, has more species and individuals? Why do you think this is?
 4. Is your answer above true for all samples? How do you know?
 5. Based on the data presented in section 1 and 2 of the app, do you think the death assemblage is a good representation of the living assemblage? Why or why not?
 
-So far you've explored how the number of individuals and species might differe between corresponding living and death assemblages. There are, however, other ways of comparing the biological diversity of two samples. One of those is called *similarity*. As the name suggests, similarity measures how similar or different two samples are and there are many different metrics we could use. Here we will look at two versions of the Jaccard similarity metric. The first version of the Jaccard similarity is simply the percentage of species that are shared between two samples. In our case, the two samples are the living and death assemblages from a site. 
+So far you've explored how the number of individuals and species might differ between corresponding living and death assemblages. There are, however, other ways of comparing the biological diversity of two samples. One of those is called *similarity*. As the name suggests, similarity measures how similar or different two samples are and there are many different metrics we could use. Here we will look at two versions of the Jaccard similarity metric. The first version of the Jaccard similarity is simply the percentage of species that are shared between two samples. In our case, the two samples are the living and death assemblages from a site. The other version of the Jaccard similarity uses the abundances of each species and it only considers the abundances of the species that are in both samples. The mathematics behind the index is not important here, but by only looking at shared species, the metric is less sensitive to sample size. Both versions of Jaccard similarity vary between zero and one, where zero means the two samples are totally different and a value of 1 means they are identical.
+
+The table in section 3 shows both versions of Jaccard similarity for the pooled living and death assemblages. Pooled means we've combined the 45 individual living samples into a single assemblage (while maintaining the living and death components, of course). The plots of section 4, are frequency distributions, or histograms, for the Jaccard similarities of individual sites. The height of each bar sows the number sites with live-dead similarity corresponding to the range of values indicated on the x-axis.
+
+Finally, section 4 allows you to see the raw data for individual pairs of sites as well as the live-dead similarities for the two . Explore the with select 
+
+_Answer the following questions_
+
+6. Do bivalves or gastropods show more similarity between the living and death assemblages?
+7. How do the two metrics of similarity—Jaccard, which ignores 
 
 
 

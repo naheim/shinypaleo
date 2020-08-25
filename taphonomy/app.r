@@ -9,7 +9,8 @@ ui <- fluidPage(
 		tabPanel("Live-Dead Data", fluid = TRUE,
 			sidebarLayout(
 				sidebarPanel(					
-					h3("Selection Taxa & Evnironment"),
+					h3("Please be patient, page may take up to 30 seconds to load", style="color:red"),
+					h5("Wiat until you see graphs appear", style="color:red"),
 					br(),
 			
 					h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
@@ -30,7 +31,8 @@ ui <- fluidPage(
 					br(),	
 			
 					# select two columns to compare
-					strong("Select two sites to compare (see map) (this only changes the two site comparison tables)"),
+					strong("Select two sites to compare (see map) (this only changes part 5.)"),
+					p("Always select site 1 first."),
 					fluidRow(
 						column(6,
 							uiOutput("site1")
@@ -57,25 +59,25 @@ ui <- fluidPage(
 					## Number of Sites, species and occurrences (live and dead)
 					h3("1. Counts of Live and Dead Individuals & Species"),		
 					fluidRow(
-						tableOutput(outputId = "env_stats")
+						div(tableOutput(outputId = "env_stats"), style = "font-size:120%")
 					), 
 			
 					## Live - Dead cross plots
 					fluidRow(
 						h3("2. Comparisons of Living and Death Assemblages"),
-						plotOutput(outputId = "liveDeadPlots", height = "500px", width = "1000px")
+						plotOutput(outputId = "liveDeadPlots", height = "550px", width = "1000px")
 					),
 			
 					## aggregate Live - Dead similarity
 					fluidRow(
 						h3("3. Similarity between pooled living and death assembalges"),
-						tableOutput(outputId = "liveDeadSimPooled")
+						div(tableOutput(outputId = "liveDeadSimPooled"), style = "font-size:120%")
 					),
 			
 					## Live - Dead similarity
 					fluidRow(
 						h3("4. Similarity between live and death assembalges"),
-						plotOutput(outputId = "liveDeadSim", height = "500px", width = "1000px")
+						plotOutput(outputId = "liveDeadSim", height = "500px", width = "500px")
 					),
 			
 					## Live - Dead comparison of two sites
@@ -87,7 +89,13 @@ ui <- fluidPage(
 			
 					fluidRow(
 						strong("Live-dead similarity"),
-						tableOutput(outputId = "siteListSim")
+						div(tableOutput(outputId = "siteListSim"), style = "font-size:120%")
+					),
+					
+					## 6 similarity among living and among death assemblages
+					fluidRow(
+						h3("6. Similarity between sites within living and death assemblages"),
+						plotOutput(outputId = "liveDeadSim2", width="500px", height="1000px")
 					),
 			
 					## Locality Map
@@ -166,6 +174,10 @@ ui <- fluidPage(
 		tabPanel("Time Averaging Model", fluid = TRUE,
 			sidebarLayout(
 				sidebarPanel( 
+					h3("Please be patient, page may take a few seconds to load", style="color:red"),
+					h5("Wiat until you see graphs appear", style="color:red"),
+					br(),
+					
 					# select immigration probability
 					sliderInput(inputId = "immig",
 						label="Probability of immigration:",
@@ -277,8 +289,8 @@ server <- function(input, output, session) {
 		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
 		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
 		sim <- simCalc(newLive2, newDead2)
-		sim <- sim[,match(c("jaccard","chao.jaccard"), colnames(sim))]
-		colnames(sim) <- c("Jaccard similarity index", "Chao-Jaccard similarity index")
+		sim <- data.frame(sim[,match(c("chao.jaccard"), colnames(sim))])
+		colnames(sim) <- c("Chao-Jaccard similarity index")
 		rownames(sim) <- c(input$site1, input$site2)
 		sim
 	}, rownames=TRUE)
@@ -295,7 +307,7 @@ server <- function(input, output, session) {
 		nSpecies <- c('live'=length(nLiveSp[nLiveSp > 0]), 'dead'=length(nDeadSp[nDeadSp > 0]))
 		nOccur <- c('live'=sum(tempLive()), 'dead'=sum(tempDead()))
 		
-		statTable <- rbind("Number of Sites"=nSites, "Number of Speices"=nSpecies, "Number of Occurrences"=nOccur)
+		statTable <- rbind("Number of Sites"=nSites, "Number of Speices"=nSpecies, "Number of Individuals"=nOccur)
 
 	}, rownames=TRUE, digits=0)
 	
@@ -314,7 +326,7 @@ server <- function(input, output, session) {
 		par(pch=16, mfrow=c(1,2), cex=1.5, las=1)
 		plot(nLiveSp, nDeadSp, xlab="Number of live species", ylab="Number of dead species", main="Species", log="xy")
 		abline(a=0, b=1, lty=2)
-		plot(nLiveSite, nDeadSite, xlab="Number of live specimens", ylab="Number of dead specimens", main="Specimens", log="xy")
+		plot(nLiveSite, nDeadSite, xlab="Number of live individuals", ylab="Number of dead individuals", main="Individuals", log="xy")
 		abline(a=0, b=1, lty=2)
 	})
 	
@@ -323,17 +335,26 @@ server <- function(input, output, session) {
 	
 	output$liveDeadSimPooled <- renderTable({
 		sim <- simCalc(colSums(tempLive()), colSums(tempDead()))
-		sim <- data.frame("Jaccard similarity index"=sim$jaccard, "Chao-Jaccard similarity index"=sim$chao.jaccard, check.names = FALSE)
+		sim <- data.frame("Chao-Jaccard similarity index"=sim$chao.jaccard, check.names = FALSE)
 		sim
 	}, rownames=FALSE)
 	
 	# plot similarity
 	output$liveDeadSim <- renderPlot({
 		sim <- simCalc(tempLive(), tempDead())
-		par(pch=16, cex.axis=1.5, cex.lab=1.5, las=1, mfrow=c(1,2))
-		hist(sim$jaccard, breaks=seq(0,1,0.05), xlab="Jaccard similarity index", ylab="Number of sites", main="Similarity-Species")
+		par(cex.axis=1.5, cex.lab=1.5, las=1, mfrow=c(1,1))
+		hist(sim$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Live-Dead Similarity")
+		box()	
+	})
+	
+	# plot similarity among live and dead samlpes
+	output$liveDeadSim2 <- renderPlot({
+		simLive <- simCalc(tempLive(), NULL)
+		simDead <- simCalc(tempDead(), NULL)
+		par(cex.axis=1.5, cex.lab=1.5, las=1, mfrow=c(2,1))
+		hist(simLive$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Live-Live Similarity")
 		box()
-		hist(sim$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Similarity-Abundance")
+		hist(simDead$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Dead-Dead Similarity")
 		box()	
 	})
 	
@@ -384,7 +405,7 @@ server <- function(input, output, session) {
 		maxX <- max(myAges) + counter - (max(myAges) %% counter)
 		myBreaks <- seq(0, maxX, counter)
 		par(cex=1.5, las=1)
-		hist(myAges, breaks = myBreaks, xlab="Age (years before 2003)", ylab="Number of specimens", main="Age Distribution")
+		hist(myAges, breaks = myBreaks, xlab="Age (years before 2003)", ylab="Number of individuals", main="Age Distribution")
 		box()
 	})	
 	
