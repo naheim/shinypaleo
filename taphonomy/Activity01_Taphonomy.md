@@ -25,29 +25,29 @@ The data presented in the 'Live-Dead Data' tab were compiled by John Warme in th
 
 The table at the top of the page (labeled 1) shows the numbers of sites containing living and dead individuals, the numbers of living and dead species at each size, and the total numbers of living and dead individuals sampled.
 
+The first set of plots (labeled 2) compares the numbers of species and individuals in the living and death assemblages for each sample site. The dashed line on each plot is the 1-to-1 line: samples that fall exactly on this line have the same value in the living and death assemblage. Examine the two plots and make sure you understand what is being displayed. Note that both axes are shown on a log<sub>10</sub> scale. This means that each change of one unit on the axis represents a factor-of-ten change in the data. (e.g., the distane between 10 and 100 is the same as between 100 and 1000.) We ofetn plot data on a log-scale when the data span a large range in values and most are small.
+
+_Answer the following questions_
+
+1. Which environment do you think is more diverse?
+2. Which taon do you think is more diverse?
+3. In general, which assemblage, the living or death, has more species and individuals? Why do you think this is?
+4. Is your answer above true for all samples? How do you know?
+5. Based on the data presented in section 1 and 2 of the app, do you think the death assemblage is a good representation of the living assemblage? Why or why not?
+
+So far you've explored how the number of individuals and species might differe between corresponding living and death assemblages. There are, however, other ways of comparing the biological diversity of two samples. One of those is called *similarity*. As the name suggests, similarity measures how similar or different two samples are and there are many different metrics we could use. Here we will look at two versions of the Jaccard similarity metric. The first version of the Jaccard similarity is simply the percentage of species that are shared between two samples. In our case, the two samples are the living and death assemblages from a site. 
 
 
-Imagine that you choose a small square of coastline, say 5 m by 5 m, on Monterey Bay and identify the organisms. We can call this the local community and it will probably contain some mussels, sea stars, and some less common species. The entirety of Monterey Bay includes many more species than found in your local community, however. We can call the entire group of organisms living in Monterey Bay the metacommunity and treat it as an infinitely large (relative to the local community) potential source of species.
 
-For simplicity we will ignore environmental preferences and biological interactions and construct a neutral model of the metacommunity and local community. In this model we will populate the local community with organisms drawn randomly from the metacommunity. The probability of drawing an organism from the metacommunity is proportional to that organism’s abundance in the metacommunity.
 
-When an organism in the local community dies, that vacancy can be replaced either by a species taken from the metacommunity (immigration) or by an organism “born” from the local community (local “birth”). The model has only one parameter, the probability of immigration, which varies between 0 and 1 and determines whether a vacancy is filled by immigration or by local birth. Values close to 1 mean that vacancies are most likely filled by drawing a species from the metacommunity, whereas values close to 0 means that vacancies are most likely filled by drawing a species from the local community.
 
-Part 2: Effects of immigration probability
-
-The goals of this part are 1) to visualize changes in the local community over time and 2) to explore how and why immigration probability influences those changes.
-
-The next command runs a larger version of the neutral model that you already investigated. But first, some background. There are 125 species with a more realistic distribution of abundances (not all equally abundant) and the simulation runs for 18000 time steps. The output will be a graph showing how the species composition of the local community changes through time in the simulation. The difference in species composition is quantified by something called the “Bray-Curtis dissimilarity” – but that isn’t important now (we will discuss these measures later). Basically, a value of zero means the community composition is the same as the average and values either higher or lower than zero indicate increasing dissimilarity from the average.
+Matthew's questions
 Answer the following questions:
 
 How does the variability in species composition differ between the low and high immigration probability simulations? Describe and compare (A) the magnitude of the changes away from zero and (B) the length of trends in community composition.
 Why does immigration probability have this effect in the simulations? Hint: think about the implications of filling a vacancy from the infinitely-large metacommunity vs. the limited local community.
 These results are for the life assemblage communities. The death assemblage will be an average of those life assemblages over a few hundred to maybe thousand timesteps. How will a typical death assemblage compare to the metacommunity (zero is average) – will it be more similar to the metacommunity than any single life assemblage chosen at random, less similar, or about the same?
 Given that result, how and why will time-averaging affect the observed similarity of species composition between death assemblages at different locations?
-
-Part 3: Effects on species richness
-
-The final step is to investigate how immigration probability and the duration of time-averaging affect recorded species richness in the death assemblage. The code runs the same simulation used in part 2, but additionally places the organisms into a death assemblage once they “die” in the local community. At the end, it calculates the ratio of species richness in the death assemblage to species richness in the life assemblage (both are estimated from 100 individuals). It does this many times and plots the results as a box-and-whisker plot, which shows the median (the middle value) with the thick line, the interquartile range (the range between 25% and 75% of the data) with the box, and the total range of data with the whiskers (some outliers are shown as isolated dots). The median is the important value and is reported as the average richness inflation at the top of the plot.
 
 Answer these questions:
 
@@ -63,19 +63,4 @@ If you finish with those questions, you can consider these additional issues:
 How would changes in sediment accumulation rate change the magnitude of diversity inflation between life and death assemblages? Explain why.
 What other factors (related to the organisms themselves or the environment) could lead to inflation of species richness in death assemblages?
 
-read in dataset
 
-calculate total number of species and individuals at each site (live and dead)
-calculate all pairwise similarity coefficients among all sites (live and dead)
-calculate similarity coefficients for all live - dead pairs
-calculate rank-order-correlation between live and dead at each site
-
-pool sites within life and death assemblages
-
-
-questions
-Why does the death assemblage have more 
-Which assemblages are  assemblages more similar to each other or are
-What are the factors that go 
-
-We don’t know over how many years the death assemblage accumulated, how might the
