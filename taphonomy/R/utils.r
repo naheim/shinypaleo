@@ -1,5 +1,5 @@
 # drop empty species and sites
-dropEmpty <- function(live, dead) {
+dropEmpty <- function(live, dead, easteregg=NULL) {
 	# drop empty species
 	temp1 <- colSums(live)
 	temp2 <- colSums(dead)
@@ -11,7 +11,7 @@ dropEmpty <- function(live, dead) {
 	temp2 <- rowSums(dead)
 	live <- live[temp1 > 0 | temp2 > 0, ]
 	dead <- dead[temp1 > 0 | temp2 > 0, ]
-	
+
 	return(list('live'=live, 'dead'=dead))
 }
 
