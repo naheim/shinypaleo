@@ -9,7 +9,7 @@ ui <- fluidPage(
 		tabPanel("Live-Dead Data", fluid = TRUE,
 			sidebarLayout(
 				sidebarPanel(					
-					h3("Make Selections"),
+					h3("Selection Taxa & Evnironment"),
 					br(),
 			
 					h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
@@ -40,7 +40,10 @@ ui <- fluidPage(
 						),
 					),
 			
-					# add more selections here
+					# data citation
+					strong("Data Source:"),
+					shiny::p("Warme, J. E. 1971. Paleoecological aspects of a modern coastal lagoon.", em("University of California Publications in Geological Sciences"), "87:1-110."),
+					
 					width=3,
 		
 				),
@@ -91,7 +94,7 @@ ui <- fluidPage(
 					fluidRow(
 						h3("Map of Mugu Lagoon with Sample Locations"),
 						strong("Click on Map to download a larger version."),
-						a(img(src='Warme1971_Map2.png', height = "805px", width = "1000px"), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true"),
+						a(img(src='Warme1971_Map2.png', height = "805px", width = "1000px"), href="https://github.com/naheim/shinypaleo/blob/master/liveDead/www/Warme1971_Map2.png?raw=true", target="_blank"),
 					)
 		
 				)
@@ -118,6 +121,10 @@ ui <- fluidPage(
 						selected = "all"),
 					br(),
 		
+					# data citation
+					strong("Data Source:"),
+					shiny::p("Tomasovych, A., Kidwell, S., & Barber, R. 2016. Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period.", em("Paleobiology"), "42(1), 54-76.", a(href="https://dx.doi.org/10.1017/pab.2015.30", "DOI: 10.1017/pab.2015.30", target="_blank")),
+					
 					# add more selections here
 					width=3
 				),
@@ -150,7 +157,7 @@ ui <- fluidPage(
 						h3("Map of Southern California with Sample Locations"),
 						strong("Click on Map to download a larger version."),
 						# original image size: height = "1707px", width = "1800px"
-						a(img(src='TomasovychEtAl2016_Fig1.png', height = "759px", width = "800px"), href="https://github.com/naheim/shinypaleo/blob/master/timeAveraging/www/TomasovychEtAl2016_Fig1.png?raw=true"),
+						a(img(src='TomasovychEtAl2016_Fig1.png', height = "759px", width = "800px"), href="https://github.com/naheim/shinypaleo/blob/master/timeAveraging/www/TomasovychEtAl2016_Fig1.png?raw=true", target="_blank"),
 					),
 				)
 			)
@@ -254,6 +261,7 @@ server <- function(input, output, session) {
 		siteTable <- rbind(siteTable, c("","Total Counts", colSums(siteTable[,3:6])))
 	}, digits=0)
 	
+	
 	# similarities for two sites
 	output$siteListSim <- renderTable({
 		req(input$site1, input$site2)
@@ -265,7 +273,8 @@ server <- function(input, output, session) {
 		
 		newLive2 <- newLive[,nLiveSp2 > 0 | nDeadSp2 > 0] 
 		newDead2 <- newDead[,nLiveSp2 > 0 | nDeadSp2 > 0]
-		sim <- simCalc(newLive2, newDead2)[,match(c("jaccard","chao.jaccard"), colnames(sim))]
+		sim <- simCalc(newLive2, newDead2)
+		sim <- sim[,match(c("jaccard","chao.jaccard"), colnames(sim))]
 		colnames(sim) <- c("Jaccard similarity index", "Chao-Jaccard similarity index")
 		rownames(sim) <- c(input$site1, input$site2)
 		sim
