@@ -131,7 +131,7 @@ ui <- fluidPage(
 		
 					# data citation
 					strong("Data Source:"),
-					shiny::p("Tomasovych, A., Kidwell, S., & Barber, R. 2016. Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period.", em("Paleobiology"), "42(1), 54-76.", a(href="https://dx.doi.org/10.1017/pab.2015.30", "DOI: 10.1017/pab.2015.30", target="_blank")),
+					shiny::p("Tomašových, A., Kidwell, S., & Barber, R. 2016. Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period.", em("Paleobiology"), "42(1), 54-76.", a(href="https://dx.doi.org/10.1017/pab.2015.30", "DOI: 10.1017/pab.2015.30", target="_blank")),
 					
 					# add more selections here
 					width=3
@@ -433,7 +433,10 @@ server <- function(input, output, session) {
 		abline(h=1, lty=2)
 		boxplot(modRes$deadS_liveS, range=0, lwd=1.25, lty=1, add=TRUE)
 		plot(modRes$chao.jaccard, 1:nrow(modRes), xlim=c(0,1), xlab="Live-dead similarity", ylab="Years", type="l", lwd=1.25)
-		mtext(paste("Variance in composition: ", signif(var(modRes$chao.jaccard),3), sep="", adj=0), side=3, cex=1.5)
+		#mtext(paste("Variance in composition: ", signif(var(modRes$chao.jaccard),2), sep="", adj=0), side=3, cex=1.5)
+		#lines(modRes$deltaSimInit, 1:nrow(modRes), lwd=1.25, col='red')
+		
+		
 	})
 }
 
