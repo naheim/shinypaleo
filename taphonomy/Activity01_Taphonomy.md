@@ -1,10 +1,10 @@
-# Activity 1—Constructing the Fossil Record: Living Communities, Dead Shells, and Time Averaging
+# Activity 1—Constructing the Fossil Record: Living Communities, Dead Shells, and Time-Averaging
 
-The fossil record allows us to reconstruct the biology of Earth’s ancient past. However, the fossil record does not perfectly record every aspect of living communities: some information is missing entirely, while other information may be over-represented. Paleontologists often want to know species were present, and in what abundance, at a particular location and during a specific interval of geological time. In many cases we are fortunate enough to have fossil samples to help us answer that question. However, because fossil assemblages are not perfect representations of past living assemblages, it’s important to know how the fossil record. is constructed. This exercise will allow you to explore some aspects of how living communities become fossil assemblages.
+The fossil record allows us to reconstruct the biology of Earth’s ancient past. However, the fossil record does not perfectly record every aspect of living communities: some information is missing, while other biological aspets may be over-represented. Paleontologists often want to know what species were present and in what abundance at a particular location and during a specific interval of geological time. In many cases we are fortunate enough to have fossil samples to help us answer that question. However, properly interpreting fossil assemblages reqires knowing how the fossil record was constructed. This exercise will allow you to explore some aspects of how living communities become fossil assemblages.
 
-As you learned in the video lectures, time-averaging typically increases species richness (the number of species present) in a death assemblage relative to any given life assemblage from that location. Time-averaging also makes death assemblages from different locations look more similar to each other than the life assemblages actually are. The purpose of this exercise is to use explore real datasets as well as simulations generate possible explanations for those phenomena.
+As you learned in the online lectures, time-averaging is the mixing of individuals in a fossil or death assemblage that did not actually live at the same time. Time averaging  typically increases species richness (the number of species present) in a death assemblage relative to the corresponding life assemblage from that location. Time-averaging also makes death assemblages from different locations look more similar to each other than the life assemblages actually are.
 
-This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language R. For this exercise you will use the Taphonomy shiny app, which you will need to launch using R or RStudo by running the following two lines*:
+This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language R. For this exercise you will use the *Taphonomy* shiny app, which you will need to launch using R or RStudo by running the following two lines\*:
 
 ```` r
 library(shiny)
@@ -19,9 +19,9 @@ Executing the above code in the R console or RStudio will open a browser window.
 
 ## Part 1: Live-Dead Data
 
-This tab displays what is typically called 'live-dead' data. It's called this because sediment samples are collected that contain both living and dead individuals. Of course, the only species that accumulate dead individuals with any abunace are those with hard skeletons. For this exercise, we are focusing on bivalve (clam) and gastropod (snail) mollusks from coastal waters off of Southern California.
+This tab displays what is typically called 'live-dead' data. They are called this because the data are composed of samples containing both living and dead individuals. Of course, the only species that accumulate dead individuals with any abunace are those with hard skeletons. For this exercise, we are focusing on bivalve (clam) and gastropod (snail) mollusks from coastal waters off of Southern California.
 
-The data presented in the 'Live-Dead Data' tab were compiled by John Warme in the 1960s for his PhD dissertation. The samples were collected in Mugu Lagoon, which is a small back-barier lagoon in Ventura County California (between Santa Barbara and Los Angeles). Warme collected 45 samples within Mugu lagoon (see map at bottom of app page). For each sample all of the living bivalve and gastropod species were identified and counted as were all of the dead individuals (empty shells).
+The data presented in the 'Live-Dead Data' tab were compiled by John Warme in the 1960s for his PhD dissertation. The samples were collected in Mugu Lagoon, which is a small back-barrier lagoon in Ventura County California (between Santa Barbara and Los Angeles). Warme collected 45 samples within Mugu lagoon (see map at bottom of app page). For each sample all of the living bivalve and gastropod species were identified and individuals counted. He also identified and counted all dead individuals (empty shells) from the same samples.
 
 There are two major environments withing Mugu Lagoon: subtidal eel grass beds and intertidal sand flats. The table at the top of the page (labeled 1) shows the 
 
