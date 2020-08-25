@@ -221,7 +221,7 @@ server <- function(input, output, session) {
 	deadIn <- deadIn[is.element(environments[2,], c("inter_barren","sub_eelgrass")),]
 	environments <- environments[,is.element(environments[2,], c("inter_barren","sub_eelgrass"))]
 	
-	tempCounts <- dropEmpty(liveIn, deadIn)
+	tempCounts <- dropEmpty(liveIn, deadIn, "thisegg")
 	liveCounts <- tempCounts$live
 	deadCounts <- tempCounts$dead
 	
