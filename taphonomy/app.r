@@ -179,6 +179,9 @@ ui <- fluidPage(
 					#	min = 2, max = 200,
 					#	value = 50),
 								
+					# giving credit
+					shiny::p("Model inspired by", a(href="https://people.ucsc.edu/~mclapham/", "Matthew Clapham", target="_blank"), "and written by Noel Heim"),
+										
 					# add more selections here
 					width=3
 				),
