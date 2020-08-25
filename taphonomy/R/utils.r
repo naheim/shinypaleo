@@ -38,7 +38,7 @@ parseDataLiveDead <- function(x, taxon, env, species, environments) {
 	return(xReduced)
 }
 
-simCalc <- function(live, dead) {
+simCalc <- function(live, dead, easteregg=NULL) {
 	if(is.element(class(live), c("integer","numeric"))) {
 		n <- 1
 	} else {
@@ -54,6 +54,7 @@ simCalc <- function(live, dead) {
 			x <- live[i,] 
 			y <- dead[i,]
 		}
+		
 		comm <- rbind(x[x > 0 | y > 0], y[x > 0 | y > 0])
 		common <- comm[,comm[1,] > 0 & comm[2,] > 0]
 		commonPct <- (comm/rowSums(comm))[,comm[1,] > 0 & comm[2,] > 0]
