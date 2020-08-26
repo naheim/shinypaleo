@@ -1,10 +1,12 @@
 # Activity 1—Constructing the Fossil Record: Living Communities, Dead Shells, and Time-Averaging
 
-The fossil record allows us to reconstruct the biology of Earth’s ancient past. However, the fossil record does not perfectly record every aspect of living communities: some information is missing, while other biological aspects may be over-represented. Paleontologists often want to know what species were present and in what abundance at a particular location and during a specific interval of geological time. In many cases we are fortunate enough to have fossil samples to help us answer that question. However, properly interpreting fossil assemblages requires knowing how the fossil record was constructed. This exercise will allow you to explore some aspects of how living communities become fossil assemblages.
+The fossil record allows us to reconstruct life of Earth’s ancient past. However, the fossil is not a perfect biological archive: some information is missing, while other biological aspects may be over-represented. Nevertheless, the aspiring paleontologist should not be daunted. We actually know quite a lot about how living organisms become fossils--this subfield of paleontology is called **_taphonomy_**. With an understanding of taphonomy, paleontologists can properly interpret the biology of fossil assemblages.
+
+This exercise will have you to explore some aspects of how living communities become fossil assemblages. One of the questions paleontologist want to know is what species were present and in what abundance at a particular location and during a specific interval of geological time. You will learn some basic taphonomic principles here to allow you to answer one of these most basic of paleontological questions.
 
 As you learned in the online lectures, time-averaging is the mixing of individuals in a fossil or death assemblage that did not actually live at the same time. Time averaging  typically increases species richness (the number of species present) in a death assemblage relative to the corresponding life assemblage from that location. Time-averaging also makes death assemblages from different locations look more similar to each other than the life assemblages actually are.
 
-This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language R. For this exercise you will use the *Taphonomy* shiny app, which you will need to launch using R or RStudio by running the following two lines\*:
+This exercise will be based upon a ‘shiny app’, which is a dynamic website built using the statistical programming language [R](http://r-project.org). For this exercise you will use the *Taphonomy* shiny app, which you will need to launch using R or RStudio by running the following two lines\*:
 
 ```` r
 library(shiny)
@@ -19,13 +21,13 @@ Executing the above code in the R console or RStudio will open a browser window.
 
 ## Part 1: Live-Dead Data
 
-This tab displays what is typically called 'live-dead' data. They are called this because thy are composed of samples containing both living and dead individuals. Of course, the only species that accumulate dead individuals with any abundance are those with hard skeletons. For this exercise, we are focusing on bivalve (clam) and gastropod (snail) mollusks from coastal waters off of Southern California.
+This tab displays what is typically called 'live-dead' data. They are called this because they are composed of samples containing both living and dead individuals. Of course, the only species that accumulate dead individuals with any abundance are those with hard skeletons. For this exercise, we are focusing on bivalve and gastropod mollusks (clams & snails, respectively) from coastal waters of Southern California.
 
 The data presented in the 'Live-Dead Data' tab were compiled by John Warme in the 1960s for his PhD dissertation. The samples were collected in Mugu Lagoon, which is a small back-barrier lagoon in Ventura County California (between Santa Barbara and Los Angeles). Warme collected 45 samples within Mugu lagoon (see map at bottom of app page). For each sample all of the living bivalve and gastropod species were identified and individuals counted. He also identified and counted all dead individuals (empty shells) from the same samples. There are two major environments within Mugu Lagoon: subtidal eel grass beds and intertidal sand flats. 
 
-The table at the top of the page (labeled 1) shows the numbers of sites containing living and dead individuals, the numbers of living and dead species at each size, and the total numbers of living and dead individuals sampled.
+The table at the top of the page (labeled 1) shows the numbers of sites containing living and dead individuals, the numbers of living and dead species at each site, and the total numbers of living and dead individuals sampled.
 
-The first set of plots (labeled 2) compares the numbers of species and individuals in the living and death assemblages for each sample site. The dashed line on each plot is the 1-to-1 line: samples that fall exactly on this line have the same value in the living and death assemblage. Examine the two plots and make sure you understand what is being displayed. Note that both axes are shown on a log<sub>10</sub> scale. This means that each change of one unit on the axis represents a factor-of-ten change in the data. (e.g., the distance between 10 and 100 is the same as between 100 and 1000.) We often plot data on a log-scale when the data span a large range in values and most are small.
+The first set of plots (labeled 2) compares the numbers of species and individuals in the living and death assemblages for each site. Examine the two plots, read the caption, and make sure you understand what is being displayed. 
 
 _Answer the following questions_
 
