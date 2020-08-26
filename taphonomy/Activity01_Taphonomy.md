@@ -31,26 +31,32 @@ The first set of plots (labeled 2) compares the numbers of species and individua
 
 _Answer the following questions_
 
-1. Which environment do you think is more diverse?
-2. Which taxon do you think is more diverse?
-3. In general, which assemblage, the living or death, has more species and individuals? Why do you think this is?
+1. Which environment do has more species? More individuals?
+2. Which taxon has more species? More individuals?
+3. Which assemblage, the living or death, tends to have more species? More individuals? Why do you think this is?
 4. Is your answer above true for all samples? How do you know?
-5. Based on the data presented in section 1 and 2 of the app, do you think the death assemblage is a good representation of the living assemblage? Why or why not?
+5. Based on the data presented in section 1 and 2, do you think the death assemblage is a good representation of the living assemblage? Why or why not?
 
-So far you've explored how the number of individuals and species might differ between corresponding living and death assemblages. There are, however, other ways of comparing the biological diversity of two samples. One of those is called *similarity*. As the name suggests, similarity measures how similar or different two samples are, and there are several different metrics we could use. Here we will use the Chao-Jaccard similarity index. This index has the advantages of using abundance data and being relatively insensitive to differences in sample size. The mathematics behind the index are not important here, we will come back to them later. Chao-Jaccard similarity varies between zero and one, where zero means the two samples are totally different and a value of 1 means they are identical. 
+So far you've explored how the number of individuals and species might differ between corresponding living and death assemblages. There are, however, other ways of comparing the biological diversity of two samples. A common one is called *similarity*. As the name suggests, similarity measures how similar or different two samples are, and there are several different metrics we could use. Here we will use the Chao-Jaccard similarity index. This index has the advantages of using abundance data (instead of just the presence or absence of species) and being relatively insensitive to differences in sample size. The mathematics behind the index are not important now, we will come back to them later. Chao-Jaccard similarity varies between zero and one, where zero means the two samples are totally different and a value of 1 means they are identical. 
 
 The table in section 3 shows similarity between the pooled living and death assemblages. Pooled means we've combined the 45 individual living samples into a single assemblage (while maintaining the living and death components, of course). The plot in section 4, is a frequency distribution, or histograms, for the live-dead Jaccard similarities of individual sites. The height of each bar sows the number sites with live-dead similarity corresponding to the range of values indicated on the x-axis.
 
-Finally, section 4 allows you to see the raw data for individual pairs of sites as well as the live-dead similarities for the two . Explore the with select 
+Section 5 allows you to see the raw data and live-dead similarities for individual pairs of sites. Explore the with select 
 
 _Answer the following questions_
 
-6. Do bivalves or gastropods show more similarity between the living and death assemblages?
-7. How do the two metrics of similarity—Jaccard, which ignores 
+6. When comparing the living samples to the dead samples, do bivalves or gastropods show more similarity?
+7. Which environment tends to have higher live-dead similarity? 
 
+Finally, section 6 shows the Chao-Jaccard similarity for all pairs of living samples (left) and all pairs dead samples (right).
 
+_Answer the following questions_
 
+8. Are living assemblages of bivalves or gastropods more similar to each other?
+9. Thinking about the whole ecosystem, what does is mean for the live-live similarity to be high or low?
+10. Is there more similarity among samples in the living assemblage or among samples in the death assemblage? Why do you think this is?
 
+## Part 2: Time-Averaging Data
 
 Matthew's questions
 Answer the following questions:
