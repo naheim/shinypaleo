@@ -65,7 +65,14 @@ ui <- fluidPage(
 					## Live - Dead cross plots
 					fluidRow(
 						h3("2. Comparisons of Living and Death Assemblages"),
-						plotOutput(outputId = "liveDeadPlots", height = "550px", width = "1000px")
+						plotOutput(outputId = "liveDeadPlots", height = "550px", width = "1000px"),
+						h5("These two plots compare the numbers of species (left) and individuals (right) in the living and \
+						death assemblages. Each point is a site. The dashed line is the 1-to-1 line: samples that fall on the \
+						line have the same value in the living and death assemblage. Note that both axes are shown on a log-scale. \
+						This means that each change of one unit on the axis represents a factor-of-ten change in the data. \
+						(e.g., the distance between 10 and 100 is the same as between 100 and 1000.) We often plot data on a \
+						log-scale when the data span a large range in values and most are small.")
+						
 					),
 			
 					## aggregate Live - Dead similarity
