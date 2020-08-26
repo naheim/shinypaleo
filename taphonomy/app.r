@@ -13,7 +13,7 @@ ui <- fluidPage(
 					h5("Wiat until you see graphs appear", style="color:red"),
 					br(),
 			
-					h5("All plots and statistics presented on the left are for the combination of environment and taxa selected below"),
+					h5("All plots and statistics presented on the right are for the combination of environment and taxa selected below"),
 					br(),
 			
 					# select environment
@@ -68,10 +68,9 @@ ui <- fluidPage(
 						plotOutput(outputId = "liveDeadPlots", height = "550px", width = "1000px"),
 						h5("These two plots compare the numbers of species (left) and individuals (right) in the living and \
 						death assemblages. Each point is a site. The dashed line is the 1-to-1 line: samples that fall on the \
-						line have the same value in the living and death assemblage. Note that both axes are shown on a log-scale. \
+						line have the same value in the living and death assemblages. Note that both axes are shown on a log-scale. \
 						This means that each change of one unit on the axis represents a factor-of-ten change in the data. \
-						(e.g., the distance between 10 and 100 is the same as between 100 and 1000.) We often plot data on a \
-						log-scale when the data span a large range in values and most are small.")
+						We often plot data on a log-scale when the data span a large range in values and most are small.")
 						
 					),
 			
@@ -85,6 +84,7 @@ ui <- fluidPage(
 					fluidRow(
 						h3("4. Similarity between live and death assembalges"),
 						plotOutput(outputId = "liveDeadSim", height = "500px", width = "500px")
+						h5("Histogram of live-dead Jaccard similarities for individual sites.")
 					),
 			
 					## Live - Dead comparison of two sites
@@ -116,7 +116,7 @@ ui <- fluidPage(
 			)	
 		),	
 		
-		tabPanel("TIme Averaging Data", fluid = TRUE,
+		tabPanel("TIme-Averaging Data", fluid = TRUE,
 			sidebarLayout(
 				sidebarPanel(
 					# Nuculana_taphria
@@ -178,7 +178,7 @@ ui <- fluidPage(
 			)
 		),
 			
-		tabPanel("Time Averaging Model", fluid = TRUE,
+		tabPanel("Time-Averaging Model", fluid = TRUE,
 			sidebarLayout(
 				sidebarPanel( 
 					h3("Please be patient, page may take a few seconds to load", style="color:red"),
@@ -206,7 +206,7 @@ ui <- fluidPage(
 				),
 				mainPanel(
 					## model results
-					h3("Time averaging and diversity"),		
+					h3("Time-averaging and diversity"),		
 					fluidRow(
 						plotOutput(outputId = "modelResults", height = "600px", width = "900px"),
 					)
@@ -386,7 +386,7 @@ server <- function(input, output, session) {
 	
 	#########
 	#
-	# Time Averaging Tabs
+	# Time-Averaging Tabs
 	#
 	#########
 	rawData <- read.delim(file="tomasovychAges.tsv")
@@ -432,7 +432,7 @@ server <- function(input, output, session) {
 		plot(mySize[myAges>0], myAges[myAges>0], log="y", xlab="Shell height (mm)", ylab="Age (years before 2003)")
 	})
 	
-	# simple time averaging model
+	# simple time-averaging model
 	output$modelResults <- renderPlot({
 		modRes <- taModel(nT=1000, pDest=1/10, pImmig=input$immig, pDeath=0.9)
 		par(mfrow=c(1,2), pch=16, las=1, cex=1.5)
