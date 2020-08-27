@@ -98,9 +98,11 @@ _Answer the following questions_
 
 19. Why does shell duration have this effect in the simulations? 
 
-20. When you are done, reflect on your answers and write a short paragraph explaining how and why time-averaging affects species richness and similarity among fossil assemblages.
+20.  Why do the age distributions from the simulations look different from the distributions presented for Southern California *Nuculana taphria*?
 
 21. What other factors (related to the organisms themselves or the environment) could have we not covered and how might the affect the formation and nature of death assemblages?
+
+22. Reflect on your answers and write a short paragraph explaining how and why time-averaging affects species richness and similarity among fossil assemblages. Be sure to include your thoughts on how well the fossil record reflects past biological communities.
 
 
 ## Citations
