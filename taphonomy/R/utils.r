@@ -108,10 +108,10 @@ topLabel <- function(region) {
 }
 
 taModel <- function(nT, pDest, pImmig, pDeath) {
-	#nT <- 100
-	#pDest <- 0.02
+	#nT <- 500
+	#pDest <- 1/80
 	#pImmig <- 0.25
-	#pDeath <- 0.9
+	#pDeath <- 0.6
 	
 	species <- read.delim(file="warmeSpecies.tsv")
 	species <- subset(species, Phylum == 'Mollusca') # include only mollusca
@@ -140,38 +140,52 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	
 	livingAssemb <- sample(liveCom, length(liveCom))
 	deathAssemb <- sample(deadCom, length(deadCom))
+	deathAge <- ceiling(rlnorm(length(deathAssemb), sdlog=2))
 	
 	output <- data.frame(matrix(NA, nrow=nT, ncol=9, dimnames=(list(1:nT, c("deadN","liveN","deadS","liveS","deadS_liveS","jaccard","chao.jaccard","bray.curtis","deltaSimInit")))))
-	
+	#deathCheck <- data.frame(matrix(NA, nrow=nT, ncol=5, dimnames=(list(1:nT, c("death0","decayed","death1","died","death2")))))
+	#lifeCheck <- data.frame(matrix(NA, nrow=nT, ncol=6, dimnames=(list(1:nT, c("life0","died","life1","born","immig","life2")))))
 	for(i in 1:nT) {
+		#deathCheck$death0[i] <- length(deathAssemb)
+		#lifeCheck$life0[i] <- length(livingAssemb)
 		# decay death assemblage
-		deathCount <- table(deathAssemb)
 		pTemp <- runif(length(deathAssemb))
-		destroyed <- table(factor(deathAssemb[pTemp < pDest], levels=names(deathCount)))
-		deathAssemb <- rep(names(deathCount - destroyed), deathCount - destroyed)
+		#deathCheck$decayed[i] <- length(pTemp[pTemp < pDest])
+		deathAssemb <- deathAssemb[pTemp >= pDest]
+		#deathCheck$death1[i] <- length(deathAssemb)
+		deathAge <- deathAge[pTemp >= pDest]
+		
+		#destroyed <- table(factor(deathAssemb[pTemp < pDest], levels=names(deathCount)))
+		#deathAssemb <- rep(names(deathCount - destroyed), deathCount - destroyed)
 		
 		# add new dead individuals to death assemblage
 		pTemp <- runif(length(livingAssemb))
 		died <- livingAssemb[pTemp < pDeath]
+		#deathCheck$died[i] <- length(died)
+		#lifeCheck$died[i] <- length(died)
 		deathAssemb <- c(deathAssemb, died)
-		deathAssemb <- sample(deathAssemb, length(deathAssemb))
+		#deathCheck$death2[i] <- length(deathAssemb)
+		deathAge <- c(deathAge, rep(0, length(died)))
 		
 		#remove dead individuals from living assemblage
 		livingCount <- table(livingAssemb)
 		diedCount <- table(factor(died, levels=names(livingCount)))
 		livingAssemb <- rep(names(livingCount - diedCount), livingCount - diedCount)
+		#lifeCheck$life1[i] <- length(livingAssemb)
 		
 		# add new births and immigrations
 		birth_immig <- runif(length(died))
 		born <- sample(livingAssemb, length(birth_immig[birth_immig < 1-pImmig]), replace=TRUE) 
 		immigrants <- sample(metaComm, length(died)-length(born))
+		#lifeCheck$born[i] <- length(born)
+		#lifeCheck$immig[i] <- length(immigrants)
 		if(length(born) > 0) {
 			livingAssemb <- c(livingAssemb, born)
 		}
 		if(length(immigrants) > 0) {
 			livingAssemb <- c(livingAssemb, immigrants)
 		}
-		livingAssemb <- sample(livingAssemb, length(livingAssemb))
+		#lifeCheck$life2[i] <- length(livingAssemb)
 		
 		# get stats
 		finalLive <- as.numeric(table(factor(livingAssemb, levels=unique(metaComm))))
@@ -190,8 +204,11 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 		# delta similarity from init
 		deltaSim <- simCalc(initAssemb[1,initAssemb[1,]>0 | finalLive > 0], finalLive[initAssemb[1,]>0 | finalLive > 0])
 		output$deltaSimInit[i] <- deltaSim$chao.jaccard
+		
+		deathAge <- deathAge + 1
+		#print(range(deathAge))
 	}
 	output <- rbind(initStats, output)
 	#print(tail(output))
-	return(output)
+	return(list("output"=output, "deathAge"=deathAge))
 }

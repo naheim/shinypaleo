@@ -196,7 +196,7 @@ ui <- fluidPage(
 					sliderInput(inputId = "timeavg",
 						label="Years shells persist in death assemblage:",
 						min = 2, max = 100,
-						value = 2),
+						value = 80),
 								
 					# giving credit
 					shiny::p("Model inspired by", a(href="https://people.ucsc.edu/~mclapham/", "Matthew Clapham", target="_blank"), "and written by Noel Heim"),
@@ -208,8 +208,9 @@ ui <- fluidPage(
 					## model results
 					h3("Time-averaging and diversity"),		
 					fluidRow(
-						plotOutput(outputId = "modelResults", height = "600px", width = "900px"),
+						plotOutput(outputId = "modelResults", height = "1100px", width = "900px"),
 					)
+					
 				)
 			)	
 		)
@@ -434,14 +435,24 @@ server <- function(input, output, session) {
 	
 	# simple time-averaging model
 	output$modelResults <- renderPlot({
-		modRes <- taModel(nT=500, pDest=1/input$timeavg, pImmig=input$immig, pDeath=0.6)
-		par(mfrow=c(1,2), pch=16, las=1, cex=1.5)
+		modRes <- taModel(nT=500, pDest=(1/input$timeavg), pImmig=input$immig, pDeath=0.6)
+		
+		layout(matrix(c(1:3,3), nrow=2, ncol=2, byrow=TRUE))
+		par(pch=16, las=1, cex=1.5)
 		plot(1:10, type="n", xlim=c(0.5,1.5), ylim=c(0,6.25), xaxt="n", xlab="", ylab="Richness inflation")
 		abline(h=1, lty=2)
-		boxplot(modRes$deadS/modRes$liveS, range=0, lwd=1.25, lty=1, add=TRUE)
-		plot(modRes$chao.jaccard, 1:nrow(modRes), xlim=c(0,1), xlab="Live-dead similarity", ylab="Years", type="l", lwd=1.25)
+		boxplot(modRes$output$deadS/modRes$output$liveS, range=0, lwd=1.25, lty=1, add=TRUE)
+		plot(modRes$output$chao.jaccard, 1:nrow(modRes$output), xlim=c(0,1), xlab="Live-dead similarity", ylab="Years", type="l", lwd=1.25)
 		#mtext(paste("Variance in composition: ", signif(var(modRes$chao.jaccard),2), sep="", adj=0), side=3, cex=1.5)
 		#lines(modRes$deltaSimInit, 1:nrow(modRes), lwd=1.25, col='red')
+		
+		if(max(modRes$deathAge) <= 100) {
+			myBreaks <- seq(0,max(modRes$deathAge) + (max(modRes$deathAge) %% 2), 2)
+		} else {
+			myBreaks <- seq(0,max(modRes$deathAge), length.out=100)
+		}
+		hist(modRes$deathAge, breaks=myBreaks, xlab="Age (years)", ylab="Number of shells", main="Age Distribution")
+		box()
 	})
 }
 
