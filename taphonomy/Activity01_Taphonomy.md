@@ -84,25 +84,24 @@ For this exercise, we will consider how the death assemblage accumulates in a lo
 
 In this simple model, we are assuming that the metacommunity is infinitely large and fixed--meaning that the number or relative abundances of species in the metacommunity do not change. This is not the case, however, for the local community. In the local community is composed of living individuals. Like all living things, at some point they will die. When an individual in the local community dies, it can either be replaced by an immigrant from the metacommunity or by a newly born individual from inside the local community. In this model we also assume that all species are equally likely to die, give birth, or immigrate--we call this a neutral model. In real life, many communities are not neutral because there are differences among species that lead to different birth, death, or immigration probabilities. Neutral models are, however, easy to create and more clearly illustrate important biological processes.
 
-In addition to simulating the local living community through birth, death, and immigration, it also simulates the death assemblage. All individuals from the local community that die are moved to the death assemblage. In the death assemblage all shells have a fixed probability of being destroyed. Again we are treating this process as neutral, though in reality different species have different probabilities of destruction (e.g., some shells are thin while other are thick). The model runs for 1000 years and calculates the richness inflation and live-dead similarity every year. Richness inflation is the ratio of the number of species present in the death assemblage to that of the life assemblage. (The number of species in an assemblage is called species richness.) Live-dead similarity is the same as you saw before--the Chao-Jaccard Similarity Index for the living and death assemblages.
+In addition to simulating the local living community through birth, death, and immigration, it also simulates the death assemblage. All individuals from the local community that die are moved to the death assemblage. In the death assemblage all shells have a fixed probability of being destroyed. Again we are treating this process as neutral, though in reality different species have different probabilities of destruction (e.g., some shells are thin while other are thick). The model runs for 500 years and calculates the richness inflation and live-dead similarity every year. Richness inflation is the ratio of the number of species present in the death assemblage to that of the life assemblage. (The number of species in an assemblage is called species richness.) Live-dead similarity is the same as you saw before--the Chao-Jaccard Similarity Index for the living and death assemblages.
 
-Adjust the immigration rate to see how this one parameter affects similarity and richness inflation.
+Adjust the immigration rate and time-averaging (the inverse of the probability of destruction) to see how these two parameters affect live-dead similarity, richness inflation, and the age distribution of fossils the death assemblage.
 
 _Answer the following questions_
 
-16. How does the variability in live-dead similarity differ between the low and high immigration probability simulations? 
+16. How do richness inflation, live-dead similarity, and the death assemblage age distribution differ between the low and high immigration probability?
 
 17. Why does immigration probability have this effect in the simulations? Hint: think about the implications of filling a vacancy from the infinitely-large metacommunity vs. the limited local community.
 
-18. These results are for the life assemblage communities. The death assemblage will be an average of those life assemblages over a few hundred to maybe thousand timesteps. How will a typical death assemblage compare to the metacommunity (zero is average) – will it be more similar to the metacommunity than any single life assemblage chosen at random, less similar, or about the same?
+18. How do richness inflation, live-dead similarity, and the death assemblage age distribution differ between the long and short shell duration?
 
-19. Given that result, how and why will time-averaging affect the observed similarity of species composition between death assemblages at different locations?
+19. Why does shell duration have this effect in the simulations? 
 
-20. How does the duration of time-averaging affect inflation of richness in death assemblages? What mechanism causes this effect in the simulation?
-How does the immigration probability affect inflation of richness? What mechanism is responsible? Hint: think back to the similarity results from part 2.
-21. When you are done, reflect on your answers and write a short paragraph explaining how and why time-averaging affects species richness and similarity among fossil assemblages.
-22. How would changes in sediment accumulation rate change the magnitude of diversity inflation between life and death assemblages? Explain why.
-What other factors (related to the organisms themselves or the environment) could lead to inflation of species richness in death assemblages?
+20. When you are done, reflect on your answers and write a short paragraph explaining how and why time-averaging affects species richness and similarity among fossil assemblages.
+
+21. What other factors (related to the organisms themselves or the environment) could have we not covered and how might the affect the formation and nature of death assemblages?
+
 
 ## Citations
 * Olszewski, T.D. 1999. Taking advantage of time-averaging. *Paleobiology* 25(2):226-238. [DOI: 10.1017/s009483730002652x](https://dx.doi.org/10.1017/s009483730002652x).
@@ -110,15 +109,3 @@ What other factors (related to the organisms themselves or the environment) coul
 * Tomašových, A., Kidwell, S.M., & Barber, R. 2016. Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period. *Paleobiology* 42(1):54-76. [DOI: 10.1017/pab.2015.30](https://dx.doi.org/10.1017/pab.2015.30).
 
 * Warme, J.E. 1971. Paleoecological aspects of a modern coastal lagoon. *University of California Publications in Geological Sciences*. 87:1-110.
-
-
-Matthew's questions
-Answer the following questions:
-
-
-
-Answer these questions:
-
-
-
-
