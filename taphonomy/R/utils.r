@@ -122,6 +122,7 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	deadIn <- deadIn[,is.element(colnames(deadIn), species$colName) & !grepl("_sp", colnames(deadIn))]
 	
 	metaComm <- rep(names(colSums(deadIn)), colSums(deadIn))
+	#print(paste("The metacommunity has ",length(metaComm)," individuals & ",length(unique(metaComm)), " species."))
 	liveCom <- table(factor(sample(metaComm, 200, replace=TRUE), levels=unique(metaComm)))
 	deadCom <- table(factor(sample(metaComm, 2000, replace=TRUE), levels=unique(metaComm)))
 	initAssemb <- rbind(liveCom, deadCom)
@@ -132,7 +133,7 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	# initial conditions	
 	initSim <- simCalc(initAssemb[1,initAssemb[1,]>0 | initAssemb[2,]>0], initAssemb[2,initAssemb[1,]>0 | initAssemb[2,]>0])
 	
-	initStats <- data.frame("deadS_liveS"=length(unique(sample(initDead,100)))/length(unique(sample(initLive,100))),"jaccard"=initSim$jaccard,"chao.jaccard"=initSim$chao.jaccard,"bray.curtis"=initSim$bray.curtis,"deltaSimInit"=NA)
+	initStats <- data.frame("deadN"=length(initDead),"liveN"=length(initLive),"deadS"=length(unique(initDead)),"liveS"=length(unique(initLive)),"deadS_liveS"=length(unique(sample(initDead,100)))/length(unique(sample(initLive,100))),"jaccard"=initSim$jaccard,"chao.jaccard"=initSim$chao.jaccard,"bray.curtis"=initSim$bray.curtis,"deltaSimInit"=NA)
 	
 	liveCom <- rep(names(liveCom), liveCom)
 	deadCom <- rep(names(deadCom), deadCom)
@@ -140,7 +141,7 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	livingAssemb <- sample(liveCom, length(liveCom))
 	deathAssemb <- sample(deadCom, length(deadCom))
 	
-	output <- data.frame(matrix(NA, nrow=nT, ncol=5, dimnames=(list(1:nT, c("deadS_liveS","jaccard","chao.jaccard","bray.curtis","deltaSimInit")))))
+	output <- data.frame(matrix(NA, nrow=nT, ncol=9, dimnames=(list(1:nT, c("deadN","liveN","deadS","liveS","deadS_liveS","jaccard","chao.jaccard","bray.curtis","deltaSimInit")))))
 	
 	for(i in 1:nT) {
 		# decay death assemblage
@@ -178,16 +179,19 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 			
 		simStats <- simCalc(finalLive, finalDead)
 		output$deadS_liveS[i] <- length(unique(sample(deathAssemb,100)))/length(unique(sample(livingAssemb,100)))
+		output$liveN[i] <- length(livingAssemb)
+		output$deadN[i] <- length(deathAssemb)
+		output$liveS[i] <- length(unique(livingAssemb))
+		output$deadS[i] <- length(unique(deathAssemb))
 		output$jaccard[i] <- simStats$jaccard
 		output$chao.jaccard[i] <- simStats$chao.jaccard
 		output$bray.curtis[i] <- simStats$bray.curtis
 		
 		# delta similarity from init
-			
 		deltaSim <- simCalc(initAssemb[1,initAssemb[1,]>0 | finalLive > 0], finalLive[initAssemb[1,]>0 | finalLive > 0])
 		output$deltaSimInit[i] <- deltaSim$chao.jaccard
 	}
 	output <- rbind(initStats, output)
-	#print(output)
-	#return(output)
+	#print(tail(output))
+	return(output)
 }
