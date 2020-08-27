@@ -58,6 +58,45 @@ _Answer the following questions_
 
 ## Part 2: Time-Averaging Data
 
+This tab displays shows data on the distribution of shell ages in the death assemblages. These data are all for a single widespread species of bivalve, *Nuculana taphria*. The shells were originally collected as part of two different biological monitoring studies in Southern California in 2003 and 2004 (see map at bottom of app tab). These studies were originally interested in just the living assemblages, but because sampling the living marine benthos (animals living on or within seafloor sediments) usually requires sampling sediment that contains empty shells. Paleontologists Susan Kidwell and Adam Tomašových were then able to use the death assemblage collected by the monitoring studies to study time-averaging.
+
+
+Time-averaging is the mixing of shells from individuals that were not alive at the same time in a single death assemblage. Below is a conceptual model (Olszewski, 1999) of how shells move from the living assemblage to the fossil record. In this model after an individual dies, its shells enter the taphonomically active zone (TAZ), which is the topmost layer of sediments and is characterized by a high degree of mixing and shell destruction. Some shells that are not destroyed in the TAZ move down into a zone of lower mixing and shell destruction. Shells in this middle zone can then be remixed back into the TAZ or them can move below the maturation depth and into the fossil record!
+
+![Olszewski 1999 Fig 6, showing conceptual model of time averaging](www/Olszewski1999_Fig6.png)
+
+The samples analyzed by Tomašových et al. (2016) were sampled from the TAZ. Once all the dead individuals of *Nuculana taphria* were obtained, they were measured shell size of each shell and dated each one using a method called amino acid racemization (AAR). Conceptually, AAR works in much the same way as dating with radioactive isotopes. But instead of measuring the decay of radioactive isotopes, changes in amino acids within the shell are measured. The chemistry of amino acids allow them to have two mirror-image form, called laevo (L) and dextro (D)--left and right, respectively. All living organisms maintain their amino acids in the L form. Though once and animal dies, amino acids convert to the D form with fixed rate. AAR works by measuring the ratio of L and D amino acids in shells to determine how long it has been since the animal died. 
+
+The Time-Averaging Data tab in the shiny app allows you to look at data for the different regions sampled as well as a couple of combinations of regions. The first plot (labeled 1) shows the age distribution of individual shells as a histogram. The samples were collected at different depths below the sea surface, and the second plot (labeled 2) shows how the age of individual shells varies with sample depth. Finally, the last plot (labeled 3) shows how the age of individual shells varies with shell size. Some shells are excluded from this plot because they were broken.
+
+_Answer the following questions_
+
+11. The bar widths in the age distribution plot are all 50 years. Which age category has the most shells? Is this consistent across regions?
+12. Why do you think the age category you identified in the question above has the most shells?
+13. Looking at the plots of age vs. depth, is there a consistent relationship between the age of shells and the depth at which they were collected? If so, what is that relationship? Why do you think you see this relationship or lack thereof?
+14. Looking at the plots of age vs. size, is there a consistent relationship between the age of shells and how big they are? If so, what is that relationship? Why do you think you see this relationship or lack thereof? 
+15. The samples from San Diego are somewhat different from the other regions. How is San Diego different? How, if at all, does San Diego conform to or deviate from the patterns discussed in the two previous questions? Why do you think that is?
+
+
+## Part 3: Time-Averaging Model
+
+For this exercise, we will consider how the death assemblage accumulates in a local habitat. We will do this using a simple metacommunity model. A metacommunity model has two components: a local community and the larger metacommunity. Let's consider Mugu Lagoon. In our model we can define the the local community as all of the individuals living in a small patch of habitat--for example, the life assemblage from one of the Mugu Lagoon sampling sites. We can then consider the all living individuals inhabiting the entirety of Mugu Lagoon the metacommunity. The metacommunity provides a larger pool of species that provides a source of new individuals for the local community. The metacommunity always has more species than any of the local communities. If needed, please go back to the Mugu Lagoon data to convince yourself that local diversity is always less than the total number of species in the lagoon. 
+
+In this simple model, we are assuming that the metacommunity is infinitely large and fixed--meaning that the number or relative abundances of species in the metacommunity do not change. This is not the case, however, for the local community. In the local community is composed of living individuals. Like all living things, at some point they will die. When an individual in the local community dies, it can either be replaced by an immigrant from the metacommunity or by a newly born individual from inside the local community. In this model we also assume that all species are equally likely to die, give birth, or immigrate--we call this a neutral model. In real life, many communities are not neutral because there are differences among species that lead to different birth, death, or immigration probabilities. Neutral models are, however, easy to create and more clearly illustrate important biological processes.
+
+In addition to simulating the local living community through birth, death, and immigration, it also simulates the death assemblage. All individuals that die in the local community are moved to the death assemblage. In the death assemblage all shells have a fixed probability of being destroyed. Again we are treating this process as neutral, though in reality different species have different probabilities of destruction (e.g., some shells are small and thin while other are large and thick). The model runs for 1000 years and at in each year it calculates the richness inflation and live-dead similarity. 
+
+
+
+
+## Citations
+* Olszewski, T.D. 1999. Taking advantage of time-averaging. *Paleobiology* 25(2):226-238. [DOI: 10.1017/s009483730002652x](https://dx.doi.org/10.1017/s009483730002652x).
+
+* Tomašových, A., Kidwell, S.M., & Barber, R. 2016. Inferring skeletal production from time-averaged assemblages: skeletal loss pulls the timing of production pulses towards the modern period. *Paleobiology* 42(1):54-76. [DOI: 10.1017/pab.2015.30](https://dx.doi.org/10.1017/pab.2015.30).
+
+* Warme, J.E. 1971. Paleoecological aspects of a modern coastal lagoon. *University of California Publications in Geological Sciences*. 87:1-110.
+
+
 Matthew's questions
 Answer the following questions:
 
