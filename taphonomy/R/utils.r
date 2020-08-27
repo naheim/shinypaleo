@@ -116,13 +116,12 @@ taModel <- function(nT, pDest, pImmig, pDeath) {
 	species <- read.delim(file="warmeSpecies.tsv")
 	species <- subset(species, Phylum == 'Mollusca') # include only mollusca
 	
-	deadIn <- read.delim(file="warmeDead.tsv")
+	deadIn <- read.delim(file="warmeLive.tsv")
 	# drop non-molluscan taxa and those not identified to species
 	deadIn[,species$Class == 'Bivalvia'] <- floor(deadIn[,species$Class == 'Bivalvia']/2)
 	deadIn <- deadIn[,is.element(colnames(deadIn), species$colName) & !grepl("_sp", colnames(deadIn))]
 	
 	metaComm <- rep(names(colSums(deadIn)), colSums(deadIn))
-
 	liveCom <- table(factor(sample(metaComm, 200, replace=TRUE), levels=unique(metaComm)))
 	deadCom <- table(factor(sample(metaComm, 2000, replace=TRUE), levels=unique(metaComm)))
 	initAssemb <- rbind(liveCom, deadCom)

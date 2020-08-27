@@ -83,7 +83,7 @@ ui <- fluidPage(
 					## Live - Dead similarity
 					fluidRow(
 						h3("4. Similarity between live and death assembalges"),
-						plotOutput(outputId = "liveDeadSim", height = "500px", width = "500px")
+						plotOutput(outputId = "liveDeadSim", height = "500px", width = "500px"),
 						h5("Histogram of live-dead Jaccard similarities for individual sites.")
 					),
 			
