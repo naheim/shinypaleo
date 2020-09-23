@@ -101,9 +101,9 @@ server <- function(input, output, session) {
 			} else {
 				hier <- c("Phylum")
 			}
-			pbdbTable <- pbdb()[,match(c(tolower(hier),"n_occs","early_interval","firstapp_max_ma","late_interval","lastapp_min_ma"), colnames(pbdb()))]
+			pbdbTable <- pbdb()[,match(c("taxon_name",tolower(hier),"n_occs","early_interval","firstapp_max_ma","late_interval","lastapp_min_ma"), colnames(pbdb()))]
 			pbdbTable$late_interval[is.na(pbdbTable$late_interval)] <- pbdbTable$early_interval[is.na(pbdbTable$late_interval)]
-			colnames(pbdbTable) <- c(hier,"Number Occs.","FAD ","FAD Ma","LAD","LAD Ma")
+			colnames(pbdbTable) <- c("Name", hier,"Number Occs.","FAD ","FAD Ma","LAD","LAD Ma")
 			pbdbTable
 		})
 	})
