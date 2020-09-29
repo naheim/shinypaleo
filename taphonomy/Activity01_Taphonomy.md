@@ -31,8 +31,8 @@ The first set of plots (labeled 2) compares the numbers of species and individua
 
 _Answer the following questions_
 
-1. Which environment do has more species? More individuals?
-2. Which taxon has more species? More individuals?
+1. Which environment do has more total individuals?
+2. Which taxon has more total individuals?
 3. Which assemblage, the living or death, tends to have more species? More individuals? Why do you think this is?
 4. Is your answer above true for all samples? How do you know?
 5. Based on the data presented in section 1 and 2, do you think the death assemblage is a good representation of the living assemblage? Why or why not?
@@ -41,7 +41,7 @@ So far you've explored how the number of individuals and species might differ be
 
 The table in section 3 shows similarity between the pooled living and death assemblages. Pooled means we've combined the 45 individual living samples into a single assemblage (while maintaining the living and death components, of course). The plot in section 4, is a frequency distribution, or histograms, for the live-dead Jaccard similarities of individual sites. The height of each bar sows the number sites with live-dead similarity corresponding to the range of values indicated on the x-axis.
 
-Section 5 allows you to see the raw data and live-dead similarities for individual pairs of sites. Explore the with select 
+Section 5 allows you to see the raw data and live-dead similarities for individual pairs of sites. Explore the by selecting different "Site 1" and "Site 2" from the selection menu on the left side of the page.
 
 _Answer the following questions_
 
@@ -71,7 +71,7 @@ The Time-Averaging Data tab in the shiny app allows you to look at data for the 
 
 _Answer the following questions_
 
-11. The bar widths in the age distribution plot are all 50 years. Which age category has the most shells? Is this consistent across regions?
+11. The bar widths in the age distribution plot are all 500 years. Which age category has the most shells? Is this consistent across regions?
 12. Why do you think the age category you identified in the question above has the most shells?
 13. Looking at the plots of age vs. depth, is there a consistent relationship between the age of shells and the depth at which they were collected? If so, what is that relationship? Why do you think you see this relationship or lack thereof?
 14. Looking at the plots of age vs. size, is there a consistent relationship between the age of shells and how big they are? If so, what is that relationship? Why do you think you see this relationship or lack thereof? 
