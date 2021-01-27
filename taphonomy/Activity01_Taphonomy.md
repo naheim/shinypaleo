@@ -50,7 +50,9 @@ _Answer the following questions_
 
 Finally, section 6 shows the Chao-Jaccard similarity for all pairs of living samples (left) and all pairs dead samples (right).
 
-_Answer the following questions_
+_Answer the following questions_ 
+
+# ADD MEAN VALUES TO HISTOGRAMS
 
 8. Are living assemblages of bivalves or gastropods more similar to each other?
 9. Thinking about the whole ecosystem, what does is mean for the live-live similarity to be high or low?
