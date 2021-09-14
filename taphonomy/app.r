@@ -84,7 +84,7 @@ ui <- fluidPage(
 					fluidRow(
 						h3("4. Similarity between live and death assembalges"),
 						plotOutput(outputId = "liveDeadSim", height = "500px", width = "500px"),
-						h5("Histogram of live-dead Jaccard similarities for individual sites.")
+						h5("Histogram of live-dead Jaccard similarities for individual sites. Mean value in red.")
 					),
 			
 					## Live - Dead comparison of two sites
@@ -102,6 +102,7 @@ ui <- fluidPage(
 					## 6 similarity among living and among death assemblages
 					fluidRow(
 						h3("6. Similarity between sites within living and death assemblages"),
+						strong("Mean values in red."),
 						plotOutput(outputId = "liveDeadSim2", width="500px", height="1000px")
 					),
 			
