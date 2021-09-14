@@ -362,10 +362,10 @@ server <- function(input, output, session) {
 		simDead <- simCalc(tempDead(), NULL)
 		par(cex.axis=1.5, cex.lab=1.5, las=1, mfrow=c(2,1))
 		hist(simLive$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Live-Live Similarity")
-		abline(v=mean(sim$chao.jaccard), lwd=1.5, col='red')
+		abline(v=mean(simLive$chao.jaccard), lwd=1.5, col='red')
 		box()
 		hist(simDead$chao.jaccard, breaks=seq(0,1,0.05), xlab="Chao-Jaccard similarity index", ylab="Number of sites", main="Dead-Dead Similarity")
-		abline(v=mean(sim$chao.jaccard), lwd=1.5, col='red')
+		abline(v=mean(simDead$chao.jaccard), lwd=1.5, col='red')
 		box()	
 	})
 	
