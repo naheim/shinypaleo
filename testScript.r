@@ -1,8 +1,8 @@
 library('raster')
 
 # set raster size
-n.columns <- 21
-n.rows <- 21
+n.columns <- 201
+n.rows <- 101
 
 ### SET MODEL PARAMETERS
 # RANDOM SEED
@@ -14,7 +14,7 @@ seed <- set.seed(0)
 # must be a positive number greater than zero. 
 # Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism). 
 # Values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth.
-geotrop <- 1 
+geotrop <- 0.38 
 
 # EFFECT OF SEDIMENT 
 # values greater than 1 increase the probability of accretion by cells adjacent to the sediment surface (i.e., the sponge grows faster along the sediment surface)
@@ -38,15 +38,17 @@ col.switch <- 8
 
 # NUMBER OF TOTAL ITERATIONS
 # how long to run the model for
-total.iter <- 20
+total.iter <- 80
 
 ### SET DATA OBJECTS AND PRINTING PREFERENCES
 # plot colors
-plot.colors <- c("white","black","darkgray","tan3") # white = empty, black&gray alternating growth colors, tan sediment
+#plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
+plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
 
 # create raster for holding data
 growth <- raster(matrix(0, nrow=n.rows, ncol=n.columns), xmn=0, xmx=n.columns, ymn=0, ymx=n.rows)
 n.cells <- ncell(growth)
+growth.index <- 1:n.cells
 
 # set initial growth cell
 growth[n.rows, median(1:n.columns)] <- 1
@@ -58,57 +60,65 @@ growth[n.rows, median(1:n.columns)] <- 1
 # 2 = filled gray
 # 3 = sediment
 
+t0 <- Sys.time()
+
 # initialize fill color to black (1)
 fill.color <- 1
 for(i in 1:total.iter) {
 	# determine if fill color needs to be switched
-	if(total.iter %% col.switch == 0 && fill.color == 1) {
+	if(i %% col.switch == 0 && fill.color == 1) {
 		fill.color <- 2
-	} else if(total.iter %% col.switch == 0 && fill.color == 2) {
+	} else if(i %% col.switch == 0 && fill.color == 2) {
 		fill.color <- 1	
 	}
 	
-	# loop through rows and columns
-	for(j in n.cells:1) {
+	# get non-empty cells
+	not.empty <- as.data.frame(adjacent(growth, growth.index[getValues(growth) > 0], sorted=TRUE))
+	not.empty$value <- growth[not.empty[,2]]
+	not.empty$rel.pos <- not.empty$from - not.empty$to
+	not.empty <- subset(not.empty, value == 0)
+	focal.cells <- unique(not.empty$from)
+	
+	# loop through non-empty cells
+	for(j in focal.cells) {		
+		# empty adjacent cells
+		empty.adj <- subset(not.empty, from == j)
+		empty.adj$rand <- runif(nrow(empty.adj)) # add column for random number
+		empty.adj$P <- nrow(empty.adj)/(nrow(empty.adj)+1) # P for no geotrop.
+		empty.adj$P.geo  <- 1 # ignore empty cells below if geotrop
+		empty.adj$P.geo[abs(empty.adj$rel.pos) == 1] <- (1/geotrop)/((1/geotrop)+1) # P for lateral cells
+		empty.adj$P.geo[empty.adj$rel.pos > 1] <- geotrop/(geotrop+1) # P for lateral cells
 		
-		# get adjacent cells: left, right, top, bottom
-		temp.adj <- adjacent(growth, j)[,2]
+		empty.adj$new.value <- 0
+		empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
 		
-		# bottom j+1
-		n.open <- vector(mode="numeric", length=4) # vector for determining which adjacent cells are open
-		if(j+1 > 0 & j+1 <= n.rows ) {
-			if(growth[j+1,k] == 0) n.open[1] <- 1
-		}
-		# left k-1
-		if(k-1 > 0 & k-1 <= n.columns) {
-			if(growth[j,k-1] == 0) n.open[2] <- 1			
-		}
-		# top j-1
-		if(j-1 > 0 & j-1 <= n.rows) {
-			if(growth[j-1,k] == 0) n.open[3] <- 1
-		}
-		# right k+1
-		if(k+1 > 0 & k+1 <= n.columns) {
-			if(growth[j,k+1] == 0) n.open[4] <- 1			
-		}
-		
-		# check probabilities of filling
-		p.fill <- sum(n.open)/(sum(n.open)+1) # geotropism
-		
-		# generate random number for each open cell
-		check.probs <- runif(4) * n.open
-		
-		if(n.open[1] == 1 & check.probs[1] <= p.fill) growth[j+1,k] <- fill.color
-		if(n.open[2] == 1 & check.probs[2] <= p.fill) growth[j,k-1] <- fill.color
-		if(n.open[3] == 1 & check.probs[3] <= p.fill) growth[j-1,k] <- fill.color
-		if(n.open[4] == 1 & check.probs[4] <= p.fill) growth[j,k+1] <- fill.color
-	}
-}
+		growth[empty.adj$to] <- empty.adj$new.value
 
+		# get adjacent cells: left, right, top, bottom
+		#adj.values <- growth[all.adj]
+		#open.adj <- all.adj[adj.values == 0]
+		#n.open <- length(open.adj)
+		#if(n.open > 0) {
+			# check probabilities of filling
+		#	p.fill <- n.open/(n.open+1) # no geotropism
+		
+			# generate random number for each open cell
+		#	check.probs <- runif(n.open)
+#			growth[open.adj[check.probs <= p.fill]] <- fill.color
+#		}
+	}
+	if(i %% 10 == 0) print(i)
+}
+t1 <- Sys.time()
+print(t1 - t0)
+
+growth.plot <- growth
+growth.plot[growth.plot == 0] <- NA
+growth.plot <- raster::trim(growth.plot, padding = 2)
 
 ### PLOT
 # convert color matrix to raster and plot
-plot(growth, col=plot.colors, legend=FALSE, axes=FALSE)
+plot(growth.plot, col=plot.colors, legend=FALSE, axes=FALSE)
 
 
 
