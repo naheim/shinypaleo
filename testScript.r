@@ -93,19 +93,6 @@ for(i in 1:total.iter) {
 		empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
 		
 		growth[empty.adj$to] <- empty.adj$new.value
-
-		# get adjacent cells: left, right, top, bottom
-		#adj.values <- growth[all.adj]
-		#open.adj <- all.adj[adj.values == 0]
-		#n.open <- length(open.adj)
-		#if(n.open > 0) {
-			# check probabilities of filling
-		#	p.fill <- n.open/(n.open+1) # no geotropism
-		
-			# generate random number for each open cell
-		#	check.probs <- runif(n.open)
-#			growth[open.adj[check.probs <= p.fill]] <- fill.color
-#		}
 	}
 	if(i %% 10 == 0) print(i)
 }
