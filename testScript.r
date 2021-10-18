@@ -1,8 +1,15 @@
 library('raster')
 
+
+# NUMBER OF TOTAL ITERATIONS
+# how long to run the model for
+total.iter <- 150
+
 # set raster size
 n.columns <- 201
-n.rows <- 101
+n.rows <- 251
+
+row.numbers <- n.columns * 1:(n.rows-1) + 1
 
 ### SET MODEL PARAMETERS
 # RANDOM SEED
@@ -14,7 +21,7 @@ seed <- set.seed(0)
 # must be a positive number greater than zero. 
 # Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism). 
 # Values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth.
-geotrop <- 0.38 
+geotrop <- 1 
 
 # EFFECT OF SEDIMENT 
 # values greater than 1 increase the probability of accretion by cells adjacent to the sediment surface (i.e., the sponge grows faster along the sediment surface)
@@ -35,10 +42,6 @@ startup <- 10
 # COLOR SWITCH
 # number of iterations before changing color
 col.switch <- 8
-
-# NUMBER OF TOTAL ITERATIONS
-# how long to run the model for
-total.iter <- 80
 
 ### SET DATA OBJECTS AND PRINTING PREFERENCES
 # plot colors
@@ -93,6 +96,20 @@ for(i in 1:total.iter) {
 		empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
 		
 		growth[empty.adj$to] <- empty.adj$new.value
+		
+		# sedimentation
+		# SEDIMENTATION INCREMENT 
+		# if deposition is occurring, how much is dumped in a single event. 
+		sed.incr <- 1
+
+		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
+		# number of iterations between deposition events. 
+		sed.int <- 5
+
+		# START-UP INTERVAL
+		# number of iterations before first depositional event.
+		startup <- 10
+		
 	}
 	if(i %% 10 == 0) print(i)
 }
@@ -101,7 +118,7 @@ print(t1 - t0)
 
 growth.plot <- growth
 growth.plot[growth.plot == 0] <- NA
-growth.plot <- raster::trim(growth.plot, padding = 2)
+growth.plot <- raster::trim(growth.plot, padding = 20)
 
 ### PLOT
 # convert color matrix to raster and plot
