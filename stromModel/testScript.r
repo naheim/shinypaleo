@@ -1,26 +1,26 @@
 library('raster')
-
+library('spatstat.utils')
 
 # NUMBER OF TOTAL ITERATIONS
 # how long to run the model for
-total.iter <- 200
+total.iter <- 100
 
 # set raster size
-n.columns <- 201
-n.rows <- 201
+n.columns <- 251
+n.rows <- total.iter + 1
 row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 
 ### SET MODEL PARAMETERS
 # RANDOM SEED
 # a random see starts the sequence of random numbers used by the model. 
 # Different values will produce slightly different results.
-seed <- set.seed(0) 
+#seed <- set.seed(0) 
 
 # GEOTROPISM 
 # must be a positive number greater than zero. 
 # Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism). 
 # Values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth.
-geotrop <- 1 
+geotrop <- 0.2 
 
 # EFFECT OF SEDIMENT 
 # values greater than 1 increase the probability of accretion by cells adjacent to the sediment surface (i.e., the sponge grows faster along the sediment surface)
@@ -32,11 +32,11 @@ sed.incr <- 1
 
 # INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 # number of iterations between deposition events. 
-sed.int <- 1
+sed.int <- 5
 
 # START-UP INTERVAL
 # number of iterations before first depositional event.
-startup <- 10
+startup <- 20
 
 
 
@@ -71,8 +71,8 @@ fill.color <- 1
 
 # get row numbers on which to make sediment deposit
 sed.iter <- seq(startup, total.iter, sed.int) # the iterations in which sedimentation occurs
-sed.deposits <- row.numbers[seq(sed.int, length(row.numbers), sed.int)]
-sed.count <- 1
+sed.bed <- 1
+sed.event <- 1
 
 for(i in 1:total.iter) {
 	# determine if fill color needs to be switched
@@ -109,40 +109,31 @@ for(i in 1:total.iter) {
 	# sedimentation
 	# if enough iterations have passed
 	# start at bottom row, lay down sed -- as many rows as requested
-	if(i == sed.iter[sed.count]) {
-		# fill in from the right
-		add.sed <- TRUE
-		for(j in 1:n.columns) {
-			if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] == 0 & add.sed==TRUE) {
-				growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] <- 3
-			} else if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] > 0) {
-				add.sed <- FALSE
-			}
+	if(i == sed.iter[sed.event]) {
+		for(j in 1:sed.incr) {
+			# fill in from the right
+			growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
+			# fill in from the left
+			growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
+			sed.bed <- sed.bed + 1
 		}
-		# fill in from the left
-		add.sed <- TRUE
-		for(j in n.columns:1) {
-			if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] == 0 & add.sed==TRUE) {
-				growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] <- 3
-			} else if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] > 0) {
-				add.sed <- FALSE
-			}
-		}
-		sed.count <- sed.count + 1
+		sed.event <- sed.event + 1
 	}
 	
-	if(i %% 10 == 0) print(i)
+	if(i %% 20 == 0) print(i)
 }
 t1 <- Sys.time()
 print(t1 - t0)
 
 growth.plot <- growth
 growth.plot[growth.plot == 0] <- NA
-growth.plot <- raster::trim(growth.plot, padding = 20)
+growth.plot <- raster::trim(growth.plot, padding = 5)
 
 ### PLOT
 # convert color matrix to raster and plot
-plot(growth.plot, col=plot.colors, legend=FALSE, axes=TRUE)
+par(mar=c(0.2,0.2,0.2,0.2))
+plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
+plot(growth.plot, col=plot.colors, legend=FALSE, add=TRUE)
 
 
 
