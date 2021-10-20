@@ -110,6 +110,7 @@ for(i in 1:total.iter) {
 	# if enough iterations have passed
 	# start at bottom row, lay down sed -- as many rows as requested
 	if(i == sed.iter[sed.count]) {
+		# fill in from the right
 		add.sed <- TRUE
 		for(j in 1:n.columns) {
 			if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] == 0 & add.sed==TRUE) {
@@ -118,6 +119,16 @@ for(i in 1:total.iter) {
 				add.sed <- FALSE
 			}
 		}
+		# fill in from the left
+		add.sed <- TRUE
+		for(j in n.columns:1) {
+			if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] == 0 & add.sed==TRUE) {
+				growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] <- 3
+			} else if(growth[sed.deposits[sed.count]:(sed.deposits[sed.count]+n.columns-1)][j] > 0) {
+				add.sed <- FALSE
+			}
+		}
+		sed.count <- sed.count + 1
 	}
 	
 	if(i %% 10 == 0) print(i)
