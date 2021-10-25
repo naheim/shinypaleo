@@ -52,7 +52,7 @@ ui <- fluidPage(
 			br(),
 			
 			br(),						
-			actionButton("submit", "Run Model"),
+			actionButton("submitParams", "Run Model"),
 			width=3,
 		),
 		
@@ -221,11 +221,13 @@ server <- function(input, output, session) {
 	})
 	
 	output$modelImage <- renderPlot({
-		### PLOT
-		# convert color matrix to raster and plot
-		par(mar=c(0.2,0.2,0.2,0.2))
-		plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
-		plot(growth.plot, col=plot.colors, legend=FALSE, add=TRUE)
+		input$submitParams
+		isolate({### PLOT
+			# convert color matrix to raster and plot
+			par(mar=c(0.2,0.2,0.2,0.2))
+			plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
+			plot(growth.plot, col=plot.colors, legend=FALSE, add=TRUE)
+		})
 	})
 }
 
