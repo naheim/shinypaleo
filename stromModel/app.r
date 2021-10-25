@@ -231,7 +231,7 @@ server <- function(input, output, session) {
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
 			plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
-			plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
+			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
 }
