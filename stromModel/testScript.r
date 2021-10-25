@@ -20,19 +20,19 @@ row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--r
 # must be a positive number greater than zero. 
 # Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism). 
 # Values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth.
-geotrop <- 0.2 
+geotrop <- 0.20 
 
 # EFFECT OF SEDIMENT 
 # values greater than 1 increase the probability of accretion by cells adjacent to the sediment surface (i.e., the sponge grows faster along the sediment surface)
-eff.sed <- 1.5
+eff.sed <- 0
 
 # SEDIMENTATION INCREMENT 
 # if deposition is occurring, how much is dumped in a single event. 
-sed.incr <- 1
+sed.incr <- 0
 
 # INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 # number of iterations between deposition events. 
-sed.int <- 5
+sed.int <- 0
 
 # START-UP INTERVAL
 # number of iterations before first depositional event.
@@ -45,9 +45,6 @@ startup <- 20
 col.switch <- 8
 
 ### SET DATA OBJECTS AND PRINTING PREFERENCES
-# plot colors
-plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
-#plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
 
 # create raster for holding data
 growth <- raster(matrix(0, nrow=n.rows, ncol=n.columns), xmn=0, xmx=n.columns, ymn=0, ymx=n.rows)
@@ -70,9 +67,15 @@ t0 <- Sys.time()
 fill.color <- 1
 
 # get row numbers on which to make sediment deposit
-sed.iter <- seq(startup, total.iter, sed.int) # the iterations in which sedimentation occurs
-sed.bed <- 1
-sed.event <- 1
+if(sed.int > 0) {
+	sed.iter <- seq(startup, total.iter, sed.int) # the iterations in which sedimentation occurs
+	sed.bed <- 1
+	sed.event <- 1
+	plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
+} else {
+	# plot colors
+	plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
+}
 
 for(i in 1:total.iter) {
 	# determine if fill color needs to be switched
@@ -109,7 +112,7 @@ for(i in 1:total.iter) {
 	# sedimentation
 	# if enough iterations have passed
 	# start at bottom row, lay down sed -- as many rows as requested
-	if(i == sed.iter[sed.event]) {
+	if(sed.int > 0 & i == sed.iter[sed.event]) {
 		for(j in 1:sed.incr) {
 			# fill in from the right
 			growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
