@@ -12,7 +12,6 @@ ui <- fluidPage(
 	
 			# Geotropism
 			h4("Geotropism"),
-			br(),  
 			numericInput(inputId = "geotrop",
 				label = "Enter a positive number greater than zero",
 				value = 1,
@@ -22,9 +21,8 @@ ui <- fluidPage(
 			
 			# SEDIMENTATION INTERVAL
 			h4("Sedimentation Interval"),
-			br(),  
 			sliderInput(inputId="sedInt", 
-				label = "Select a an integer between 0 and 10. If zero, no sedimentation will occur.",
+				label = "Select a an integer between 0 and 10.",
 				min = 0, 
 				max = 10,
 				value = 0),
@@ -34,7 +32,7 @@ ui <- fluidPage(
 			h4("Sedimentation Increment"),
 			br(),  
 			sliderInput(inputId="sedIncr", 
-				label = "Select a an integer between 0 and 10. If zero, no sedimentation will occur.",
+				label = "Select a an integer between 0 and 10.",
 				min = 0, 
 				max = 10,
 				value = 0),
@@ -58,24 +56,27 @@ ui <- fluidPage(
 		
 		mainPanel(					
 			## Parameter Explanations
-			h3("Geotropism"),
+			h2("Explanation of Model Parameters"),
+			br(),
+			
+			h4("Geotropism"),
 			span("This determines whether the structure will preferentially grow up or laterally. Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
 			br(),
 			
-			h3("Sedimentation Interval"),
+			h4("Sedimentation Interval"),
 			span("This is the number of iterations between deposition events. No deposition if set to zero."),
 			br(), 
 			
-			h3("Sedimentation Increment"),
+			h4("Sedimentation Increment"),
 			span("This determines how much sediment deposited in a single depositional event."),
 			br(),
 			
-			h3("Sedimentation Startup"),
+			h4("Sedimentation Startup"),
 			span("The number of iterations before first depositional event."),
 			
 			
 			## Number of Sites, species and occurrences (live and dead)
-			h3("Modeled Stromatoporoid Morphology"),		
+			h2("Modeled Stromatoporoid Morphology"),		
 			fluidRow(
 				plotOutput(outputId = "rangePlot"),
 				h5("Call to Paleobiology Database API:"),
