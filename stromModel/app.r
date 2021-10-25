@@ -6,14 +6,17 @@ ui <- fluidPage(
 	
 	sidebarLayout(
 		sidebarPanel(					
-			h3("Enter the names of taxa"),
-			h5("If you see an error message, you have misspelled one or more of your taxon names.", style="color:red"),
+			h3("Set Model Parameters"),
+			h5("The model can take a little bit of time to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
 			br(),
 	
-			# select environment
-			textInput(inputId = "taxa",
-				label = "Enter a taxon or multiple taxa separated by a comma:",
-				value = "Olenellus, Redlichia, Elrathia, Flexicalymene, Phacops, Kathwaia"),
+			h2("Geotropism"),
+			span("Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
+			 
+# 
+			numericInput(inputId = "geotrop",
+				label = "Enter a positive number greater than zero",
+				value = 1),
 			br(),
 			
 			# select taxonomic resolution
