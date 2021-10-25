@@ -116,11 +116,11 @@ server <- function(input, output, session) {
 
 		# SEDIMENTATION INCREMENT 
 		# if deposition is occurring, how much is dumped in a single event. 
-		sed.incr <- input$sedincr
+		sedIncr <- input$sedincr
 
 		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 		# number of iterations between deposition events. 
-		sed.int <- input$sedint
+		sedInt <- input$sedint
 
 		# START-UP INTERVAL
 		# number of iterations before first depositional event.
@@ -154,8 +154,8 @@ server <- function(input, output, session) {
 		fill.color <- 1
 
 		# get row numbers on which to make sediment deposit
-		if(sed.int > 0) {
-			sed.iter <- seq(startup, total.iter, sed.int) # the iterations in which sedimentation occurs
+		if(sedInt > 0) {
+			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
 			sed.bed <- 1
 			sed.event <- 1
 		}
@@ -195,8 +195,8 @@ server <- function(input, output, session) {
 			# sedimentation
 			# if enough iterations have passed
 			# start at bottom row, lay down sed -- as many rows as requested
-			if(sed.int > 0 & i == sed.iter[sed.event]) {
-				for(j in 1:sed.incr) {
+			if(sedInt > 0 & i == sed.iter[sed.event]) {
+				for(j in 1:sedIncr) {
 					# fill in from the right
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
 					# fill in from the left
@@ -219,7 +219,7 @@ server <- function(input, output, session) {
 	
 	output$modelImage <- renderPlot({
 		# get row numbers on which to make sediment deposit
-		if(input$sed.int > 0) {
+		if(input$sedInt > 0) {
 			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
 		} else {
 			# plot colors
