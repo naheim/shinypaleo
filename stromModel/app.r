@@ -94,10 +94,10 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 200
+		total.iter <- 20
 
 		# set raster size
-		n.columns <- 251
+		n.columns <- 51
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 
@@ -235,9 +235,8 @@ server <- function(input, output, session) {
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
-			#plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
-			plot(themodel())
-			#raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
+			plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
+			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
 }
