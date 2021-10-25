@@ -10,24 +10,58 @@ ui <- fluidPage(
 			h5("The model can take a little bit of time to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
 			br(),
 	
-			h2("Geotropism"),
+			# Geotropism
+			h4("Geotropism"),
 			span("Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
-			 
-# 
+			br(),  
 			numericInput(inputId = "geotrop",
 				label = "Enter a positive number greater than zero",
-				value = 1),
+				value = 1,
+				min=0),
 			br(),
 			
-			# select taxonomic resolution
-			selectInput(inputId = "taxonReso",
-				label = "Taxonomic resolution:",
-				choices = c("Phylum","Class","Order","Family","Genus","Species"),
-				selected = "Genus"),
+			# SEDIMENTATION INTERVAL
+			h4("Sedimentation Interval"),
+			span("If deposition is occurring (values > 0), this is the number of iterations between deposition events."),
+			br(),  
+			numericInput(inputId = "sedInt",
+				label = "Enter a an integer between 0 and 10. If zero, no sedimentation will occur.",
+				value = 0,
+				min=0,
+				max=10,
+				step=1),
 			br(),
+			
+			
+			# SEDIMENTATION INCREMENT
+			h4("Sedimentation Increment"),
+			span("If deposition is occurring (values > 0), how much sediment deposited in a single event."),
+			br(),  
+			numericInput(inputId = "sedIncr",
+				label = "Enter a an integer between 0 and 10. If zero, no sedimentation will occur.",
+				value = 0,
+				min=0,
+				max=10,
+				step=1),
 			br(),
-									
-			actionButton("Run Model", "submit"),
+			
+			
+			# SEDIMENTATION STARTUP
+			h4("Sedimentation Startup"),
+			span("The number of iterations before first depositional event."),
+			br(),  
+			numericInput(inputId = "startup",
+				label = "Enter a an integer between 0 and 100.",
+				value = 0,
+				min=0,
+				max=100,
+				step=1),
+			br(),
+			
+			
+			br(),
+			br(),						
+			actionButton("submit", "Run Model"),
 			width=3,
 		),
 		
