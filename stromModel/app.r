@@ -17,20 +17,28 @@ ui <- fluidPage(
 			numericInput(inputId = "geotrop",
 				label = "Enter a positive number greater than zero",
 				value = 1,
-				min=0),
+				min=0,
+				step=0.1),
 			br(),
 			
 			# SEDIMENTATION INTERVAL
 			h4("Sedimentation Interval"),
 			span("If deposition is occurring (values > 0), this is the number of iterations between deposition events."),
 			br(),  
-			numericInput(inputId = "sedInt",
+			
+			sliderInput(inputId="sedInt", 
 				label = "Enter a an integer between 0 and 10. If zero, no sedimentation will occur.",
-				value = 0,
-				min=0,
-				max=10,
-				step=1),
+				min = 0, 
+				max = 10,
+				value = 0),
 			br(),
+			#numericInput(inputId = "sedInt",
+			#	label = "Enter a an integer between 0 and 10. If zero, no sedimentation will occur.",
+			#	value = 0,
+			#	min=0,
+			#	max=10,
+			#	step=1),
+			#br(),
 			
 			
 			# SEDIMENTATION INCREMENT
