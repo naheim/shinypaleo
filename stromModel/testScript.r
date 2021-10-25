@@ -28,11 +28,11 @@ eff.sed <- 0
 
 # SEDIMENTATION INCREMENT 
 # if deposition is occurring, how much is dumped in a single event. 
-sed.incr <- 1
+sed.incr <- 0
 
 # INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 # number of iterations between deposition events. 
-sed.int <- 5
+sed.int <- 0
 
 # START-UP INTERVAL
 # number of iterations before first depositional event.
