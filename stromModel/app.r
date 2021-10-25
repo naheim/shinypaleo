@@ -91,7 +91,7 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 20
+		total.iter <- 200
 
 		# set raster size
 		n.columns <- 251
