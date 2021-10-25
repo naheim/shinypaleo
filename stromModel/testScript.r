@@ -3,7 +3,7 @@ library('spatstat.utils')
 
 # NUMBER OF TOTAL ITERATIONS
 # how long to run the model for
-total.iter <- 100
+total.iter <- 200
 
 # set raster size
 n.columns <- 251
@@ -28,11 +28,11 @@ eff.sed <- 0
 
 # SEDIMENTATION INCREMENT 
 # if deposition is occurring, how much is dumped in a single event. 
-sed.incr <- 0
+sed.incr <- 1
 
 # INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 # number of iterations between deposition events. 
-sed.int <- 0
+sed.int <- 5
 
 # START-UP INTERVAL
 # number of iterations before first depositional event.

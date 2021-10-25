@@ -2,7 +2,7 @@ library(shiny)
 
 ui <- fluidPage(
 
-	titlePanel("Stratigraphic Ranges from the PBDB"),
+	titlePanel("Growth Model for Stromatoporoids"),
 	
 	sidebarLayout(
 		sidebarPanel(					
@@ -24,13 +24,13 @@ ui <- fluidPage(
 			br(),
 			br(),
 									
-			actionButton("submitTaxa", "submit"),
+			actionButton("Run Model", "submit"),
 			width=3,
 		),
 		
 		mainPanel(					
 			## Number of Sites, species and occurrences (live and dead)
-			h3("Stratigraphic Ranges"),		
+			h3("Modeled Stromatoporoid Morphology"),		
 			fluidRow(
 				plotOutput(outputId = "rangePlot"),
 				h5("Call to Paleobiology Database API:"),
