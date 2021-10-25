@@ -216,7 +216,7 @@ server <- function(input, output, session) {
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
 		growth.plot <- raster::trim(growth.plot, padding = 5)
-		growth.plot
+		raster(growth.plot)
 	})
 	
 	output$modelImage <- renderPlot({
@@ -234,8 +234,8 @@ server <- function(input, output, session) {
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
-			plot(1:10, type="o", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
-			#raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
+			plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
+			raster::plot(as.raster(themodel()), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
 }
