@@ -158,10 +158,6 @@ server <- function(input, output, session) {
 			sed.iter <- seq(startup, total.iter, sed.int) # the iterations in which sedimentation occurs
 			sed.bed <- 1
 			sed.event <- 1
-			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
-		} else {
-			# plot colors
-			plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
 		}
 
 		for(i in 1:total.iter) {
@@ -221,12 +217,20 @@ server <- function(input, output, session) {
 	})
 	
 	output$modelImage <- renderPlot({
+		# get row numbers on which to make sediment deposit
+		if(input$sed.int > 0) {
+			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
+		} else {
+			# plot colors
+			plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
+		}
+		
 		input$submitParams
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
 			plot(1:10, type="n", axes=F, xlim=c(0,n.columns), ylim=c(0,n.rows), xlab="", ylab="")
-			plot(growth.plot, col=plot.colors, legend=FALSE, add=TRUE)
+			plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
 }
