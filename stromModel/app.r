@@ -12,7 +12,6 @@ ui <- fluidPage(
 	
 			# Geotropism
 			h4("Geotropism"),
-			span("Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
 			br(),  
 			numericInput(inputId = "geotrop",
 				label = "Enter a positive number greater than zero",
@@ -23,7 +22,6 @@ ui <- fluidPage(
 			
 			# SEDIMENTATION INTERVAL
 			h4("Sedimentation Interval"),
-			span("If deposition is occurring (values > 0), this is the number of iterations between deposition events."),
 			br(),  
 			sliderInput(inputId="sedInt", 
 				label = "Select a an integer between 0 and 10. If zero, no sedimentation will occur.",
@@ -34,7 +32,6 @@ ui <- fluidPage(
 			
 			# SEDIMENTATION INCREMENT
 			h4("Sedimentation Increment"),
-			span("If deposition is occurring (values > 0), how much sediment deposited in a single event."),
 			br(),  
 			sliderInput(inputId="sedIncr", 
 				label = "Select a an integer between 0 and 10. If zero, no sedimentation will occur.",
@@ -45,7 +42,6 @@ ui <- fluidPage(
 			
 			# SEDIMENTATION STARTUP
 			h4("Sedimentation Startup"),
-			span("The number of iterations before first depositional event."),
 			br(),  
 			
 			sliderInput(inputId="startup", 
@@ -55,13 +51,29 @@ ui <- fluidPage(
 				value = 0),
 			br(),
 			
-			br(),
 			br(),						
 			actionButton("submit", "Run Model"),
 			width=3,
 		),
 		
 		mainPanel(					
+			## Parameter Explanations
+			h3("Geotropism"),
+			span("This determines whether the structure will preferentially grow up or laterally. Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
+			br(),
+			
+			h3("Sedimentation Interval"),
+			span("This is the number of iterations between deposition events. No deposition if set to zero."),
+			br(), 
+			
+			h3("Sedimentation Increment"),
+			span("This determines how much sediment deposited in a single depositional event."),
+			br(),
+			
+			h3("Sedimentation Startup"),
+			span("The number of iterations before first depositional event."),
+			
+			
 			## Number of Sites, species and occurrences (live and dead)
 			h3("Modeled Stromatoporoid Morphology"),		
 			fluidRow(
@@ -70,10 +82,6 @@ ui <- fluidPage(
 				textOutput(outputId = "uriCall")
 			), 
 			
-			h3("Data Table"),		
-			fluidRow(
-				tableOutput(outputId = "rangeTable")
-			),
 		)
 	)
 )	
