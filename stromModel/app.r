@@ -119,11 +119,11 @@ server <- function(input, output, session) {
 
 		# SEDIMENTATION INCREMENT 
 		# if deposition is occurring, how much is dumped in a single event. 
-		sedIncr <- input$sedincr
+		sedIncr <- input$sedIncr
 
 		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 		# number of iterations between deposition events. 
-		sedInt <- input$sedint
+		sedInt <- input$sedInt
 
 		# START-UP INTERVAL
 		# number of iterations before first depositional event.
