@@ -100,7 +100,7 @@ server <- function(input, output, session) {
 		n.columns <- 51
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
-		print(paste("n.columns=",n.columns, sep=""))
+		#print(paste("n.columns=",n.columns, sep=""))
 		
 		### SET MODEL PARAMETERS
 		# RANDOM SEED
@@ -121,12 +121,12 @@ server <- function(input, output, session) {
 		# SEDIMENTATION INCREMENT 
 		# if deposition is occurring, how much is dumped in a single event. 
 		sedIncr <- input$sedIncr
-		print(paste("sedIncr=",sedIncr, sep=""))
+		#print(paste("sedIncr=",sedIncr, sep=""))
 
 		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 		# number of iterations between deposition events. 
 		sedInt <- input$sedInt
-		print(paste("sedInt=",sedInt, sep=""))
+		#print(paste("sedInt=",sedInt, sep=""))
 
 		# START-UP INTERVAL
 		# number of iterations before first depositional event.
@@ -167,7 +167,7 @@ server <- function(input, output, session) {
 		} else {
 			sed.iter <- rep(0, total.iter) # the iterations in which sedimentation occurs		
 		}
-		print(paste("sed.iter=",sed.iter, sep=""))
+		#print(paste("sed.iter=",sed.iter, sep=""))
 
 		for(i in 1:total.iter) {
 			# determine if fill color needs to be switched
@@ -223,6 +223,7 @@ server <- function(input, output, session) {
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
 		growth.plot <- raster::trim(growth.plot, padding = 5)
+		print(themodel())
 		raster(growth.plot)
 	})
 	
