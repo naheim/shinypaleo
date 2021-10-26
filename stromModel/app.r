@@ -88,8 +88,8 @@ ui <- fluidPage(
 )	
 
 server <- function(input, output, session) {	
-	library('raster')
-	library('spatstat.utils')
+	#library('raster')
+	#library('spatstat.utils')
 	
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
@@ -229,7 +229,7 @@ server <- function(input, output, session) {
 	})
 	
 	output$modelImage <- renderPlot({
-		library('raster')
+		#library('raster')
 
 		#print(themodel())
 		# get row numbers on which to make sediment deposit
