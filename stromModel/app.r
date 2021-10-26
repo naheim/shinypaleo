@@ -215,7 +215,7 @@ server <- function(input, output, session) {
 				sed.event <- sed.event + 1
 			}
 	
-			if(i %% 20 == 0) print(i)
+			if(i %% 5 == 0) print(i)
 		}
 		t1 <- Sys.time()
 		print(t1 - t0)
@@ -230,7 +230,7 @@ server <- function(input, output, session) {
 	output$modelImage <- renderPlot({
 		library('raster')
 
-		print(themodel())
+		#print(themodel())
 		# get row numbers on which to make sediment deposit
 		if(input$sedInt > 0) {
 			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
