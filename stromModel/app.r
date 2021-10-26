@@ -88,8 +88,8 @@ ui <- fluidPage(
 )	
 
 server <- function(input, output, session) {	
-	library('raster')
-	library('spatstat.utils')
+	#library('raster')
+	#library('spatstat.utils')
 	
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
