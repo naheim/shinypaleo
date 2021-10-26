@@ -213,7 +213,7 @@ server <- function(input, output, session) {
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
 					sed.bed <- sed.bed + 1
 					print(paste("i=", i, "; j=",j, sep=""))
-					print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)], sep=""))
+					print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0], sep=""))
 										
 				}
 				sed.event <- sed.event + 1
@@ -224,10 +224,9 @@ server <- function(input, output, session) {
 		t1 <- Sys.time()
 		print(t1 - t0)
 
-		growth.plot <- growth
-		growth.plot[growth.plot == 0] <- NA
-#		growth.plot <- raster::trim(growth.plot, padding = 5)
-		growth.plot
+		growth[growth == 0] <- NA
+#		growth <- raster::trim(growth, padding = 5)
+		growth
 		
 	})
 	
