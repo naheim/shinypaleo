@@ -27,7 +27,7 @@ ui <- fluidPage(
 				label = "Select a an integer between 0 and 10.",
 				min = 0, 
 				max = 50,
-				value = 3),
+				value = 0),
 			br(),
 			
 			
@@ -50,7 +50,7 @@ ui <- fluidPage(
 				label = "Select a an integer between 0 and 100.",
 				min = 1, 
 				max = 100,
-				value = 6),
+				value = 1),
 			br(),
 			
 			br(),						
