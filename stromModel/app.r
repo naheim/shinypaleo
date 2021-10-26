@@ -212,11 +212,12 @@ server <- function(input, output, session) {
 					# fill in from the left
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
 					sed.bed <- sed.bed + 1
+					print(paste("i=", i, "; j=",j, sep=""))
 				}
 				sed.event <- sed.event + 1
 			}
 	
-			if(i %% 10 == 0) print(i)
+			#if(i %% 10 == 0) print(i)
 		}
 		t1 <- Sys.time()
 		print(t1 - t0)
