@@ -54,7 +54,7 @@ ui <- fluidPage(
 			br(),
 			
 			br(),						
-			submitButton("Run Model", icon()),
+			submitButton("Run Model"),
 #			actionButton("submitParams", "Run Model"),
 			width=3,
 		),
