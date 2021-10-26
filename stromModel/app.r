@@ -216,7 +216,7 @@ server <- function(input, output, session) {
 					#print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0], sep=""))
 										
 				#}
-			#	sed.event <- sed.event + 1
+				sed.event <- sed.event + 1
 			}
 	
 			#if(i %% 10 == 0) print(i)
