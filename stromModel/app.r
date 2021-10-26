@@ -26,7 +26,7 @@ ui <- fluidPage(
 			sliderInput(inputId="sedInt", 
 				label = "Select a an integer between 0 and 10.",
 				min = 0, 
-				max = 10,
+				max = 50,
 				value = 3),
 			br(),
 			
@@ -37,7 +37,7 @@ ui <- fluidPage(
 			sliderInput(inputId="sedIncr", 
 				label = "Select a an integer between 0 and 10.",
 				min = 1, 
-				max = 10,
+				max = 50,
 				value = 1),
 			br(),
 		
@@ -94,10 +94,10 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 100
+		total.iter <- 300
 
 		# set raster size
-		n.columns <- 301
+		n.columns <- 901
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
@@ -134,7 +134,7 @@ server <- function(input, output, session) {
 
 		# COLOR SWITCH
 		# number of iterations before changing color
-		col.switch <- 8
+		col.switch <- 10
 
 		### SET DATA OBJECTS AND PRINTING PREFERENCES
 
@@ -166,8 +166,6 @@ server <- function(input, output, session) {
 		} else {
 			sed.iter <- rep(0, total.iter) # the iterations in which sedimentation occurs		
 		}
-		print(paste("sed.iter=",sed.iter, sep=""))
-		print(paste("sed.event=",sed.event, sep=""))
 
 		for(i in 1:total.iter) {
 			# determine if fill color needs to be switched
@@ -198,27 +196,19 @@ server <- function(input, output, session) {
 				empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
 		
 				growth[empty.adj$to] <- empty.adj$new.value
-		
 			}
 	
 			# sedimentation
 			# if enough iterations have passed
 			# start at bottom row, lay down sed -- as many rows as requested
-			#print(paste("sed.iter:", sed.iter))
 			if(sedInt > 0 & sed.event <= length(sed.iter) & i == sed.iter[sed.event]) {
 				for(j in 1:sedIncr) {
 					# fill in from the right
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
 					# fill in from the left
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
-					sed.bed <- sed.bed + 1
-					#print(paste("i=", i, "; j=",j, sep=""))
-					#print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0], sep=""))
-										
+					sed.bed <- sed.bed + 1										
 				}
-				print(paste("i=", i))
-				print(paste("sed.iter[sed.event]:", sed.iter[sed.event]))
-				print(paste("sed.event:", sed.event))
 				sed.event <- sed.event + 1
 			}
 	
@@ -228,7 +218,6 @@ server <- function(input, output, session) {
 		print(t1 - t0)
 
 		growth[growth == 0] <- NA
-#		growth <- raster::trim(growth, padding = 5)
 		growth
 		
 	})
