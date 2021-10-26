@@ -228,7 +228,7 @@ server <- function(input, output, session) {
 	output$modelImage <- renderPlot({
 		library('raster')
 
-		print(paste("print: sedInt",input$sedInt, sep=""))
+		#print(paste("print: sedInt",input$sedInt, sep=""))
 		print(paste("print: nrow",raster::ncol(themodel()), sep=""))
 		
 		# get row numbers on which to make sediment deposit
