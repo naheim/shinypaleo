@@ -206,7 +206,7 @@ server <- function(input, output, session) {
 			# start at bottom row, lay down sed -- as many rows as requested
 			#print(paste("sed.iter:", sed.iter))
 			if(sedInt > 0 & i == sed.iter[sed.event]) {
-				#for(j in 1:sedIncr) {
+				for(j in 1:sedIncr) {
 					# fill in from the right
 					#growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
 					# fill in from the left
@@ -215,7 +215,7 @@ server <- function(input, output, session) {
 					#print(paste("i=", i, "; j=",j, sep=""))
 					#print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0], sep=""))
 										
-				#}
+				}
 				print(paste("i=", i))
 				print(paste("sed.iter[sed.event]:", sed.iter[sed.event]))
 				print(paste("sed.event:", sed.event))
