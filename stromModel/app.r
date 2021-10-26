@@ -223,7 +223,7 @@ server <- function(input, output, session) {
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
 		growth.plot <- raster::trim(growth.plot, padding = 5)
-		print(themodel())
+		#print(themodel())
 		raster(growth.plot)
 	})
 	
