@@ -166,6 +166,7 @@ server <- function(input, output, session) {
 			sed.bed <- 1
 			sed.event <- 1
 		}
+		print(paste("sed.iter=",sed.iter, sep=""))
 
 		for(i in 1:total.iter) {
 			# determine if fill color needs to be switched
