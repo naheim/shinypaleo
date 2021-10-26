@@ -242,13 +242,18 @@ server <- function(input, output, session) {
 		xLimits <- c(0, raster::ncol(themodel()))
 		yLimits <- c(0, raster::nrow(themodel()))
 		
-		input$submitParams
-		isolate({### PLOT
-			# convert color matrix to raster and plot
-			par(mar=c(0.2,0.2,0.2,0.2))
-			plot(1:10, type="n", axes=FALSE, xlim=xLimits, ylim=yLimits, xlab="", ylab="")
-			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
-		})
+		
+		observeEvent(
+			eventExpr = input[["submitParams"]],
+			handlerExpr = {
+				isolate({### PLOT
+					# convert color matrix to raster and plot
+					par(mar=c(0.2,0.2,0.2,0.2))
+					plot(1:10, type="n", axes=FALSE, xlim=xLimits, ylim=yLimits, xlab="", ylab="")
+					raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
+				})
+			}
+		)
 	})
 }
 
