@@ -24,7 +24,7 @@ ui <- fluidPage(
 			# SEDIMENTATION INTERVAL
 			h4("Sedimentation Interval"),
 			sliderInput(inputId="sedInt", 
-				label = "Select a an integer between 0 and 10.",
+				label = "Select a an integer between 0 and 50.",
 				min = 0, 
 				max = 50,
 				value = 0),
@@ -35,7 +35,7 @@ ui <- fluidPage(
 			h4("Sedimentation Increment"),
 			br(),  
 			sliderInput(inputId="sedIncr", 
-				label = "Select a an integer between 0 and 10.",
+				label = "Select a an integer between 1 and 50.",
 				min = 1, 
 				max = 50,
 				value = 1),
@@ -47,7 +47,7 @@ ui <- fluidPage(
 			br(),  
 			
 			sliderInput(inputId="startup", 
-				label = "Select a an integer between 0 and 100.",
+				label = "Select a an integer between 1 and 100.",
 				min = 1, 
 				max = 100,
 				value = 1),
