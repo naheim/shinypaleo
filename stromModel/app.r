@@ -221,7 +221,7 @@ server <- function(input, output, session) {
 		print(t1 - t0)
 
 		growth.plot <- growth
-#		growth.plot[growth.plot == 0] <- NA
+		growth.plot[growth.plot == 0] <- NA
 #		growth.plot <- raster::trim(growth.plot, padding = 5)
 		growth.plot
 		
