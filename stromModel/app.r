@@ -100,7 +100,8 @@ server <- function(input, output, session) {
 		n.columns <- 51
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
-
+		print(n.columns)
+		
 		### SET MODEL PARAMETERS
 		# RANDOM SEED
 		# a random see starts the sequence of random numbers used by the model. 
