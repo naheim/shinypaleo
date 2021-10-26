@@ -244,8 +244,8 @@ server <- function(input, output, session) {
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
-			plot(1:max(yLimits), type="o", axes=FALSE, xlim=xLimits, ylim=yLimits, xlab="", ylab="")
-#			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
+			plot(1:max(yLimits), type="n", axes=FALSE, xlim=xLimits, ylim=yLimits, xlab="", ylab="")
+			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
 }
