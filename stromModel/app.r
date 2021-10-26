@@ -205,7 +205,7 @@ server <- function(input, output, session) {
 			# if enough iterations have passed
 			# start at bottom row, lay down sed -- as many rows as requested
 			#print(paste("sed.iter:", sed.iter))
-			#if(sedInt > 0 & i == sed.iter[sed.event]) {
+			if(sedInt > 0 & i == sed.iter[sed.event]) {
 				#for(j in 1:sedIncr) {
 					# fill in from the right
 					#growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
@@ -217,7 +217,7 @@ server <- function(input, output, session) {
 										
 				#}
 			#	sed.event <- sed.event + 1
-			#}
+			}
 	
 			#if(i %% 10 == 0) print(i)
 		}
