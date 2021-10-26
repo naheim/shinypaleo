@@ -161,6 +161,8 @@ server <- function(input, output, session) {
 
 		# get row numbers on which to make sediment deposit
 		sed.iter <- NA
+		sed.bed <- NA
+		sed.event <- NA
 		if(sedInt > 0) {
 			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
 			sed.bed <- 1
