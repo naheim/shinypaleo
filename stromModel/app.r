@@ -213,7 +213,7 @@ server <- function(input, output, session) {
 			if(i %% 20 == 0) print(i)
 		}
 		t1 <- Sys.time()
-		#print(t1 - t0)
+		print(t1 - t0)
 
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
@@ -231,12 +231,14 @@ server <- function(input, output, session) {
 			# plot colors
 			plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
 		}
+		xLimits <- c(0, ncol(themodel()))
+		yLimits <- c(0, nrow(themodel()))
 		
 		input$submitParams
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
-			plot(1:10, type="n", axes=FALSE, xlim=c(0,ncol(themodel())), ylim=c(0,n.rows), xlab="", ylab="")
+			plot(1:10, type="n", axes=FALSE, xlim=xLimits, ylim=yLimits, xlab="", ylab="")
 			raster::plot(themodel(), col=plot.colors, legend=FALSE, add=TRUE)
 		})
 	})
