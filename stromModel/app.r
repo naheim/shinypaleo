@@ -229,7 +229,7 @@ server <- function(input, output, session) {
 	output$modelImage <- renderPlot({
 		library('raster')
 
-		
+		print(themodel())
 		# get row numbers on which to make sediment deposit
 		if(input$sedInt > 0) {
 			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
