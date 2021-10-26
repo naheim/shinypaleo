@@ -222,7 +222,7 @@ server <- function(input, output, session) {
 	})
 	
 	output$modelImage <- renderPlot({
-		#library('raster')
+		library('raster')
 		
 		# get row numbers on which to make sediment deposit
 		if(input$sedInt > 0) {
