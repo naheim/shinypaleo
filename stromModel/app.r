@@ -208,7 +208,7 @@ server <- function(input, output, session) {
 			if(sedInt > 0 & i == sed.iter[sed.event]) {
 				for(j in 1:sedIncr) {
 					# fill in from the right
-					#growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
+					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
 					# fill in from the left
 					#growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
 					sed.bed <- sed.bed + 1
