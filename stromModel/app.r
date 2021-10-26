@@ -88,8 +88,8 @@ ui <- fluidPage(
 	)
 )	
 
-server <- function(input, output, session) {		
-	themodel <- eventReactive({
+server <- function(input, output, session) {	
+	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
 		total.iter <- 20
@@ -236,7 +236,8 @@ server <- function(input, output, session) {
 		}
 		xLimits <- c(0, raster::ncol(themodel()))
 		yLimits <- c(0, raster::nrow(themodel()))
-				
+		
+		input$submitParams
 		isolate({### PLOT
 			# convert color matrix to raster and plot
 			par(mar=c(0.2,0.2,0.2,0.2))
