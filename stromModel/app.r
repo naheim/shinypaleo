@@ -126,6 +126,7 @@ server <- function(input, output, session) {
 		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 		# number of iterations between deposition events. 
 		sedInt <- input$sedInt
+		print(paste("sedInt=",sedInt, sep=""))
 
 		# START-UP INTERVAL
 		# number of iterations before first depositional event.
@@ -159,6 +160,7 @@ server <- function(input, output, session) {
 		fill.color <- 1
 
 		# get row numbers on which to make sediment deposit
+		sed.iter <- NA
 		if(sedInt > 0) {
 			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
 			sed.bed <- 1
