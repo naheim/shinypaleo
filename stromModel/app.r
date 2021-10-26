@@ -9,7 +9,7 @@ ui <- fluidPage(
 	sidebarLayout(
 		sidebarPanel(					
 			h3("Set Model Parameters"),
-			h5("The model can take a little bit of time to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
+			h5("The model can take about a minute to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
 			br(),
 	
 			# Geotropism
@@ -30,15 +30,17 @@ ui <- fluidPage(
 				value = 0),
 			br(),
 			
+			
 			# SEDIMENTATION INCREMENT
 			h4("Sedimentation Increment"),
 			br(),  
 			sliderInput(inputId="sedIncr", 
 				label = "Select a an integer between 0 and 10.",
-				min = 0, 
+				min = 1, 
 				max = 10,
-				value = 0),
+				value = 1),
 			br(),
+		
 			
 			# SEDIMENTATION STARTUP
 			h4("Sedimentation Startup"),
@@ -52,7 +54,7 @@ ui <- fluidPage(
 			br(),
 			
 			br(),						
-			submitButton("Run Model", icon("refresh")),
+			submitButton("Run Model", icon()),
 #			actionButton("submitParams", "Run Model"),
 			width=3,
 		),
@@ -67,12 +69,12 @@ ui <- fluidPage(
 			br(),
 			
 			h4("Sedimentation Interval"),
-			span("This is the number of iterations between deposition events. No deposition if set to zero."),
-			br(), 
+			span("This is the number of iterations between deposition events."),
+			br(),
 			
 			h4("Sedimentation Increment"),
-			span("This determines how much sediment deposited in a single depositional event."),
-			br(),
+			span("This determines how much sediment deposited in a single depositional event. No deposition if set to zero."),
+			br(), 
 			
 			h4("Sedimentation Startup"),
 			span("The number of iterations before first depositional event."),
@@ -92,10 +94,10 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 200
+		total.iter <- 100
 
 		# set raster size
-		n.columns <- 501
+		n.columns <- 301
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		#print(paste("n.columns=",n.columns, sep=""))
@@ -221,7 +223,6 @@ server <- function(input, output, session) {
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
 		growth.plot <- raster::trim(growth.plot, padding = 5)
-		print(growth.plot)
 		growth.plot
 		
 	})
