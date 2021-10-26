@@ -218,7 +218,7 @@ server <- function(input, output, session) {
 				#}
 				print("sed.iter[sed.event]:", sed.iter[sed.event])
 				print("sed.event:", sed.event)
-				sed.event <- sed.event + 1
+				#sed.event <- sed.event + 1
 			}
 	
 			#if(i %% 10 == 0) print(i)
