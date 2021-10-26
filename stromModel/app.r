@@ -9,7 +9,7 @@ ui <- fluidPage(
 	sidebarLayout(
 		sidebarPanel(					
 			h3("Set Model Parameters"),
-			h5("The model can take about a minute to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
+			h5("The model can take more than a minute to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
 			br(),
 	
 			# Geotropism
