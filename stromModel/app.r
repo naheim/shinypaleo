@@ -204,7 +204,6 @@ server <- function(input, output, session) {
 			# sedimentation
 			# if enough iterations have passed
 			# start at bottom row, lay down sed -- as many rows as requested
-			print(paste("sedInt", sedInt))
 			print(paste("sed.iter:", sed.iter))
 			if(sedInt > 0 & i == sed.iter[sed.event]) {
 				for(j in 1:sedIncr) {
