@@ -97,7 +97,7 @@ server <- function(input, output, session) {
 		total.iter <- 200
 
 		# set raster size
-		n.columns <- 501
+		n.columns <- 401
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
@@ -212,7 +212,7 @@ server <- function(input, output, session) {
 				sed.event <- sed.event + 1
 			}
 	
-			if(i %% 10 == 0) print(i)
+			if(i %% 20 == 0) print(i)
 		}
 		t1 <- Sys.time()
 		print(t1 - t0)
