@@ -160,13 +160,12 @@ server <- function(input, output, session) {
 		fill.color <- 1
 
 		# get row numbers on which to make sediment deposit
-		sed.iter <- NA
-		sed.bed <- NA
-		sed.event <- NA
+		sed.bed <- 1
+		sed.event <- 1
 		if(sedInt > 0) {
 			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
-			sed.bed <- 1
-			sed.event <- 1
+		} else {
+			sed.iter <- rep(0, total.iter) # the iterations in which sedimentation occurs		
 		}
 		print(paste("sed.iter=",sed.iter, sep=""))
 
