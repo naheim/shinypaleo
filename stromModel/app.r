@@ -27,7 +27,7 @@ ui <- fluidPage(
 				label = "Select a an integer between 0 and 10.",
 				min = 0, 
 				max = 10,
-				value = 0),
+				value = 3),
 			br(),
 			
 			
@@ -50,7 +50,7 @@ ui <- fluidPage(
 				label = "Select a an integer between 0 and 100.",
 				min = 1, 
 				max = 100,
-				value = 1),
+				value = 6),
 			br(),
 			
 			br(),						
@@ -212,8 +212,9 @@ server <- function(input, output, session) {
 					# fill in from the left
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
 					sed.bed <- sed.bed + 1
-					print(paste("sed.bed", sed.bed, sep=""))					
 					print(paste("i=", i, "; j=",j, sep=""))
+					print(paste("sed.bed: ", sed.bed, "; length row.numbers: ", nrow(row.numbers), sep=""))
+										
 				}
 				sed.event <- sed.event + 1
 			}
