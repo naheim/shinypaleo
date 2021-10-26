@@ -215,14 +215,14 @@ server <- function(input, output, session) {
 				sed.event <- sed.event + 1
 			}
 	
-			if(i %% 5 == 0) print(i)
+			if(i %% 10 == 0) print(i)
 		}
 		t1 <- Sys.time()
 		print(t1 - t0)
 
 		growth.plot <- growth
 		growth.plot[growth.plot == 0] <- NA
-		growth.plot <- raster::trim(growth.plot, padding = 5)
+#		growth.plot <- raster::trim(growth.plot, padding = 5)
 		growth.plot
 		
 	})
