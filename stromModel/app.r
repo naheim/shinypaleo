@@ -213,7 +213,7 @@ server <- function(input, output, session) {
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
 					sed.bed <- sed.bed + 1
 					print(paste("i=", i, "; j=",j, sep=""))
-					print(paste("row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1): ", row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1), sep=""))
+					print(paste("growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]", growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)], sep=""))
 										
 				}
 				sed.event <- sed.event + 1
