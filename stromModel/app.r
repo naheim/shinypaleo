@@ -97,7 +97,7 @@ server <- function(input, output, session) {
 		total.iter <- 200
 
 		# set raster size
-		n.columns <- 401
+		n.columns <- 451
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
