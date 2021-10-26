@@ -52,7 +52,8 @@ ui <- fluidPage(
 			br(),
 			
 			br(),						
-			actionButton("submitParams", "Run Model"),
+			submitButton("submitParams", icon("Run Model")),
+#			actionButton("submitParams", "Run Model"),
 			width=3,
 		),
 		
@@ -87,10 +88,7 @@ ui <- fluidPage(
 	)
 )	
 
-server <- function(input, output, session) {	
-	#library('raster')
-	#library('spatstat.utils')
-	
+server <- function(input, output, session) {		
 	themodel <- eventReactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
@@ -229,9 +227,6 @@ server <- function(input, output, session) {
 	})
 	
 	output$modelImage <- renderPlot({
-		#library('raster')
-
-		#print(themodel())
 		# get row numbers on which to make sediment deposit
 		if(input$sedInt > 0) {
 			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
