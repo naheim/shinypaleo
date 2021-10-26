@@ -167,6 +167,7 @@ server <- function(input, output, session) {
 			sed.iter <- rep(0, total.iter) # the iterations in which sedimentation occurs		
 		}
 		print(paste("sed.iter=",sed.iter, sep=""))
+		print(paste("sed.event=",sed.event, sep=""))
 
 		for(i in 1:total.iter) {
 			# determine if fill color needs to be switched
