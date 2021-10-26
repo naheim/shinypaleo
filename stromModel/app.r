@@ -224,7 +224,8 @@ server <- function(input, output, session) {
 		growth.plot[growth.plot == 0] <- NA
 		growth.plot <- raster::trim(growth.plot, padding = 5)
 		print(growth.plot)
-		raster(growth.plot)
+		growth.plot
+		
 	})
 	
 	output$modelImage <- renderPlot({
