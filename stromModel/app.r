@@ -100,7 +100,7 @@ server <- function(input, output, session) {
 		n.columns <- 51
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
-		print(n.columns)
+		print(paste("n.columns=",n.columns, sep=""))
 		
 		### SET MODEL PARAMETERS
 		# RANDOM SEED
@@ -121,6 +121,7 @@ server <- function(input, output, session) {
 		# SEDIMENTATION INCREMENT 
 		# if deposition is occurring, how much is dumped in a single event. 
 		sedIncr <- input$sedIncr
+		print(paste("sedIncr=",sedIncr, sep=""))
 
 		# INTERVAL BETWEEN SEDIMENTATION INCREMENT 
 		# number of iterations between deposition events. 
@@ -231,8 +232,8 @@ server <- function(input, output, session) {
 			# plot colors
 			plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
 		}
-		xLimits <- c(0, ncol(themodel()))
-		yLimits <- c(0, nrow(themodel()))
+		xLimits <- c(0, raster::ncol(themodel()))
+		yLimits <- c(0, raster::nrow(themodel()))
 		
 		input$submitParams
 		isolate({### PLOT
