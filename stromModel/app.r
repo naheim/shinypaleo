@@ -100,10 +100,10 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 150
+		total.iter <- 100
 
 		# set raster size
-		n.columns <- 301
+		n.columns <- 201
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
