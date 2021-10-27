@@ -217,11 +217,12 @@ server <- function(input, output, session) {
 			# start at bottom row, lay down sed -- as many rows as requested
 			if(sedInt > 0 & sed.event <= length(sed.iter) & i == sed.iter[sed.event]) {
 				for(j in 1:sedIncr) {
+					if(sed.bed >= total.iter) break								
 					# fill in from the right
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][cumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3
 					# fill in from the left
 					growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)][revcumsum(growth[row.numbers[sed.bed]:(row.numbers[sed.bed]+n.columns-1)]) == 0] <- 3		
-					sed.bed <- sed.bed + 1										
+					sed.bed <- sed.bed + 1	
 				}
 				sed.event <- sed.event + 1
 			}
