@@ -28,6 +28,16 @@ ui <- fluidPage(
 				min=0,
 				step=0.1),
 			br(),
+				
+			# SEDIMENTATION INCREMENT
+			h4("Sedimentation Increment"),
+			br(),  
+			sliderInput(inputId="sedIncr", 
+				label = "Select a an integer between 0 and 50. If zero, no sedimentation will occur",
+				min = 0, 
+				max = 50,
+				value = 0),
+			br(),
 			
 			# SEDIMENTATION INTERVAL
 			h4("Sedimentation Interval"),
@@ -37,28 +47,16 @@ ui <- fluidPage(
 				max = 50,
 				value = 0),
 			br(),
-			
-			
-			# SEDIMENTATION INCREMENT
-			h4("Sedimentation Increment"),
-			br(),  
-			sliderInput(inputId="sedIncr", 
-				label = "Select a an integer between 1 and 50.",
-				min = 1, 
-				max = 50,
-				value = 1),
-			br(),
 		
-			
 			# SEDIMENTATION STARTUP
 			h4("Sedimentation Startup"),
 			br(),  
 			
 			sliderInput(inputId="startup", 
-				label = "Select a an integer between 1 and 100.",
-				min = 1, 
+				label = "Select a an integer between 0 and 100.",
+				min = 0, 
 				max = 100,
-				value = 1),
+				value = 0),
 			br(),
 			
 			br(),						
@@ -76,13 +74,13 @@ ui <- fluidPage(
 			span("This determines whether the structure will preferentially grow up or laterally. Values greater than 1 increase the rate of vertical growth relative to horizontal growth (negative geotropism), while values between 0 and 1 decrease the rate of vertical growth relative to horizontal growth (positive geotropism)."),
 			br(),
 			
+			h4("Sedimentation Increment"),
+			span("This determines how much sediment deposited in a single depositional event. No deposition if zero."),
+			br(), 
+			
 			h4("Sedimentation Interval"),
 			span("This is the number of iterations between deposition events."),
 			br(),
-			
-			h4("Sedimentation Increment"),
-			span("This determines how much sediment deposited in a single depositional event. No deposition if set to zero."),
-			br(), 
 			
 			h4("Sedimentation Startup"),
 			span("The number of iterations before first depositional event."),
@@ -172,7 +170,7 @@ server <- function(input, output, session) {
 		# get row numbers on which to make sediment deposit
 		sed.bed <- 1
 		sed.event <- 1
-		if(sedInt > 0) {
+		if(sedIncr > 0) {
 			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
 		} else {
 			sed.iter <- rep(0, total.iter) # the iterations in which sedimentation occurs		
@@ -215,7 +213,7 @@ server <- function(input, output, session) {
 			# sedimentation
 			# if enough iterations have passed
 			# start at bottom row, lay down sed -- as many rows as requested
-			if(sedInt > 0 & sed.event <= length(sed.iter) & i == sed.iter[sed.event]) {
+			if(sedIncr > 0 & sed.event <= length(sed.iter) & i == sed.iter[sed.event]) {
 				for(j in 1:sedIncr) {
 					if(sed.bed >= total.iter) break								
 					# fill in from the right
@@ -239,7 +237,7 @@ server <- function(input, output, session) {
 	
 	output$modelImage <- renderPlot({
 		# get row numbers on which to make sediment deposit
-		if(input$sedInt > 0) plot.colors <- c("skyblue","black","darkgray","tan3") # blue water, black & gray alternating growth colors, tan sediment
+		if(input$sedIncr > 0) plot.colors <- c("skyblue","black","darkgray","tan3") # blue water, black & gray alternating growth colors, tan sediment
 		else plot.colors <- c("skyblue","black","darkgray") # blue water, black & gray alternating growth colors
 		
 		xLimits <- c(0, raster::ncol(themodel()))
