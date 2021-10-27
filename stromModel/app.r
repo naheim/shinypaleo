@@ -102,10 +102,10 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 150
+		total.iter <- 75
 
 		# set raster size
-		n.columns <- 301
+		n.columns <- 151
 		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
@@ -238,7 +238,7 @@ server <- function(input, output, session) {
 	
 	output$modelImage <- renderPlot({
 		# get row numbers on which to make sediment deposit
-		if(sedInt > 0) plot.colors <- c("skyblue","black","darkgray","tan3") # blue water, black & gray alternating growth colors, tan sediment
+		if(input$sedInt > 0) plot.colors <- c("skyblue","black","darkgray","tan3") # blue water, black & gray alternating growth colors, tan sediment
 		else plot.colors <- c("skyblue","black","darkgray") # blue water, black & gray alternating growth colors
 		
 		xLimits <- c(0, raster::ncol(themodel()))
