@@ -16,7 +16,8 @@ ui <- fluidPage(
 			h4("Random Seed"),
 			numericInput(inputId = "randseed",
 				label = "Enter any real number",
-				value = 3.141593),
+				value = 3.141593,
+				step =  0.000001),
 			br(),
 			
 			# Geotropism
