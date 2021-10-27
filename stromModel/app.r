@@ -23,7 +23,7 @@ ui <- fluidPage(
 			# Geotropism
 			h4("Geotropism"),
 			numericInput(inputId = "geotrop",
-				label = "Enter a positive number greater than zero",
+				label = "Enter any positive number",
 				value = 1,
 				min=0,
 				step=0.1),
@@ -106,7 +106,7 @@ server <- function(input, output, session) {
 
 		# set raster size
 		n.columns <- 301
-		n.rows <- total.iter + 2
+		n.rows <- total.iter + 1
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
 		### SET MODEL PARAMETERS
@@ -152,10 +152,10 @@ server <- function(input, output, session) {
 		growth.index <- 1:n.cells
 
 		# set bottom row as sediment
-		growth[row.numbers[1]:(row.numbers[1]+n.columns-1)] <- 3
+		#growth[row.numbers[1]:(row.numbers[1]+n.columns-1)] <- 3
 		
 		# set initial growth cell
-		growth[n.rows-1, median(1:n.columns)] <- 1
+		growth[n.rows, median(1:n.columns)] <- 1
 
 
 		#### THE MODEL
@@ -170,7 +170,7 @@ server <- function(input, output, session) {
 		fill.color <- 1
 
 		# get row numbers on which to make sediment deposit
-		sed.bed <- 2
+		sed.bed <- 1
 		sed.event <- 1
 		if(sedInt > 0) {
 			sed.iter <- seq(startup, total.iter, sedInt) # the iterations in which sedimentation occurs
