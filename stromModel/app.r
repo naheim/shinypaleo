@@ -11,7 +11,14 @@ ui <- fluidPage(
 			h3("Set Model Parameters"),
 			h5("The model can take more than a minute to load. Please be patient after you hit the 'Run Model' button.", style="color:red"),
 			br(),
-	
+			
+			# Random Seed
+			h4("Random Seed"),
+			numericInput(inputId = "randseed",
+				label = "Enter any real number",
+				value = 3.141593),
+			br(),
+			
 			# Geotropism
 			h4("Geotropism"),
 			numericInput(inputId = "geotrop",
@@ -94,18 +101,18 @@ server <- function(input, output, session) {
 	themodel <- reactive({
 		# NUMBER OF TOTAL ITERATIONS
 		# how long to run the model for
-		total.iter <- 200
+		total.iter <- 20
 
 		# set raster size
-		n.columns <- 451
-		n.rows <- total.iter + 1
+		n.columns <- 150
+		n.rows <- total.iter + 2
 		row.numbers <- rev(n.columns * 1:(n.rows-1) + 1) # the first cell in each row--reversed so we count up from the bottom
 		
 		### SET MODEL PARAMETERS
 		# RANDOM SEED
 		# a random see starts the sequence of random numbers used by the model. 
 		# Different values will produce slightly different results.
-		#seed <- set.seed(0) 
+		set.seed(input$randseed) 
 
 		# GEOTROPISM 
 		# must be a positive number greater than zero. 
@@ -143,8 +150,11 @@ server <- function(input, output, session) {
 		n.cells <- ncell(growth)
 		growth.index <- 1:n.cells
 
+		# set bottom row as sediment
+		growth[row.numbers[1]:(row.numbers[1]+n.columns-1)] <- 3
+		
 		# set initial growth cell
-		growth[n.rows, median(1:n.columns)] <- 1
+		growth[n.rows-1, median(1:n.columns)] <- 1
 
 
 		#### THE MODEL
@@ -217,19 +227,15 @@ server <- function(input, output, session) {
 		t1 <- Sys.time()
 		print(t1 - t0)
 
-		growth[growth == 0] <- NA
+		#growth[growth == 0] <- NA
 		growth
 		
 	})
 	
 	output$modelImage <- renderPlot({
 		# get row numbers on which to make sediment deposit
-		if(input$sedInt > 0) {
-			plot.colors <- c("black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
-		} else {
-			# plot colors
-			plot.colors <- c("black","darkgray") # black & gray alternating growth colors, tan sediment
-		}
+		plot.colors <- c("skyblue","black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
+		
 		xLimits <- c(0, raster::ncol(themodel()))
 		yLimits <- c(0, raster::nrow(themodel()))
 		
