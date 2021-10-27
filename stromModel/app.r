@@ -204,8 +204,11 @@ server <- function(input, output, session) {
 				empty.adj$P.geo[empty.adj$rel.pos > 1] <- geotrop/(geotrop+1) # P for lateral cells
 		
 				empty.adj$new.value <- 0
-				empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
-		
+				if(geotrop != 1) {
+					empty.adj$new.value[empty.adj$rand <= empty.adj$P.geo] <- fill.color
+				} else {
+					empty.adj$new.value[empty.adj$rand <= empty.adj$P] <- fill.color
+				}
 				growth[empty.adj$to] <- empty.adj$new.value
 			}
 	
@@ -235,7 +238,8 @@ server <- function(input, output, session) {
 	
 	output$modelImage <- renderPlot({
 		# get row numbers on which to make sediment deposit
-		plot.colors <- c("skyblue","black","darkgray","tan3") # black & gray alternating growth colors, tan sediment
+		if(sedInt > 0) plot.colors <- c("skyblue","black","darkgray","tan3") # blue water, black & gray alternating growth colors, tan sediment
+		else plot.colors <- c("skyblue","black","darkgray") # blue water, black & gray alternating growth colors
 		
 		xLimits <- c(0, raster::ncol(themodel()))
 		yLimits <- c(0, raster::nrow(themodel()))
