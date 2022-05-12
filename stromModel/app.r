@@ -66,7 +66,7 @@ ui <- fluidPage(
 			# data citation
 			strong("Model Attribution:"),
 			shiny::p("Swan, A. R. H. & Kershaw, S. 1994. A computer model for skeletal growth of stromatoporoids.", em("Palaeontology"), "37:397–408."),
-			shiny::p("Model is modified from Matlab code wirtten by Tom Olszewski (",tags$a(href="https://serc.carleton.edu/NAGTWorkshops/paleo/activities/32376.html", "https://serc.carleton.edu/NAGTWorkshops/paleo/activities/32376.html"),")"),
+			shiny::p("Model is modified from Matlab code wirtten by Tom Olszewski (",tags$a(href="https://serc.carleton.edu/NAGTWorkshops/paleo/activities/32376.html", "SERC"),")"),
 
 			width=3,
 		),
