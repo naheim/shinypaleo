@@ -1,5 +1,5 @@
 # Growth Model for Stromatoporoids
-This web widget stochastically models the growth of stromatoporoids an other accreting organisms. It follows the model presented by Swan & Kershaw (1994) and is modified from Matlab code written by Tom Olszewski ([https://serc.carleton.edu/NAGTWorkshops/paleo/activities/32376.html]).
+This web widget stochastically models the growth of stromatoporoids an other accreting organisms. It follows the model presented by Swan & Kershaw (1994) and is modified from Matlab code written by Tom Olszewski (https://serc.carleton.edu/NAGTWorkshops/paleo/activities/32376.html).
 
 ## Run the App
 To run the app in R, you need to have the *shiny*, *raster*, and *spatstat.utils* R libraries installed. Once installed, run the following code:
